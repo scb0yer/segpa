@@ -12,6 +12,11 @@ const Maths4eme = () => {
       titre: "Transformer les soustractions en additions",
       href: "/maths4eme/2-changements_de_signes.html",
     },
+    {
+      numero: "03",
+      titre: "Les longs calculs en 3 étapes",
+      href: "/maths4eme/3-calculs_de_nombres_relatifs_en_3_etapes.html",
+    },
   ];
 
   return (
