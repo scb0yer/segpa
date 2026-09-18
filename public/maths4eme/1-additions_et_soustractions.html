@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nombres relatifs — Addition et soustraction</title>
+<style>
+:root{--bg:#0f172a;--panel:#111827;--panel2:#172033;--line:#29364d;--txt:#f8fafc;--muted:#94a3b8;--blue:#38bdf8;--violet:#a78bfa;--green:#22c55e;--red:#ef4444}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#16324b 0,transparent 30%),var(--bg);color:var(--txt);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+.wrap{max-width:1050px;margin:auto;padding:28px 18px 46px}
+header{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:flex-start}
+.tag{color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:.82rem}
+h1{font-size:clamp(1.9rem,4vw,3rem);line-height:1.05;margin:8px 0}.sub{color:var(--muted);max-width:700px;line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;min-width:310px}.stat{background:#111827;border:1px solid var(--line);border-radius:15px;padding:11px 13px;text-align:center}.stat b{display:block;font-size:1.35rem}.stat span{font-size:.78rem;color:var(--muted)}
+.progressBox{height:8px;background:#111827;border:1px solid var(--line);border-radius:99px;overflow:hidden;margin:18px 0 24px}.progress{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--violet));transition:.25s}
+.grid{display:grid;grid-template-columns:1.12fr .88fr;gap:18px}@media(max-width:820px){.grid{grid-template-columns:1fr}.stats{width:100%;min-width:0}}
+.card{background:rgba(17,24,39,.94);border:1px solid var(--line);border-radius:22px;box-shadow:0 18px 50px rgba(0,0,0,.18)}.main{padding:23px}.side{padding:20px}
+.modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.mode{background:#0f172a;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:10px 13px;font-weight:800;cursor:pointer}.mode.active{background:var(--blue);color:#06202e;border-color:var(--blue)}
+.level{display:inline-block;background:#1e293b;color:#cbd5e1;border-radius:10px;padding:7px 10px;font-size:.78rem;font-weight:800;margin-bottom:12px}
+.qbox{min-height:190px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;border:1px solid var(--line);border-radius:18px;background:linear-gradient(#111827,#0f172a);padding:22px}.qlabel{color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:800;font-size:.8rem}.expr{font-size:clamp(2rem,6vw,4rem);font-weight:900;margin:12px 0}.hintline{color:var(--muted);min-height:1.4em}
+.answer{display:flex;gap:10px;margin-top:15px}input{flex:1;min-width:0;background:#0b1220;color:var(--txt);border:1px solid #334155;border-radius:14px;padding:15px;font-size:1.15rem;outline:none}input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(56,189,248,.12)}
+button{border:none;border-radius:14px;padding:14px 17px;font-weight:850;cursor:pointer}.signbtn{min-width:58px;background:#334155;color:#fff;border:1px solid #475569;font-size:1.6rem;line-height:1}.signbtn.active{background:#7f1d1d;border-color:#ef4444}.signhelp{font-size:.78rem;color:var(--muted);margin-top:7px}.primary{background:var(--blue);color:#05212e}.secondary{background:#1e293b;color:#e2e8f0;border:1px solid #334155}
+.feedback{margin-top:14px;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#0f172a;min-height:52px;display:flex;align-items:center}.feedback.good{border-color:#226b3b;background:#10251b;color:#dcfce7}.feedback.bad{border-color:#7f2f33;background:#29161a;color:#fee2e2}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.mini{font-size:.8rem;color:var(--muted);margin-top:8px}.memo{display:grid;gap:10px}.memo div{background:#0f172a;border:1px solid var(--line);border-radius:14px;padding:13px 14px;line-height:1.42}.memo small{color:var(--muted)}.side h2{margin:0 0 12px;font-size:1rem}.rules{margin-top:17px;color:#cbd5e1;font-size:.92rem;line-height:1.5}.rules ul{padding-left:18px}
+.pop{position:fixed;right:22px;bottom:22px;background:#0b1220;color:#e0f2fe;border:1px solid var(--blue);border-radius:14px;padding:12px 16px;font-weight:900;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none}.pop.show{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div><div class="tag">Chapitre 1 • Entraînement</div><h1>Addition et soustraction<br>de nombres relatifs</h1><p class="sub">Un entraînement rapide pour automatiser les signes. Tous les calculs utilisent uniquement des nombres entiers.</p></div>
+<div class="stats"><div class="stat"><b id="score">0</b><span>points</span></div><div class="stat"><b id="streak">0</b><span>série</span></div><div class="stat"><b id="done">0</b><span>réussites</span></div></div>
+</header>
+<div class="progressBox"><div id="progress" class="progress"></div></div>
+
+<div class="grid">
+<section class="card main">
+<div class="modes">
+<button class="mode active" data-mode="add">Addition</button>
+<button class="mode" data-mode="sub">Soustraction</button>
+<button class="mode" data-mode="mix">Mix</button>
+</div>
+<div class="level" id="level">Niveau 1 • de -9 à +9</div>
+<div class="qbox"><div class="qlabel">Calcule</div><div class="expr" id="expr">(+2) + (-5)</div><div class="hintline" id="hintline"></div></div>
+<div class="answer"><button id="minusBtn" class="signbtn" type="button">−</button><input id="answer" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Ta réponse…" autocomplete="off"><button id="validate" class="primary">Valider</button></div><div class="signhelp">Réponse négative ? Appuie sur <b>−</b>. Appuie à nouveau pour enlever le signe.</div>
+<div id="feedback" class="feedback">Entre un nombre entier puis valide.</div>
+<div class="actions"><button id="hint" class="secondary">Indice</button><button id="skip" class="secondary">Changer</button><button id="reset" class="secondary">Réinitialiser</button></div>
+<div class="mini">Astuce : la touche Entrée valide aussi la réponse.</div>
+</section>
+
+<aside class="card side">
+<h2>Mémo express</h2>
+<div class="memo">
+<div><b>Même signe</b><br>J'additionne les valeurs et je garde le signe.<br><small>Ex. (-4) + (-3) = -7</small></div>
+<div><b>Signes différents</b><br>Je fais <b>plus grand − plus petit</b> et je prends le signe du nombre le plus grand en valeur absolue.<br><small>Ex. (+3) + (-8) = -5</small></div>
+<div><b>Soustraire</b><br>Je transforme en addition de l'opposé.<br><small>Ex. (+5) − (-2) = (+5) + (+2)</small></div>
+</div>
+<div class="rules"><b>Progression</b><ul><li>+10 points par bonne réponse.</li><li>Bonus de série jusqu'à +10 points.</li><li>Tous les 5 succès, les nombres grandissent.</li><li>Une erreur casse la série, pas les points acquis.</li></ul><b id="rank">Rang : Débutant</b></div>
+</aside>
+</div>
+</div>
+<div id="pop" class="pop">+10 points</div>
+
+<script>
+const $=id=>document.getElementById(id);
+let mode="add",score=0,streak=0,done=0,current=null,locked=false,negative=false;
+const fmt=n=>n>=0?`(+${n})`:`(${n})`;
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+function nz(a,b){let n=0;while(n===0)n=rnd(a,b);return n}
+function maxVal(){return done<5?9:done<10?15:done<20?25:40}
+function update(){
+  $("score").textContent=score;$("streak").textContent=streak;$("done").textContent=done;
+  const m=maxVal(),lvl=done<5?1:done<10?2:done<20?3:4;
+  $("level").textContent=`Niveau ${lvl} • de -${m} à +${m}`;
+  $("progress").style.width=`${(done%5)*20}%`;
+  $("rank").textContent="Rang : "+(score>=320?"Expert des signes":score>=180?"Confirmé":score>=80?"Solide":"Débutant");
+}
+function newQ(){
+  locked=false;negative=false;$("minusBtn").classList.remove("active");$("answer").value="";$("hintline").textContent="";$("feedback").className="feedback";$("feedback").textContent="Entre un nombre entier puis valide.";
+  const m=maxVal();let a=nz(-m,m),b=nz(-m,m);if(Math.random()<.12)a=0;if(Math.random()<.12)b=0;
+  const op=mode==="mix"?(Math.random()<.5?"add":"sub"):mode;const result=op==="add"?a+b:a-b;
+  current={a,b,op,result};$("expr").textContent=op==="add"?`${fmt(a)} + ${fmt(b)}`:`${fmt(a)} − ${fmt(b)}`;$("answer").focus();
+}
+function pop(pts){$("pop").textContent=`+${pts} points`;$("pop").classList.add("show");setTimeout(()=>$("pop").classList.remove("show"),850)}
+function validate(){
+  if(locked)return;const raw=$("answer").value.trim();if(raw===""){bad("Écris d'abord une réponse.");return}
+  if(!/^\d+$/.test(raw)){bad("Écris uniquement des chiffres. Pour une réponse négative, utilise le bouton −.");return}const magnitude=Number(raw);const v=negative?-magnitude:magnitude;
+  if(v===current.result){locked=true;streak++;done++;const pts=10+Math.min(streak-1,10);score+=pts;update();$("feedback").className="feedback good";$("feedback").innerHTML=`Bonne réponse : <b>${current.result}</b> • +${pts} points`;pop(pts);setTimeout(newQ,900)}
+  else{streak=0;update();bad("Pas encore. Vérifie surtout le signe puis recommence.")}
+}
+function bad(t){$("feedback").className="feedback bad";$("feedback").textContent=t}
+function hint(){
+  const {a,b,op}=current;
+  if(op==="sub"){$("hintline").textContent=`Transforme : ${fmt(a)} − ${fmt(b)} = ${fmt(a)} + ${fmt(-b)}`;return}
+  if(a===0||b===0){$("hintline").textContent="Ajouter 0 ne change pas le nombre.";return}
+  if(Math.sign(a)===Math.sign(b)){$("hintline").textContent="Même signe : additionne les valeurs et garde ce signe.";return}
+  const big=Math.abs(a)>=Math.abs(b)?a:b;
+  $("hintline").textContent=`Signes différents : ${Math.max(Math.abs(a),Math.abs(b))} − ${Math.min(Math.abs(a),Math.abs(b))}, puis garde le signe de ${fmt(big)}.`;
+}
+$("minusBtn").onclick=()=>{negative=!negative;$("minusBtn").classList.toggle("active",negative);$("answer").focus()};$("validate").onclick=validate;$("answer").addEventListener("keydown",e=>{if(e.key==="Enter")validate()});$("hint").onclick=hint;$("skip").onclick=newQ;
+$("reset").onclick=()=>{score=0;streak=0;done=0;update();newQ()};
+document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{document.querySelectorAll(".mode").forEach(x=>x.classList.remove("active"));b.classList.add("active");mode=b.dataset.mode;newQ()});
+update();newQ();
+</script>
+</body>
+</html>

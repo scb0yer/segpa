@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mission Division</title>
+<style>
+:root{
+  --bg:#0f172a;--panel:#111827;--panel2:#172033;--line:#2b3a55;
+  --text:#f8fafc;--muted:#a8b3c7;--accent:#38bdf8;--good:#22c55e;
+  --bad:#ef4444;--card:#f8fafc;--ink:#102033;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:radial-gradient(circle at 20% 0%,rgba(56,189,248,.14),transparent 28%),linear-gradient(180deg,#0b1222,#111827 60%,#0b1222);
+  color:var(--text);min-height:100vh
+}
+.wrap{max-width:920px;margin:auto;padding:24px 14px 42px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px}
+.brand h1{margin:0;font-size:clamp(30px,4vw,44px)}
+.brand p{margin:8px 0 0;color:var(--muted)}
+.scorebox{min-width:175px;background:#111827;border:1px solid var(--line);border-radius:18px;padding:14px 16px;text-align:right}
+.label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.14em}
+.score{font-size:30px;font-weight:800}
+.progress-shell{height:10px;background:#1f2a3c;border-radius:999px;overflow:hidden;margin:10px 0 24px}
+.progress{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#60a5fa);transition:.35s}
+.grid{display:grid;grid-template-columns:1.08fr .92fr;gap:18px}
+.panel{background:rgba(17,24,39,.95);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.head{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.head h2{margin:0;font-size:20px}
+.badge{font-size:12px;padding:7px 10px;border:1px solid #34506f;border-radius:999px;color:#c9e8f7;background:#11263c}
+.content{padding:20px}
+.story{background:linear-gradient(180deg,#f8fafc,#edf2f7);color:var(--ink);border-radius:18px;padding:18px;border:1px solid #d6deea}
+.scene{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.team,.rest{min-height:90px;border-radius:14px;padding:12px;text-align:center;display:flex;flex-direction:column;justify-content:center;border:1px solid #d4dbe5;background:white}
+.team strong,.rest strong{font-size:24px}
+.rest{background:#fff1f2;border-color:#fecdd3}
+.division-card{margin-top:16px;background:#0d1627;border:1px solid var(--line);border-radius:18px;padding:18px}
+.division{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:360px;margin:auto;font-variant-numeric:tabular-nums}
+.left,.right{font-size:36px;font-weight:700;line-height:1.35}
+.right{border-left:3px solid #dce7f5;padding-left:18px}
+.divisor{border-bottom:3px solid #dce7f5;padding-bottom:2px}
+.sub{font-size:28px;color:#dbeafe}.remainder{font-size:34px;color:#fca5a5}
+.labels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.labels div{background:#121f34;border:1px solid #2d4260;border-radius:12px;padding:10px;text-align:center;color:#cbd5e1;font-size:13px}
+.labels b{display:block;color:white;font-size:15px;margin-bottom:3px}
+.question-card{background:#f8fafc;color:var(--ink);border-radius:18px;padding:20px;border:1px solid #dbe3ee}
+.qnum{font-size:12px;letter-spacing:.12em;color:#64748b;text-transform:uppercase}
+.question-card h3{font-size:24px;line-height:1.25;margin:8px 0 16px}
+.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+button.answer{border:none;border-radius:14px;padding:14px 12px;font-size:17px;font-weight:700;cursor:pointer;background:#e8eef6;color:#12243a;border:1px solid #d5deea}
+button.answer:hover{background:#dfe8f2}
+button.answer.correct{background:#dcfce7;border-color:#86efac}
+button.answer.wrong{background:#fee2e2;border-color:#fca5a5}
+.feedback{min-height:58px;margin-top:14px;border-radius:14px;padding:12px 14px;background:#edf3f8;color:#294057}
+.feedback.good{background:#dcfce7;color:#14532d}.feedback.bad{background:#fee2e2;color:#7f1d1d}
+.actions{display:flex;justify-content:flex-end;margin-top:14px}
+button.next,button.restart{border:0;border-radius:12px;padding:12px 16px;font-weight:800;cursor:pointer}
+button.next{background:var(--accent);color:#062033}.restart{background:#26364f;color:white}
+.mini{margin-top:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mini-card{padding:13px;border-radius:14px;border:1px solid var(--line);background:#121b2b;color:#cbd5e1}
+.mini-card b{color:white}
+.result{text-align:center;padding:32px 22px}.result h2{font-size:34px;margin:0 0 8px}.result p{color:var(--muted)}
+.hidden{display:none!important}
+.footer-note{margin-top:18px;color:#7f8ca4;font-size:13px;text-align:center}
+@media(max-width:820px){
+  .wrap{max-width:560px;padding:14px 10px 30px}
+  .grid{grid-template-columns:1fr;gap:12px}
+  .topbar{align-items:stretch;flex-direction:column;gap:10px;margin-bottom:10px}
+  .brand h1{font-size:30px}
+  .brand p{font-size:14px}
+  .scorebox{width:100%;min-width:0;text-align:left;padding:10px 12px;border-radius:14px}
+  .score{font-size:24px}
+  .progress-shell{margin:8px 0 14px}
+  .panel{border-radius:16px}
+  .head{padding:12px 14px}
+  .head h2{font-size:18px}
+  .badge{font-size:11px;padding:5px 8px}
+  .content{padding:12px}
+  .story{padding:13px;border-radius:14px;font-size:14px}
+  .scene{gap:6px;margin-top:10px}
+  .team,.rest{min-height:72px;padding:8px 5px;border-radius:11px;font-size:12px}
+  .team strong,.rest strong{font-size:20px}
+  .division-card{padding:12px;margin-top:10px;border-radius:14px}
+  .division{max-width:245px}
+  .left,.right{font-size:29px}
+  .sub{font-size:23px}
+  .remainder{font-size:28px}
+  .labels{gap:5px}
+  .labels div{padding:7px 4px;font-size:11px}
+  .labels b{font-size:12px}
+  .mini{grid-template-columns:1fr;gap:6px;margin-top:10px}
+  .mini-card{padding:9px 11px;font-size:12px}
+  .question-card{padding:14px;border-radius:14px}
+  .question-card h3{font-size:20px;margin:6px 0 12px}
+  .answers{grid-template-columns:1fr;gap:7px}
+  button.answer{padding:12px 10px;font-size:16px}
+  .feedback{font-size:14px;padding:10px 11px;min-height:52px}
+  button.next{width:100%}
+  .footer-note{font-size:11px;margin-top:12px}
+}
+@media(max-width:390px){
+  .wrap{padding-left:7px;padding-right:7px}
+  .brand h1{font-size:27px}
+  .scene{grid-template-columns:1fr 1fr}
+  .scene .rest{grid-column:1 / -1}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">
+      <h1>Mission Division</h1>
+      <p>Comprendre quotient, reste et sens du résultat.</p>
+    </div>
+    <div class="scorebox">
+      <div class="label">Score</div>
+      <div class="score"><span id="score">0</span> pts</div>
+    </div>
+  </div>
+
+  <div class="progress-shell"><div id="progress" class="progress"></div></div>
+
+  <div id="game" class="grid">
+    <section class="panel">
+      <div class="head">
+        <h2>Situation</h2>
+        <span class="badge">3ème — Chapitre 1</span>
+      </div>
+      <div class="content">
+        <div id="storyBox" class="story"></div>
+        <div id="divisionBox" class="division-card"></div>
+        <div class="mini">
+          <div class="mini-card"><b>Quotient</b><br>Le résultat entier de la division.</div>
+          <div class="mini-card"><b>Reste</b><br>Ce qui n’a pas pu être partagé.</div>
+          <div class="mini-card"><b>Repère</b><br>Le reste est toujours plus petit que le diviseur.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="head">
+        <h2>Défi</h2>
+        <span id="combo" class="badge">Série : 0</span>
+      </div>
+      <div class="content">
+        <div class="question-card">
+          <div id="qnum" class="qnum"></div>
+          <h3 id="question"></h3>
+          <div id="answers" class="answers"></div>
+          <div id="feedback" class="feedback">Choisis une réponse.</div>
+          <div class="actions">
+            <button id="nextBtn" class="next hidden">Question suivante →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section id="result" class="panel hidden">
+    <div class="result">
+      <h2>Parcours terminé</h2>
+      <p id="finalText"></p>
+      <button id="restartBtn" class="restart">Recommencer</button>
+    </div>
+  </section>
+
+  <div class="footer-note">Objectif : comprendre ce que signifie le quotient et ce que représente le reste dans une situation réelle.</div>
+</div>
+
+<script>
+const questions = [
+  {dividend:23,divisor:7,quotient:3,remainder:2,context:"Une classe de 23 élèves doit faire des équipes de 7.",scene:["3 équipes complètes","7 élèves par équipe","2 élèves restent"],ask:"Combien d'équipes complètes peut-on former ?",choices:["2","3","7","23"],correct:"3",explain:"Le quotient est 3 : on peut former 3 équipes complètes."},
+  {dividend:23,divisor:7,quotient:3,remainder:2,context:"Une classe de 23 élèves doit faire des équipes de 7.",scene:["3 équipes complètes","7 élèves par équipe","2 élèves restent"],ask:"Combien d'élèves restent sans équipe complète ?",choices:["2","3","7","9"],correct:"2",explain:"Le reste est 2 : 2 élèves ne peuvent pas former une équipe complète de 7."},
+  {dividend:37,divisor:5,quotient:7,remainder:2,context:"On range 37 objets dans des boîtes de 5.",scene:["7 boîtes complètes","5 objets par boîte","2 objets restent"],ask:"Quel est le quotient de 37 ÷ 5 ?",choices:["5","7","2","37"],correct:"7",explain:"37 ÷ 5 = 7 reste 2. Le quotient est donc 7."},
+  {dividend:37,divisor:5,quotient:7,remainder:2,context:"On range 37 objets dans des boîtes de 5.",scene:["7 boîtes complètes","5 objets par boîte","2 objets restent"],ask:"Quel est le reste de 37 ÷ 5 ?",choices:["0","2","5","7"],correct:"2",explain:"5 × 7 = 35, puis 37 − 35 = 2. Le reste vaut 2."},
+  {dividend:48,divisor:6,quotient:8,remainder:0,context:"48 joueurs sont répartis en équipes de 6.",scene:["8 équipes complètes","6 joueurs par équipe","Personne ne reste"],ask:"Que peut-on dire de cette division ?",choices:["Le reste vaut 6","Le reste vaut 0","Le quotient vaut 6","La division est impossible"],correct:"Le reste vaut 0",explain:"48 = 6 × 8. Il ne reste rien : le reste est 0."},
+  {dividend:52,divisor:9,quotient:5,remainder:7,context:"On partage 52 cartes en paquets de 9.",scene:["5 paquets complets","9 cartes par paquet","7 cartes restent"],ask:"Quelle écriture correspond à cette division ?",choices:["52 = 9 × 5 + 7","52 = 7 × 5 + 9","52 = 9 × 7 + 5","52 = 5 × 5 + 27"],correct:"52 = 9 × 5 + 7",explain:"52 correspond à 5 paquets de 9, plus 7 cartes restantes."},
+  {dividend:71,divisor:8,quotient:8,remainder:7,context:"71 places sont réparties par groupes de 8.",scene:["8 groupes complets","8 places par groupe","7 places restent"],ask:"Le reste 7 est-il possible avec un diviseur égal à 8 ?",choices:["Oui","Non"],correct:"Oui",explain:"Oui, car le reste doit être plus petit que le diviseur : 7 < 8."},
+  {dividend:71,divisor:8,quotient:8,remainder:7,context:"71 places sont réparties par groupes de 8.",scene:["8 groupes complets","8 places par groupe","7 places restent"],ask:"Quel nombre indique la taille de chaque groupe ?",choices:["71","8","7","64"],correct:"8",explain:"Le diviseur est 8 : c’est la taille de chaque groupe."}
+];
+
+let index=0,score=0,streak=0,locked=false;
+const $=id=>document.getElementById(id);
+const scoreEl=$("score"),progressEl=$("progress"),storyBox=$("storyBox"),divisionBox=$("divisionBox"),
+qnum=$("qnum"),qEl=$("question"),answersEl=$("answers"),feedback=$("feedback"),nextBtn=$("nextBtn"),
+combo=$("combo"),game=$("game"),result=$("result"),finalText=$("finalText"),restartBtn=$("restartBtn");
+
+function render(){
+  locked=false;
+  nextBtn.classList.add("hidden");
+  feedback.className="feedback";
+  feedback.textContent="Choisis une réponse.";
+  const q=questions[index];
+  progressEl.style.width=`${index/questions.length*100}%`;
+  qnum.textContent=`Question ${index+1} / ${questions.length}`;
+  qEl.textContent=q.ask;
+
+  storyBox.innerHTML=`
+    <strong>${q.context}</strong>
+    <div class="scene">
+      <div class="team"><span>${q.scene[0]}</span><strong>${q.quotient}</strong></div>
+      <div class="team"><span>${q.scene[1]}</span><strong>${q.divisor}</strong></div>
+      <div class="rest"><span>${q.scene[2]}</span><strong>${q.remainder}</strong></div>
+    </div>`;
+
+  divisionBox.innerHTML=`
+    <div class="division">
+      <div class="left">
+        <div>${q.dividend}</div>
+        <div class="sub">− ${q.divisor*q.quotient}</div>
+        <div class="remainder">${q.remainder}</div>
+      </div>
+      <div class="right">
+        <div class="divisor">${q.divisor}</div>
+        <div>${q.quotient}</div>
+      </div>
+    </div>
+    <div class="labels">
+      <div><b>Diviseur</b>${q.divisor}</div>
+      <div><b>Quotient</b>${q.quotient}</div>
+      <div><b>Reste</b>${q.remainder}</div>
+    </div>`;
+
+  answersEl.innerHTML="";
+  q.choices.forEach(c=>{
+    const b=document.createElement("button");
+    b.className="answer";b.textContent=c;
+    b.onclick=()=>choose(c,b);
+    answersEl.appendChild(b);
+  });
+}
+
+function choose(choice,btn){
+  if(locked)return;
+  locked=true;
+  const q=questions[index];
+  [...document.querySelectorAll(".answer")].forEach(b=>{
+    if(b.textContent===q.correct)b.classList.add("correct");
+  });
+  if(choice===q.correct){
+    streak++;
+    const gain=100+Math.min(streak-1,4)*20;
+    score+=gain;
+    feedback.className="feedback good";
+    feedback.textContent=`Bonne réponse. +${gain} points. ${q.explain}`;
+  }else{
+    streak=0;btn.classList.add("wrong");
+    feedback.className="feedback bad";
+    feedback.textContent=`Pas tout à fait. ${q.explain}`;
+  }
+  combo.textContent=`Série : ${streak}`;
+  scoreEl.textContent=score;
+  nextBtn.classList.remove("hidden");
+}
+
+nextBtn.onclick=()=>{
+  index++;
+  if(index<questions.length){render()}
+  else{
+    progressEl.style.width="100%";
+    game.classList.add("hidden");
+    result.classList.remove("hidden");
+    const msg=score>=760?"Très solide : quotient et reste sont bien compris."
+      :score>=520?"Bon travail : encore quelques essais et ce sera acquis."
+      :"Tu as commencé le parcours. Rejoue pour consolider les notions.";
+    finalText.textContent=`Score final : ${score} points. ${msg}`;
+  }
+};
+
+restartBtn.onclick=()=>{
+  index=0;score=0;streak=0;
+  scoreEl.textContent="0";combo.textContent="Série : 0";
+  result.classList.add("hidden");game.classList.remove("hidden");render();
+};
+
+render();
+</script>
+</body>
+</html>
