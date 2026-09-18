@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mission signes — 4e</title>
+<style>
+:root{--bg:#0f172a;--panel:#111827;--line:#29364d;--text:#f8fafc;--muted:#94a3b8;--accent:#38bdf8;--accent2:#a78bfa;--good:#22c55e;--bad:#ef4444}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#16324b 0,transparent 30%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+.wrap{max-width:1060px;margin:auto;padding:28px 18px 50px}.top{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.tag{color:var(--accent);font-size:.8rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+h1{font-size:clamp(1.9rem,4vw,3rem);margin:7px 0 8px}.intro{color:var(--muted);max-width:720px;line-height:1.5;margin:0}.stats{display:flex;gap:9px}.stat{min-width:95px;background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:11px;text-align:center}.stat b{display:block;font-size:1.35rem}.stat small{color:var(--muted)}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:22px 0 17px}.tab{background:var(--panel);color:var(--muted);border:1px solid var(--line);border-radius:15px;padding:12px;font-weight:850;cursor:pointer}.tab.active{background:var(--accent);border-color:var(--accent);color:#06202e}.tab small{display:block;font-weight:600;margin-top:2px}
+.grid{display:grid;grid-template-columns:1.12fr .88fr;gap:18px}.card{background:rgba(17,24,39,.95);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 18px 50px rgba(0,0,0,.18)}
+.headrow{display:flex;justify-content:space-between;gap:10px;align-items:center}.badge{background:#1e293b;color:#cbd5e1;border-radius:10px;padding:7px 10px;font-size:.78rem;font-weight:850}.instruction{color:var(--muted);line-height:1.5}
+.expr{min-height:175px;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;background:linear-gradient(#111827,#0f172a);border:1px solid var(--line);border-radius:18px;padding:22px 14px;font-size:clamp(1.75rem,5vw,3rem);font-weight:900;letter-spacing:.02em}
+.clickminus{font:inherit;font-weight:inherit;color:inherit;background:transparent;border:0;border-radius:0;padding:0;margin:0;cursor:pointer;appearance:none;-webkit-appearance:none}.clickminus:hover,.clickminus:focus{color:inherit;background:transparent;outline:none}.redminus{color:#fb7185;font-weight:950}
+.nochange{margin-top:11px;width:100%;background:#1e293b;color:#e2e8f0;border:1px solid #475569;border-radius:13px;padding:12px;font-weight:850;cursor:pointer}
+.screen{min-height:58px;background:#0b1220;border:1px solid #334155;border-radius:14px;padding:14px;font-size:1.35rem;font-weight:800;word-break:break-all;margin-top:14px}.screen:empty:before{content:"Ta transformation apparaîtra ici…";color:#64748b;font-weight:500}
+.keys{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:9px}.key{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:11px;padding:12px 5px;font-size:1.05rem;font-weight:850;cursor:pointer;touch-action:manipulation}.key.op{background:#172554;color:#bae6fd}.key.wide{grid-column:span 2}
+.feedback{min-height:52px;margin-top:13px;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#0f172a;color:#cbd5e1;display:flex;align-items:center}.feedback.good{border-color:#166534;background:#10251b;color:#dcfce7}.feedback.bad{border-color:#7f1d1d;background:#29161a;color:#fee2e2}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.primary,.secondary{border-radius:13px;padding:12px 15px;font-weight:850;cursor:pointer}.primary{border:0;background:var(--accent);color:#06202e}.secondary{background:#1e293b;color:#e2e8f0;border:1px solid #334155}
+.memo h2{font-size:1rem;margin:0 0 12px}.rule{padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#0f172a;line-height:1.45;margin:10px 0}.rule b{color:#fff}.ex{color:var(--muted);margin-top:4px}.arrow{color:var(--good);font-weight:900}.important{border-top:1px solid var(--line);margin-top:16px;padding-top:15px;color:#cbd5e1;line-height:1.5}.note{font-size:.8rem;color:var(--muted);margin-top:9px}
+@media(max-width:820px){.grid{grid-template-columns:1fr}.tabs{grid-template-columns:1fr}.stats{width:100%}.stat{flex:1}}
+</style>
+</head>
+<body><div class="wrap">
+<div class="top"><div><div class="tag">Chapitre 1 • Entraînement ciblé</div><h1>Mission signes</h1><p class="intro">Objectif : transformer les soustractions en additions. <b>Soustraire un nombre, c'est ajouter son opposé.</b></p></div><div class="stats"><div class="stat"><b id="points">0</b><small>points</small></div><div class="stat"><b id="streak">0</b><small>série</small></div></div></div>
+
+<div class="tabs"><button class="tab active" data-level="1">Niveau 1<small>Je repère et je clique</small></button><button class="tab" data-level="2">Niveau 2<small>Les − sont indiqués</small></button><button class="tab" data-level="3">Niveau 3<small>Je fais tout seul</small></button></div>
+
+<div class="grid"><main class="card">
+<div class="headrow"><b id="levelTitle">Niveau 1</b><span class="badge" id="questionCount">Question 1</span></div>
+<p class="instruction" id="instruction"></p>
+<div class="expr" id="expression"></div>
+<button class="nochange" id="noChange" hidden>✓ Il n'y a aucune soustraction à transformer</button>
+
+<div id="answerArea" hidden>
+<div class="screen" id="screen"></div>
+<div class="keys">
+<button class="key" data-key="7">7</button><button class="key" data-key="8">8</button><button class="key" data-key="9">9</button><button class="key op" data-key="+">+</button><button class="key op" data-key="(">(</button>
+<button class="key" data-key="4">4</button><button class="key" data-key="5">5</button><button class="key" data-key="6">6</button><button class="key op" data-key="-">−</button><button class="key op" data-key=")">)</button>
+<button class="key" data-key="1">1</button><button class="key" data-key="2">2</button><button class="key" data-key="3">3</button><button class="key" data-key="0">0</button><button class="key" id="back">⌫</button>
+<button class="key wide" id="clear">Effacer</button><button class="key wide op" id="copyFirst">1er nombre</button><button class="key" id="noop" style="visibility:hidden" tabindex="-1">·</button>
+</div></div>
+
+<div class="feedback" id="feedback">À toi de jouer.</div>
+<div class="actions"><button class="primary" id="check" hidden>Vérifier</button><button class="secondary" id="hint">Indice</button><button class="secondary" id="next">Changer de calcul</button></div>
+<div class="note">Le clavier intégré contient tous les signes utiles : aucun besoin du clavier mathématique de l'iPhone.</div>
+</main>
+
+<aside class="card memo"><h2>Mémo express</h2>
+<div class="rule"><b>5 − 4</b><div class="ex">5 <span class="arrow">+</span> (−4)</div></div>
+<div class="rule"><b>5 − (+4)</b><div class="ex">5 <span class="arrow">+</span> (−4)</div></div>
+<div class="rule"><b>5 − (−4)</b><div class="ex">5 <span class="arrow">+</span> (+4) &nbsp; ou &nbsp; 5 + 4</div></div>
+<div class="important"><b>À retenir</b><br>Le signe de soustraction disparaît : il devient <b>+</b> et le nombre qui suit est remplacé par son <b>opposé</b>.<br><br>Un nombre positif peut s'écrire <b>3</b>, <b>+3</b> ou <b>(+3)</b> : les trois écritures seront acceptées.</div>
+</aside></div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+let level=1,points=0,streak=0,qnum=1,current=null,typed="",clicked=0;
+
+const bank=[
+"5 - 4","7 + (-3)","(-5) - (+3)","(-2) - (-5)","8 + 2 + (-3)",
+"6 - 3 + 5","(-4) + 7 - 2","9 - (-3) + 2","(-6) - 3 + 5 - (-4) - 3",
+"4 + (-2) + 6 + (-1)","(-8) - (-2) - 4 + 7","3 - 5 - (-2) + 6"
+];
+
+function compact(s){return s.replace(/\s/g,"").replace(/−/g,"-");}
+function parseTerm(t){
+ t=t.trim();
+ while(t.startsWith("(")&&t.endsWith(")")) t=t.slice(1,-1).trim();
+ if(!/^[+-]?\d+$/.test(t)) return null;
+ return Number(t);
+}
+function canonicalAddition(s){
+ s=compact(s);
+ // split only on top-level +; any top-level - means subtraction remains
+ let depth=0,start=0,terms=[];
+ for(let i=0;i<s.length;i++){
+   let ch=s[i];
+   if(ch==="(") depth++;
+   else if(ch===")") {depth--; if(depth<0)return null;}
+   else if(depth===0 && ch==="-" && i>start) return null;
+   else if(depth===0 && ch==="+" && i>start){
+     let v=parseTerm(s.slice(start,i)); if(v===null)return null; terms.push(v); start=i+1;
+   }
+ }
+ if(depth!==0)return null;
+ let v=parseTerm(s.slice(start)); if(v===null)return null; terms.push(v);
+ return terms;
+}
+function transformExpression(s){
+ s=compact(s); let out="",depth=0,start=0,terms=[],ops=[];
+ // tokenize top-level operators, preserving unary sign at beginning
+ for(let i=0;i<s.length;i++){
+   let ch=s[i];
+   if(ch==="(")depth++;
+   else if(ch===")")depth--;
+   else if(depth===0 && i>start && (ch==="+"||ch==="-")){
+     terms.push(s.slice(start,i));ops.push(ch);start=i+1;
+   }
+ }
+ terms.push(s.slice(start));
+ let vals=terms.map(parseTerm);
+ if(vals.some(v=>v===null)) return null;
+ let result=[vals[0]];
+ for(let i=0;i<ops.length;i++) result.push(ops[i]==="-" ? -vals[i+1] : vals[i+1]);
+ return result;
+}
+function expectedText(vals){
+ return vals.map((v,i)=>{
+   if(i===0) return v<0?`(${v})`:String(v);
+   return v<0?`+(${v})`:`+${v}`;
+ }).join("");
+}
+function externalMinusPositions(s){
+ s=compact(s);let d=0,res=[];
+ for(let i=0;i<s.length;i++){
+   if(s[i]==="(")d++; else if(s[i]===")")d--;
+   else if(s[i]==="-"&&d===0&&i>0)res.push(i);
+ } return res;
+}
+function renderExpression(s, mode){
+ let raw=s, h="",d=0,buttonIndex=0;
+ for(let i=0;i<raw.length;i++){
+   let ch=raw[i];
+   if(ch==="(")d++;
+   if(ch===")")d--;
+   if(ch==="-"&&d===0&&i>0){
+     if(mode==="buttons") h+=`<button class="clickminus" data-index="${buttonIndex++}">−</button>`;
+     else if(mode==="red") h+='<span class="redminus">−</span>';
+     else h+="−";
+   } else h+=ch;
+ }
+ return h;
+}
+function newQuestion(){
+ window.questionFinished=false; window.clickedSet=new Set();
+ $("next").textContent="Changer de calcul";
+ current=bank[Math.floor(Math.random()*bank.length)];
+ typed="";clicked=0;$("screen").textContent="";$("feedback").className="feedback";$("feedback").textContent="À toi de jouer.";
+ $("answerArea").hidden=level===1;$("check").hidden=level===1;$("noChange").hidden=false;$("noChange").textContent=level===1?"✓ Il n'y a aucune soustraction à transformer":"✓ Il n'y a rien à changer";
+ $("questionCount").textContent=`Question ${qnum}`;
+ if(level===1){
+   $("levelTitle").textContent="Niveau 1 — Je repère et je clique";
+   $("instruction").innerHTML="Repère les signes <b>− qui indiquent une soustraction</b>, puis clique dessus. Ils ne sont pas signalés par une couleur.";
+   $("expression").innerHTML=renderExpression(current,"buttons");
+   document.querySelectorAll(".clickminus").forEach(b=>b.onclick=()=>clickMinus(b));
+ } else {
+   $("levelTitle").textContent=level===2?"Niveau 2 — Je réécris avec un repère":"Niveau 3 — Je fais tout seul";
+   $("instruction").innerHTML=level===2?'Les signes <b style="color:#fb7185">− de soustraction</b> sont repérés. Réécris le calcul sans aucune soustraction.':"Repère toi-même les soustractions et réécris le calcul uniquement avec des additions.";
+   $("expression").innerHTML=renderExpression(current,level===2?"red":"plain");
+ }
+}
+function clickMinus(btn){
+ if(btn.disabled || window.questionFinished)return;
+ let positions=externalMinusPositions(current);
+ let idx=Number(btn.dataset.index);
+ let target=positions[idx];
+ if(target===undefined)return;
+ // Show the full correct transformed expression after each click, but keep unclicked subtractions.
+ let s=compact(current), d=0,start=0,terms=[],ops=[];
+ for(let i=0;i<s.length;i++){let ch=s[i];if(ch==="(")d++;else if(ch===")")d--;else if(d===0&&i>start&&(ch==="+"||ch==="-")){terms.push(s.slice(start,i));ops.push(ch);start=i+1}}
+ terms.push(s.slice(start));
+ let vals=terms.map(parseTerm), html=vals[0]<0?`(${vals[0]})`:String(vals[0]), subSeen=0;
+ for(let i=0;i<ops.length;i++){
+   if(ops[i]==="-"){
+     if(subSeen<=idx && !btn._processed && subSeen===idx){
+       let v=-vals[i+1]; html+=v<0?` + (${v})`:` + ${v}`; btn._processed=true;
+     } else {
+       let t=terms[i+1].replace(/-/g,"−"); html+=` − ${t}`;
+     } subSeen++;
+   } else html+=` + ${terms[i+1].replace(/-/g,"−")}`;
+ }
+ // Easier robust behavior: mark clicked and transform all clicked indices from original.
+ if(!window.clickedSet)window.clickedSet=new Set(); window.clickedSet.add(idx);
+ html=vals[0]<0?`(${vals[0]})`:String(vals[0]); subSeen=0;
+ for(let i=0;i<ops.length;i++){
+   if(ops[i]==="-"){
+     if(window.clickedSet.has(subSeen)){let v=-vals[i+1];html+=v<0?` + (${v})`:` + ${v}`;}
+     else html+=` <button class="clickminus" data-index="${subSeen}">−</button> ${terms[i+1].replace(/-/g,"−")}`;
+     subSeen++;
+   } else html+=` + ${terms[i+1].replace(/-/g,"−")}`;
+ }
+ $("expression").innerHTML=html;
+ document.querySelectorAll(".clickminus").forEach(b=>b.onclick=()=>clickMinus(b));
+ if(window.clickedSet.size===positions.length){window.clickedSet=new Set();reward("Parfait : toutes les soustractions ont été transformées.");}
+}
+function noChange(){
+ if(window.questionFinished)return;
+ const total=externalMinusPositions(current).length;
+ const done=window.clickedSet ? window.clickedSet.size : 0;
+ const remaining=Math.max(0,total-done);
+ if(remaining===0)reward(total===0?"Exact : il n'y avait aucune soustraction à transformer.":"Exact : il ne reste plus aucune soustraction à transformer.");
+ else fail(`Il reste ${remaining} soustraction${remaining>1?"s":""} à repérer.`);
+}
+function reward(msg){window.questionFinished=true;let gain=10+Math.min(streak,10);points+=gain;streak++;qnum++;$("points").textContent=points;$("streak").textContent=streak;$("feedback").className="feedback good";$("feedback").textContent=`${msg} +${gain} points — observe la transformation, puis clique sur « Calcul suivant ». `;$("next").textContent="Calcul suivant";$("noChange").hidden=true;$("check").hidden=true;document.querySelectorAll(".clickminus").forEach(b=>b.disabled=true);}
+function fail(msg){streak=0;$("streak").textContent=0;$("feedback").className="feedback bad";$("feedback").textContent=msg}
+function verify(){
+ if(window.questionFinished)return;
+ if(!typed)return fail("Construis d'abord ta réponse avec le clavier.");
+ let got=canonicalAddition(typed), expected=transformExpression(current);
+ if(got && expected && got.length===expected.length && got.every((v,i)=>v===expected[i])) reward("Oui : toutes les soustractions ont disparu.");
+ else fail("Pas encore. Chaque soustraction doit devenir une addition du nombre opposé.");
+}
+function hint(){
+ let n=externalMinusPositions(current).length;
+ $("feedback").className="feedback";
+ $("feedback").textContent=n===0?"Ici, il n'y a aucune soustraction à transformer.":`Cherche ${n===1?"le signe − situé":"les signes − situés"} entre deux termes. Un − dans les parenthèses appartient au nombre : ne le transforme pas.`;
+}
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{level=+t.dataset.level;window.clickedSet=new Set();document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));t.classList.add("active");newQuestion()});
+document.querySelectorAll("[data-key]").forEach(k=>k.onclick=()=>{typed+=k.dataset.key;$("screen").textContent=typed.replace(/-/g,"−")});
+$("back").onclick=()=>{typed=typed.slice(0,-1);$("screen").textContent=typed.replace(/-/g,"−")};
+$("clear").onclick=()=>{typed="";$("screen").textContent=""};
+$("noop").onclick=()=>{};
+$("copyFirst").onclick=()=>{let vals=transformExpression(current);if(vals){typed=vals[0]<0?`(${vals[0]})`:String(vals[0]);$("screen").textContent=typed.replace(/-/g,"−")}};
+$("check").onclick=verify;$("hint").onclick=hint;$("next").onclick=()=>{window.clickedSet=new Set();qnum++;newQuestion()};$("noChange").onclick=noChange;
+window.clickedSet=new Set();newQuestion();
+</script></body></html>

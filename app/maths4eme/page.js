@@ -7,6 +7,11 @@ const Maths4eme = () => {
       titre: "Additions et Soustractions de nombres relatifs",
       href: "/maths4eme/1-additions_et_soustractions.html",
     },
+    {
+      numero: "02",
+      titre: "Transformer les soustractions en additions",
+      href: "/maths4eme/2-changements_de_signes.html",
+    },
   ];
 
   return (
