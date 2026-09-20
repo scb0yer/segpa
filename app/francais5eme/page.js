@@ -14,6 +14,14 @@ const Francais5eme = () => {
     },
   ];
 
+  const chatbox = [
+    {
+      numero: "01",
+      titre: "Entretien avec Joachim du Bellay",
+      href: "https://mizou.com/login-thread?ID=e_IQ_WV85Sz2H4lb0o1Q5ZpI1pcF1S3rD0Zd19z2kjM-146931",
+    },
+  ];
+
   const fluence = [
     {
       numero: "01",
@@ -119,41 +127,75 @@ const Francais5eme = () => {
           <p className="mt-5 max-w-xl text-base text-slate-400 sm:text-lg">
             Les parcours littéraires
           </p>
+
+          {/* Liste des parcours */}
+          <section className="grid gap-4">
+            {parcours.map((parcours) => (
+              <a
+                key={parcours.numero}
+                href={parcours.href}
+                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-rose-400/50 hover:bg-rose-400/[0.06] hover:shadow-2xl hover:shadow-rose-950/30 sm:p-8"
+              >
+                {/* Halo au survol */}
+                <div className="absolute -right-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-rose-500/0 blur-3xl transition-all duration-500 group-hover:bg-rose-500/15" />
+
+                <div className="relative flex items-center gap-5 sm:gap-8">
+                  {/* Numéro */}
+                  <div className="text-sm font-bold tracking-widest text-rose-400/60 sm:w-10">
+                    {parcours.numero}
+                  </div>
+
+                  {/* Titre */}
+                  <div className="flex-1">
+                    <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
+                      {parcours.titre}
+                    </h2>
+                  </div>
+
+                  {/* Flèche */}
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-rose-400/30 bg-rose-400/10 text-xl text-rose-300 transition-all duration-300 group-hover:translate-x-1 group-hover:border-rose-300 group-hover:bg-rose-400 group-hover:text-[#070914]">
+                    →
+                  </div>
+                </div>
+              </a>
+            ))}
+          </section>
+          <p className="mt-5 max-w-xl text-base text-slate-400 sm:text-lg">
+            Les chatbox littéraires
+          </p>
+          {/* Liste des chatbox littéraires */}
+          <section className="grid gap-4">
+            {chatbox.map((parcours) => (
+              <a
+                key={parcours.numero}
+                href={parcours.href}
+                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-rose-400/50 hover:bg-rose-400/[0.06] hover:shadow-2xl hover:shadow-rose-950/30 sm:p-8"
+              >
+                {/* Halo au survol */}
+                <div className="absolute -right-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-rose-500/0 blur-3xl transition-all duration-500 group-hover:bg-rose-500/15" />
+
+                <div className="relative flex items-center gap-5 sm:gap-8">
+                  {/* Numéro */}
+                  <div className="text-sm font-bold tracking-widest text-rose-400/60 sm:w-10">
+                    {parcours.numero}
+                  </div>
+
+                  {/* Titre */}
+                  <div className="flex-1">
+                    <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
+                      {parcours.titre}
+                    </h2>
+                  </div>
+
+                  {/* Flèche */}
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-rose-400/30 bg-rose-400/10 text-xl text-rose-300 transition-all duration-300 group-hover:translate-x-1 group-hover:border-rose-300 group-hover:bg-rose-400 group-hover:text-[#070914]">
+                    →
+                  </div>
+                </div>
+              </a>
+            ))}
+          </section>
         </header>
-
-        {/* Liste des parcours */}
-        <section className="grid gap-4">
-          {parcours.map((parcours) => (
-            <a
-              key={parcours.numero}
-              href={parcours.href}
-              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-rose-400/50 hover:bg-rose-400/[0.06] hover:shadow-2xl hover:shadow-rose-950/30 sm:p-8"
-            >
-              {/* Halo au survol */}
-              <div className="absolute -right-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-rose-500/0 blur-3xl transition-all duration-500 group-hover:bg-rose-500/15" />
-
-              <div className="relative flex items-center gap-5 sm:gap-8">
-                {/* Numéro */}
-                <div className="text-sm font-bold tracking-widest text-rose-400/60 sm:w-10">
-                  {parcours.numero}
-                </div>
-
-                {/* Titre */}
-                <div className="flex-1">
-                  <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
-                    {parcours.titre}
-                  </h2>
-                </div>
-
-                {/* Flèche */}
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-rose-400/30 bg-rose-400/10 text-xl text-rose-300 transition-all duration-300 group-hover:translate-x-1 group-hover:border-rose-300 group-hover:bg-rose-400 group-hover:text-[#070914]">
-                  →
-                </div>
-              </div>
-            </a>
-          ))}
-        </section>
-
         {/* Footer */}
         <footer className="mt-16 border-t border-white/[0.07] pt-7 text-xs text-slate-600">
           Classes de Mme Boyer · Français 5ème
