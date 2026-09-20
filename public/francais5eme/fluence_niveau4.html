@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lecture fluence — Niveau 4</title>
+<style>
+:root{
+  --ink:#17324d; --muted:#6c7d8d; --blue:#3d8fd1; --blue2:#eaf5fc;
+  --paper:#fffdf9; --line:#d9e5ee; --good:#2f8f63; --bad:#c95858;
+  --shadow:0 12px 30px rgba(35,70,100,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);
+background:linear-gradient(180deg,#eef8fd 0,#fff 38%,#fffaf3 100%);min-height:100vh}
+.wrap{width:min(920px,calc(100% - 28px));margin:auto;padding:22px 0 48px}
+.top{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:18px}
+.back{color:var(--ink);text-decoration:none;font-weight:750}
+.badge{background:#fff4cf;border:1px solid #f0dfaa;padding:8px 12px;border-radius:999px;font-weight:800;font-size:.9rem}
+.hero,.card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
+.hero{padding:26px;text-align:center}
+.kicker{font-size:.82rem;text-transform:uppercase;letter-spacing:.12em;font-weight:900;color:var(--blue)}
+h1{font-size:clamp(1.8rem,5vw,3rem);margin:.25rem 0 .45rem}
+.hero p{max-width:650px;margin:auto;color:var(--muted);line-height:1.55}
+.progress{height:10px;background:#e8eef2;border-radius:99px;overflow:hidden;margin:22px 0 8px}
+.progress>div{height:100%;width:0;background:linear-gradient(90deg,#6eb6e5,#3d8fd1);transition:width .25s}
+.meta{display:flex;justify-content:space-between;font-size:.9rem;color:var(--muted);font-weight:700}
+.card{margin-top:18px;padding:24px}
+.instructions{text-align:center;color:var(--muted);line-height:1.55}
+.flashzone{height:150px;display:flex;align-items:center;justify-content:center;margin:14px 0 18px}
+.flashword{font-size:clamp(2rem,8vw,3.8rem);font-weight:950;letter-spacing:.01em;text-align:center;overflow-wrap:anywhere}
+.ready{font-size:1.15rem;color:var(--muted);font-weight:800;text-align:center}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.answer{appearance:none;min-height:66px;border:2px solid #cfe1ee;background:var(--paper);border-radius:18px;padding:12px;font:inherit;font-size:1.05rem;font-weight:850;color:var(--ink);cursor:pointer}
+.answer:hover{filter:brightness(.98)} .answer.correct{background:#e9f7ef;border-color:#bfe2cd;color:#226746} .answer.wrong{background:#fff0ef;border-color:#f0c9c5;color:#91413e}
+button{appearance:none;border:0;border-radius:16px;padding:15px 16px;font:inherit;font-weight:900;cursor:pointer;min-height:52px}
+button:focus-visible{outline:4px solid rgba(61,143,209,.25);outline-offset:2px}
+.start,.restart{background:var(--ink);color:#fff;width:100%;margin-top:16px}
+.showbtn{background:var(--blue);color:white;display:block;margin:12px auto 0;min-width:210px}
+.feedback{min-height:30px;text-align:center;margin-top:15px;font-weight:850}
+.results{text-align:center;display:none}
+.score{font-size:clamp(2.2rem,8vw,4.3rem);font-weight:950;margin:10px 0;color:var(--blue)}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0}
+.stat{background:#f5f9fc;border:1px solid var(--line);border-radius:16px;padding:14px}
+.stat b{font-size:1.35rem;display:block} .stat span{font-size:.82rem;color:var(--muted)}
+.note{background:#fff8dd;border:1px solid #f0dfaa;border-radius:16px;padding:14px;line-height:1.45}
+.hidden{display:none!important}
+@media(max-width:560px){.wrap{width:min(100% - 18px,920px)}.hero,.card{border-radius:20px;padding:18px}.answers{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.top{align-items:flex-start}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top">
+    <a class="back" href="./">← Retour au français 5ème</a>
+    <span class="badge">Lecture fluence · Niveau 4</span>
+  </div>
+
+  <section class="hero">
+    <div class="kicker">Je reconnais un mot en un coup d'œil</div>
+    <h1>Le mot éclair ⚡</h1>
+    <p>Un mot apparaît très brièvement. Quand il disparaît, retrouve exactement celui que tu as vu. La priorité reste de répondre juste.</p>
+    <div class="progress"><div id="bar"></div></div>
+    <div class="meta"><span id="step">Question 1 / 5</span><span id="correctTop">0 bonne réponse</span></div>
+  </section>
+
+  <section id="intro" class="card">
+    <div class="instructions">
+      <p><strong>Une mini-session = 5 mots</strong>, tirés au hasard dans une banque de 50.</p>
+      <p>Appuie sur « Voir le mot ». Le mot restera affiché <strong>1,5 seconde</strong>, puis quatre propositions apparaîtront.</p>
+    </div>
+    <button class="start" id="startBtn">Commencer ma session</button>
+  </section>
+
+  <section id="game" class="card hidden">
+    <div class="flashzone"><div id="flash" class="ready">Prêt ?</div></div>
+    <button id="showBtn" class="showbtn">⚡ Voir le mot</button>
+    <div id="answers" class="answers hidden"></div>
+    <div id="feedback" class="feedback"></div>
+  </section>
+
+  <section id="results" class="card results">
+    <h2>Session terminée 🎉</h2>
+    <div class="score" id="finalScore"></div>
+    <div class="stats">
+      <div class="stat"><b id="accuracy"></b><span>réussite</span></div>
+      <div class="stat"><b id="responseTime"></b><span>temps de réponse cumulé</span></div>
+    </div>
+    <div id="errorBox" class="note"></div>
+    <button class="restart" id="restartBtn">Faire une nouvelle session de 5 mots</button>
+  </section>
+</main>
+
+<script>
+const BANK=[{"word": "seuil", "choices": ["seuil", "seule", "deuil", "seuils"]}, {"word": "aiguille", "choices": ["aiguille", "anguille", "aiguillé", "aiguilles"]}, {"word": "ailleurs", "choices": ["ailleurs", "ailleur", "meilleurs", "d'ailleurs"]}, {"word": "orgueil", "choices": ["orgueil", "orgue", "écueil", "orgueils"]}, {"word": "vieille", "choices": ["vieille", "veille", "vieilles", "vieil"]}, {"word": "groseille", "choices": ["groseille", "grisaille", "groseilles", "groseillier"]}, {"word": "caillou", "choices": ["caillou", "cahier", "cailloux", "caillot"]}, {"word": "tuyau", "choices": ["tuyau", "noyau", "tuyaux", "tuyaut"]}, {"word": "frayeur", "choices": ["frayeur", "fraîcheur", "frayeurs", "rayeur"]}, {"word": "rythme", "choices": ["rythme", "rime", "rythmes", "rhume"]}, {"word": "accueil", "choices": ["accueil", "écueil", "accueils", "accueilli"]}, {"word": "conseil", "choices": ["conseil", "soleil", "conseille", "conseils"]}, {"word": "fouille", "choices": ["fouille", "foule", "fouilles", "feuille"]}, {"word": "noyau", "choices": ["noyau", "noyaux", "joyau", "tuyau"]}, {"word": "moyen", "choices": ["moyen", "moyens", "moyenne", "noyen"]}, {"word": "ennui", "choices": ["ennui", "ennuis", "ennuie", "ennemi"]}, {"word": "effort", "choices": ["effort", "efforts", "fort", "effor"]}, {"word": "adresse", "choices": ["adresse", "adresses", "adressez", "adroite"]}, {"word": "bataille", "choices": ["bataille", "batailles", "battaille", "taille"]}, {"word": "joyeux", "choices": ["joyeux", "joueur", "joyeuse", "soyeux"]}, {"word": "animalerie", "choices": ["animalerie", "animalier", "animaleries", "animerie"]}, {"word": "calculatrice", "choices": ["calculatrice", "calculateur", "calculatrices", "calulatrice"]}, {"word": "décoration", "choices": ["décoration", "déclaration", "décorations", "décoraton"]}, {"word": "fabrication", "choices": ["fabrication", "fabriquant", "fabrications", "fabricaion"]}, {"word": "médicament", "choices": ["médicament", "médicaments", "médicalement", "médicamment"]}, {"word": "organisation", "choices": ["organisation", "organisations", "organisateur", "organsation"]}, {"word": "photographie", "choices": ["photographie", "photographe", "photographies", "photograhie"]}, {"word": "population", "choices": ["population", "populations", "pollution", "populaton"]}, {"word": "préparation", "choices": ["préparation", "préparations", "réparation", "préparaton"]}, {"word": "respiration", "choices": ["respiration", "respirations", "inspiration", "respiraion"]}, {"word": "température", "choices": ["température", "températures", "tempérament", "tempérture"]}, {"word": "utilisation", "choices": ["utilisation", "utilisations", "utilisateur", "utilisaton"]}, {"word": "alimentation", "choices": ["alimentation", "alimentations", "alignement", "alimentaion"]}, {"word": "naturellement", "choices": ["naturellement", "naturelle", "naturellemment", "normalement"]}, {"word": "généralement", "choices": ["généralement", "général", "générallement", "également"]}, {"word": "département", "choices": ["département", "départements", "déplacement", "départemant"]}, {"word": "environnement", "choices": ["environnement", "environnements", "environement", "événement"]}, {"word": "multiplication", "choices": ["multiplication", "multiplications", "application", "multiplicaton"]}, {"word": "présentation", "choices": ["présentation", "présentations", "prestation", "présentaion"]}, {"word": "communication", "choices": ["communication", "communications", "communauté", "comunication"]}, {"word": "catastrophe", "choices": ["catastrophe", "catastrophes", "catastrophique", "castastrophe"]}, {"word": "délicatement", "choices": ["délicatement", "délicatesse", "délicatment", "directement"]}, {"word": "rapidement", "choices": ["rapidement", "rapidemment", "rapidité", "rudement"]}, {"word": "télévision", "choices": ["télévision", "télévisions", "prévision", "télévison"]}, {"word": "imagination", "choices": ["imagination", "imaginations", "imitation", "imaginaton"]}, {"word": "ordinateur", "choices": ["ordinateur", "ordinateurs", "ordonnateur", "ordinteur"]}, {"word": "extraordinaire", "choices": ["extraordinaire", "extraordinaires", "ordinaire", "extraodinaire"]}, {"word": "bouleversement", "choices": ["bouleversement", "bouleversant", "renversement", "bouleversemant"]}, {"word": "éblouissement", "choices": ["éblouissement", "épanouissement", "éblouissant", "éblouissemant"]}, {"word": "incompréhensible", "choices": ["incompréhensible", "compréhensible", "incompressible", "incompréhensibe"]}];
+const DISPLAY_MS=1500;
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let deck=[],i=0,good=0,errors=[],locked=false,responseStart=0,totalMs=0,flashTimer=null;
+
+function start(){
+  deck=shuffle(BANK).slice(0,5); i=0; good=0; errors=[]; totalMs=0;
+  intro.classList.add('hidden'); results.style.display='none'; game.classList.remove('hidden');
+  showQuestion();
+}
+function updateHeader(){
+  step.textContent=`Question ${i+1} / 5`;
+  correctTop.textContent=`${good} bonne${good>1?'s':''} réponse${good>1?'s':''}`;
+  bar.style.width=`${(i/5)*100}%`;
+}
+function showQuestion(){
+  clearTimeout(flashTimer); locked=false; updateHeader();
+  flash.textContent='Prêt ?'; flash.className='ready';
+  showBtn.classList.remove('hidden'); answers.classList.add('hidden'); answers.innerHTML=''; feedback.textContent='';
+}
+function reveal(){
+  if(locked)return;
+  locked=true; showBtn.classList.add('hidden');
+  flash.textContent=deck[i].word; flash.className='flashword';
+  flashTimer=setTimeout(()=>{
+    flash.textContent='Quel mot as-tu vu ?'; flash.className='ready';
+    renderAnswers(); responseStart=Date.now(); locked=false;
+  },DISPLAY_MS);
+}
+function renderAnswers(){
+  answers.innerHTML='';
+  shuffle(deck[i].choices).forEach(choice=>{
+    const b=document.createElement('button'); b.className='answer'; b.textContent=choice;
+    b.onclick=()=>choose(b,choice); answers.appendChild(b);
+  });
+  answers.classList.remove('hidden');
+}
+function choose(btn,choice){
+  if(locked)return; locked=true;
+  totalMs+=Date.now()-responseStart;
+  const q=deck[i], ok=choice===q.word;
+  [...answers.children].forEach(b=>b.disabled=true);
+  if(ok){good++;btn.classList.add('correct');feedback.textContent='✓ Exact !'}
+  else{
+    btn.classList.add('wrong');
+    [...answers.children].find(b=>b.textContent===q.word)?.classList.add('correct');
+    feedback.textContent=`Le mot était « ${q.word} ».`;
+    errors.push(q.word);
+  }
+  bar.style.width=`${((i+1)/5)*100}%`;
+  correctTop.textContent=`${good} bonne${good>1?'s':''} réponse${good>1?'s':''}`;
+  setTimeout(()=>{i++; if(i<5)showQuestion(); else finish()},ok?900:2800);
+}
+function finish(){
+  game.classList.add('hidden'); results.style.display='block';
+  const pct=Math.round(good/5*100), sec=totalMs/1000;
+  finalScore.textContent=`${good} / 5`;
+  accuracy.textContent=`${pct} %`;
+  responseTime.textContent=`${sec.toFixed(1)} s`;
+  step.textContent='5 / 5 terminé'; bar.style.width='100%';
+  errorBox.innerHTML=errors.length
+    ? `<strong>À revoir :</strong> ${errors.join(' · ')}`
+    : `<strong>Bravo :</strong> aucune erreur dans cette session.`;
+}
+startBtn.onclick=start; restartBtn.onclick=start; showBtn.onclick=reveal;
+</script>
+</body>
+</html>

@@ -14,6 +14,29 @@ const Francais5eme = () => {
     },
   ];
 
+  const fluence = [
+    {
+      numero: "01",
+      titre: "Fluence niveau 1 : même mot ? 🔎",
+      href: "/francais5eme/fluence_niveau1.html",
+    },
+    {
+      numero: "02",
+      titre: "Fluence niveau 2 : construire des mots 🧩",
+      href: "/francais5eme/fluence_niveau2.html",
+    },
+    {
+      numero: "03",
+      titre: "Fluence niveau 3 : J'écoute et je reconnais 🎧",
+      href: "/francais5eme/fluence_niveau3.html",
+    },
+    {
+      numero: "04",
+      titre: "Fluence niveau 4 : Le mot éclair ⚡️",
+      href: "/francais5eme/fluence_niveau4.html",
+    },
+  ];
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#070914] text-white">
       {/* Halos de fond */}
@@ -56,9 +79,45 @@ const Francais5eme = () => {
               5ème
             </span>
           </h1>
+          <p className="mt-5 max-w-xl text-base text-slate-400 sm:text-lg">
+            La fluence
+          </p>
+
+          {/* Liste fluence */}
+          <section className="grid gap-4">
+            {fluence.map((parcours) => (
+              <a
+                key={parcours.numero}
+                href={parcours.href}
+                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-rose-400/50 hover:bg-rose-400/[0.06] hover:shadow-2xl hover:shadow-rose-950/30 sm:p-8"
+              >
+                {/* Halo au survol */}
+                <div className="absolute -right-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-rose-500/0 blur-3xl transition-all duration-500 group-hover:bg-rose-500/15" />
+
+                <div className="relative flex items-center gap-5 sm:gap-8">
+                  {/* Numéro */}
+                  <div className="text-sm font-bold tracking-widest text-rose-400/60 sm:w-10">
+                    {parcours.numero}
+                  </div>
+
+                  {/* Titre */}
+                  <div className="flex-1">
+                    <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
+                      {parcours.titre}
+                    </h2>
+                  </div>
+
+                  {/* Flèche */}
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-rose-400/30 bg-rose-400/10 text-xl text-rose-300 transition-all duration-300 group-hover:translate-x-1 group-hover:border-rose-300 group-hover:bg-rose-400 group-hover:text-[#070914]">
+                    →
+                  </div>
+                </div>
+              </a>
+            ))}
+          </section>
 
           <p className="mt-5 max-w-xl text-base text-slate-400 sm:text-lg">
-            Choisis un parcours interactif pour commencer.
+            Les parcours littéraires
           </p>
         </header>
 

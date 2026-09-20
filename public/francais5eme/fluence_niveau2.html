@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Lecture fluence — Niveau 2</title>
+    <style>
+      :root {
+        --ink: #17324d;
+        --muted: #6c7d8d;
+        --blue: #3d8fd1;
+        --blue2: #eaf5fc;
+        --paper: #fffdf9;
+        --line: #d9e5ee;
+        --good: #2f8f63;
+        --bad: #c95858;
+        --shadow: 0 12px 30px rgba(35, 70, 100, 0.1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          Arial,
+          sans-serif;
+        color: var(--ink);
+        background: linear-gradient(180deg, #eef8fd 0, #fff 38%, #fffaf3 100%);
+        min-height: 100vh;
+      }
+      .wrap {
+        width: min(920px, calc(100% - 28px));
+        margin: auto;
+        padding: 22px 0 48px;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      .back {
+        color: var(--ink);
+        text-decoration: none;
+        font-weight: 750;
+      }
+      .badge {
+        background: #fff4cf;
+        border: 1px solid #f0dfaa;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-weight: 800;
+        font-size: 0.9rem;
+      }
+      .hero,
+      .card {
+        background: rgba(255, 255, 255, 0.94);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+      }
+      .hero {
+        padding: 26px;
+        text-align: center;
+      }
+      .kicker {
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 900;
+        color: var(--blue);
+      }
+      h1 {
+        font-size: clamp(1.8rem, 5vw, 3rem);
+        margin: 0.25rem 0 0.45rem;
+      }
+      .hero p {
+        max-width: 680px;
+        margin: auto;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+      .progress {
+        height: 10px;
+        background: #e8eef2;
+        border-radius: 99px;
+        overflow: hidden;
+        margin: 22px 0 8px;
+      }
+      .progress > div {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, #6eb6e5, #3d8fd1);
+        transition: width 0.25s;
+      }
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .card {
+        margin-top: 18px;
+        padding: 24px;
+      }
+      .instructions {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 14px;
+        align-items: start;
+      }
+      .icon {
+        font-size: 2rem;
+      }
+      .instructions strong {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .instructions p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .modelbox {
+        text-align: center;
+        margin: 22px 0 12px;
+        padding: 14px;
+        border-radius: 16px;
+        background: #f6fafc;
+        border: 1px solid var(--line);
+      }
+      .model-label {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 900;
+        color: var(--muted);
+      }
+      .model {
+        font-size: clamp(1.45rem, 5vw, 2.25rem);
+        font-weight: 950;
+        margin-top: 4px;
+        min-height: 44px;
+      }
+      .build-label {
+        text-align: center;
+        color: var(--muted);
+        font-weight: 800;
+        margin-top: 18px;
+      }
+      .build {
+        min-height: 82px;
+        margin: 8px 0 18px;
+        border: 2px dashed #bfd7e7;
+        border-radius: 18px;
+        background: var(--paper);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        flex-wrap: wrap;
+        padding: 12px;
+      }
+      .empty {
+        color: #98a7b4;
+        font-weight: 700;
+      }
+      .built-chunk {
+        font-size: clamp(1.25rem, 4.5vw, 1.9rem);
+        font-weight: 900;
+      }
+      .sep {
+        color: #9aabba;
+        font-weight: 900;
+      }
+      .chunks {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 14px 0 18px;
+      }
+      .chunk {
+        background: #eaf5fc;
+        color: var(--ink);
+        border: 2px solid #c7e0ef;
+        padding: 13px 17px;
+        border-radius: 15px;
+        font-size: clamp(1.1rem, 4vw, 1.5rem);
+        font-weight: 900;
+        min-width: 70px;
+      }
+      .chunk.used {
+        opacity: 0.28;
+        pointer-events: none;
+      }
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .undo {
+        background: #f2f5f7;
+        color: var(--ink);
+        border: 1px solid var(--line);
+      }
+      .validate {
+        background: var(--ink);
+        color: white;
+      }
+      button {
+        appearance: none;
+        border-radius: 16px;
+        padding: 14px 16px;
+        font: inherit;
+        font-weight: 900;
+        cursor: pointer;
+        min-height: 52px;
+      }
+      button:focus-visible {
+        outline: 4px solid rgba(61, 143, 209, 0.25);
+        outline-offset: 2px;
+      }
+      .feedback {
+        min-height: 34px;
+        text-align: center;
+        margin-top: 15px;
+        font-weight: 850;
+        line-height: 1.45;
+      }
+      .good {
+        color: var(--good);
+      }
+      .bad {
+        color: var(--bad);
+      }
+      .solution {
+        margin: 12px auto 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+      .solution span {
+        background: #fff0ef;
+        border: 1px solid #f0c9c5;
+        color: #91413e;
+        padding: 7px 10px;
+        border-radius: 10px;
+        font-weight: 950;
+      }
+      .results {
+        text-align: center;
+        display: none;
+      }
+      .score {
+        font-size: clamp(2.2rem, 8vw, 4.3rem);
+        font-weight: 950;
+        margin: 10px 0;
+        color: var(--blue);
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin: 18px 0;
+      }
+      .stat {
+        background: #f5f9fc;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px;
+      }
+      .stat b {
+        font-size: 1.35rem;
+        display: block;
+      }
+      .stat span {
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+      .note {
+        background: #fff8dd;
+        border: 1px solid #f0dfaa;
+        border-radius: 16px;
+        padding: 14px;
+        line-height: 1.45;
+      }
+      .restart {
+        background: var(--ink);
+        color: white;
+        width: 100%;
+        margin-top: 16px;
+        border: 0;
+      }
+      .small {
+        font-size: 0.8rem;
+        color: var(--muted);
+        text-align: center;
+        margin-top: 14px;
+      }
+      .errorrow {
+        padding: 8px 0;
+        border-bottom: 1px solid #e5edf3;
+        text-align: left;
+      }
+      @media (max-width: 560px) {
+        .wrap {
+          width: min(100% - 18px, 920px);
+        }
+        .hero,
+        .card {
+          border-radius: 20px;
+          padding: 18px;
+        }
+        .stats {
+          grid-template-columns: 1fr;
+        }
+        .top {
+          align-items: flex-start;
+        }
+        .controls {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <div class="top">
+        <a class="back" href="./">← Retour au français 5ème</a>
+        <span class="badge">Lecture fluence · Niveau 2</span>
+      </div>
+
+      <section class="hero">
+        <div class="kicker">Je lis syllabe par syllabe</div>
+        <h1>Construis le mot</h1>
+        <p>
+          Observe le mot, puis remets ses syllabes dans le bon ordre. Prends ton
+          temps : la priorité est de reconstruire le mot exactement.
+        </p>
+        <div class="progress"><div id="bar"></div></div>
+        <div class="meta">
+          <span id="step">Mot 1 / 5</span
+          ><span id="correct">0 bonne réponse</span>
+        </div>
+      </section>
+
+      <section class="card" id="game">
+        <div class="instructions">
+          <div class="icon">🧩</div>
+          <div>
+            <strong>Construis le mot syllabe par syllabe.</strong>
+            <p>
+              Touche les syllabes dans l'ordre. Tu peux annuler ton dernier
+              choix avant de valider.
+            </p>
+          </div>
+        </div>
+
+        <div class="modelbox">
+          <div class="model-label">Mot à construire</div>
+          <div class="model" id="model"></div>
+        </div>
+
+        <div class="build-label">Ta construction</div>
+        <div class="build" id="build">
+          <span class="empty">Choisis la première syllabe…</span>
+        </div>
+        <div class="chunks" id="chunks"></div>
+
+        <div class="controls">
+          <button class="undo" id="undo">↶ Annuler la dernière syllabe</button>
+          <button class="validate" id="validate">✓ Valider</button>
+        </div>
+        <div class="feedback" id="feedback" aria-live="polite"></div>
+      </section>
+
+      <section class="card results" id="results">
+        <div class="kicker">Parcours terminé</div>
+        <h2>Ton résultat</h2>
+        <div class="score" id="score"></div>
+        <div class="stats">
+          <div class="stat"><b id="rCorrect"></b><span>mots réussis</span></div>
+          <div class="stat"><b id="rTime"></b><span>temps total</span></div>
+          <div class="stat"><b id="rPoints"></b><span>points</span></div>
+        </div>
+        <div class="note" id="message"></div>
+        <button class="restart" id="restart">
+          Recommencer et battre mon score
+        </button>
+        <div class="small">
+          Ton meilleur résultat est enregistré sur cet appareil.
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Découpages pensés pour soutenir la lecture : syllabes, préfixes, radicaux et suffixes repérables.
+      const BANK = [
+        // Découpage en syllabes orales. Les mots courts ne sont retenus que si leur décodage est complexe.
+        { w: "brouillard", c: ["brou", "illard"], d: 1 },
+        { w: "soigneux", c: ["soi", "gneux"], d: 1 },
+        { w: "empreinte", c: ["em", "prein", "te"], d: 1 },
+        { w: "gardien", c: ["gar", "dien"], d: 1 },
+        { w: "longueur", c: ["lon", "gueur"], d: 1 },
+
+        { w: "voyageur", c: ["vo", "ya", "geur"], d: 2 },
+        { w: "montagne", c: ["mon", "ta", "gne"], d: 2 },
+        { w: "musicien", c: ["mu", "si", "cien"], d: 2 },
+        { w: "signaler", c: ["si", "gna", "ler"], d: 2 },
+        { w: "magnifique", c: ["ma", "gni", "fi", "que"], d: 2 },
+        { w: "comprendre", c: ["com", "pren", "dre"], d: 2 },
+        { w: "apparition", c: ["ap", "pa", "ri", "tion"], d: 2 },
+        { w: "attention", c: ["at", "ten", "tion"], d: 2 },
+        { w: "voisinage", c: ["voi", "si", "nage"], d: 2 },
+        { w: "changement", c: ["chan", "ge", "ment"], d: 2 },
+
+        { w: "soigneusement", c: ["soi", "gneu", "se", "ment"], d: 3 },
+        { w: "prochainement", c: ["pro", "chai", "ne", "ment"], d: 3 },
+        {
+          w: "particulièrement",
+          c: ["par", "ti", "cu", "liè", "re", "ment"],
+          d: 3,
+        },
+        { w: "chaleureusement", c: ["cha", "leu", "reu", "se", "ment"], d: 3 },
+        {
+          w: "merveilleusement",
+          c: ["mer", "vei", "lleu", "se", "ment"],
+          d: 3,
+        },
+        { w: "accompagnement", c: ["ac", "com", "pa", "gne", "ment"], d: 3 },
+        { w: "remerciement", c: ["re", "mer", "cie", "ment"], d: 3 },
+        { w: "irremplaçable", c: ["ir", "rem", "pla", "ça", "ble"], d: 3 },
+        { w: "déséquilibre", c: ["dé", "sé", "qui", "li", "bre"], d: 3 },
+        { w: "tranquillement", c: ["tran", "quil", "le", "ment"], d: 3 },
+      ];
+
+      let deck = [],
+        index = 0,
+        good = 0,
+        started = 0,
+        locked = false,
+        chosen = [],
+        mistakes = [],
+        reviewMode = false;
+      const $ = (id) => document.getElementById(id);
+
+      function shuffle(a) {
+        const b = [...a];
+        for (let i = b.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [b[i], b[j]] = [b[j], b[i]];
+        }
+        return b;
+      }
+
+      function buildDeck() {
+        // Une mini-session = 5 mots tirés au hasard dans toute la banque.
+        return shuffle(BANK).slice(0, 5);
+      }
+
+      function newGame() {
+        deck = buildDeck();
+        index = 0;
+        good = 0;
+        chosen = [];
+        mistakes = [];
+        reviewMode = false;
+        started = performance.now();
+        locked = false;
+        $("results").style.display = "none";
+        $("game").style.display = "block";
+        render();
+      }
+
+      function render() {
+        locked = false;
+        chosen = [];
+        const item = deck[index];
+        $("model").textContent = item.w;
+        $("feedback").textContent = "";
+        $("feedback").className = "feedback";
+        $("step").textContent = reviewMode
+          ? `Révision ${index + 1} / ${deck.length}`
+          : `Mot ${index + 1} / ${deck.length}`;
+        $("correct").textContent =
+          `${good} bonne${good > 1 ? "s" : ""} réponse${good > 1 ? "s" : ""}`;
+        $("bar").style.width = `${(index / deck.length) * 100}%`;
+        renderBuild();
+
+        const pieces = shuffle(item.c.map((text, i) => ({ text, i })));
+        $("chunks").innerHTML = "";
+        pieces.forEach((piece) => {
+          const b = document.createElement("button");
+          b.className = "chunk";
+          b.textContent = piece.text;
+          b.dataset.i = piece.i;
+          b.addEventListener("click", () => {
+            if (locked || b.classList.contains("used")) return;
+            chosen.push({ text: piece.text, i: piece.i, button: b });
+            b.classList.add("used");
+            renderBuild();
+          });
+          $("chunks").appendChild(b);
+        });
+      }
+
+      function renderBuild() {
+        if (!chosen.length) {
+          $("build").innerHTML =
+            '<span class="empty">Choisis la première syllabe…</span>';
+          return;
+        }
+        $("build").innerHTML = chosen
+          .map(
+            (x, i) =>
+              `${i ? '<span class="sep">|</span>' : ""}<span class="built-chunk">${x.text}</span>`,
+          )
+          .join("");
+      }
+
+      function undo() {
+        if (locked || !chosen.length) return;
+        const last = chosen.pop();
+        last.button.classList.remove("used");
+        renderBuild();
+      }
+
+      function validate() {
+        if (locked) return;
+        if (!chosen.length) {
+          $("feedback").textContent = "Choisis d’abord les syllabes du mot.";
+          $("feedback").className = "feedback bad";
+          return;
+        }
+        locked = true;
+        const item = deck[index];
+        const answer = chosen.map((x) => x.text).join("");
+        const ok = answer === item.w && chosen.length === item.c.length;
+
+        if (ok) {
+          good++;
+          $("feedback").textContent = "Bravo, le mot est bien construit ! ✓";
+          $("feedback").className = "feedback good";
+        } else {
+          if (!reviewMode && !mistakes.some((x) => x.w === item.w))
+            mistakes.push(item);
+          $("feedback").className = "feedback bad";
+          $("feedback").innerHTML =
+            `Pas tout à fait. Observe la bonne construction :
+     <div class="solution">${item.c.map((x) => `<span>${x}</span>`).join("<b> | </b>")}</div>`;
+        }
+
+        setTimeout(
+          () => {
+            index++;
+            if (index < deck.length) render();
+            else reviewMode ? finishReview() : finish();
+          },
+          ok ? 900 : 3200,
+        );
+      }
+
+      function formatTime(seconds) {
+        return `${Math.floor(seconds / 60)} min ${String(seconds % 60).padStart(2, "0")} s`;
+      }
+
+      function finish() {
+        const seconds = Math.round((performance.now() - started) / 1000);
+        const accuracy = Math.round((good / deck.length) * 100);
+        // Exactitude très dominante ; le temps ne fournit qu'un bonus limité.
+        const timeBonus = Math.max(0, 300 - seconds);
+        const points = good * 100 + timeBonus;
+        const best = Number(localStorage.getItem("fluence_n2_best") || 0);
+        if (points > best) localStorage.setItem("fluence_n2_best", points);
+
+        $("game").style.display = "none";
+        $("results").style.display = "block";
+        $("bar").style.width = "100%";
+        $("step").textContent = `${deck.length} / ${deck.length} terminé`;
+        $("correct").textContent = `${good} / ${deck.length} justes`;
+        $("score").textContent = `${accuracy} %`;
+        $("rCorrect").textContent = `${good} / ${deck.length}`;
+        $("rTime").textContent = formatTime(seconds);
+        $("rPoints").textContent = points;
+
+        let msg =
+          accuracy === 100
+            ? "Excellent ! Tu as construit tous les mots correctement. Essaie maintenant de garder <strong>zéro erreur</strong> en devenant progressivement plus rapide."
+            : accuracy >= 85
+              ? "Très bon travail. Revois les mots qui t’ont posé problème : <strong>l’exactitude passe avant la vitesse</strong>."
+              : "Continue à t’entraîner sans te presser. Repère les syllabes orales du mot avant de les assembler.";
+
+        if (mistakes.length) {
+          msg +=
+            `<div style="margin-top:14px;text-align:left"><strong>Mes mots à revoir :</strong>` +
+            mistakes
+              .map(
+                (x) =>
+                  `<div class="errorrow"><strong>${x.w}</strong> — ${x.c.join(" | ")}</div>`,
+              )
+              .join("") +
+            `</div><button id="review" class="restart" style="margin-top:14px">Revoir uniquement mes erreurs</button>`;
+        }
+        $("message").innerHTML = msg;
+        const rb = $("review");
+        if (rb) rb.addEventListener("click", startReview);
+      }
+
+      function startReview() {
+        deck = shuffle([...mistakes]);
+        index = 0;
+        good = 0;
+        chosen = [];
+        reviewMode = true;
+        started = performance.now();
+        $("results").style.display = "none";
+        $("game").style.display = "block";
+        render();
+      }
+
+      function finishReview() {
+        $("game").style.display = "none";
+        $("results").style.display = "block";
+        $("bar").style.width = "100%";
+        $("step").textContent = "Révision terminée";
+        $("correct").textContent = `${good} / ${deck.length} justes`;
+        $("score").textContent = "Bravo !";
+        $("rCorrect").textContent = `${good} / ${deck.length}`;
+        $("rTime").textContent = "—";
+        $("rPoints").textContent = "—";
+        $("message").innerHTML =
+          "Tu viens de retravailler les mots qui t’avaient posé problème. Recommence le parcours complet pour vérifier tes progrès.";
+      }
+
+      $("undo").addEventListener("click", undo);
+      $("validate").addEventListener("click", validate);
+      $("restart").addEventListener("click", newGame);
+      newGame();
+    </script>
+  </body>
+</html>

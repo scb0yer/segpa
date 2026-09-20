@@ -1,132 +1,580 @@
 <!doctype html>
 <html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Calculs relatifs — méthode en 3 étapes</title>
-<style>
-:root{--bg:#0f172a;--panel:#111827;--line:#29364d;--text:#f8fafc;--muted:#94a3b8;--accent:#38bdf8;--good:#22c55e;--bad:#ef4444}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#16324b 0,transparent 30%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
-.wrap{max-width:1040px;margin:auto;padding:26px 17px 48px}.top{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}.tag{color:var(--accent);font-size:.8rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}h1{font-size:clamp(1.9rem,4vw,2.8rem);margin:6px 0}.intro{margin:0;color:var(--muted);line-height:1.5}.stats{display:flex;gap:8px}.stat{min-width:92px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:9px 12px;text-align:center}.stat b{display:block;font-size:1.3rem}.stat small{color:var(--muted)}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:20px 0 16px}.step{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:11px;color:var(--muted);font-weight:850}.step.active{border-color:var(--accent);background:#172554;color:#fff}.step.done{border-color:#166534;color:#bbf7d0}.step small{display:block;font-weight:500;margin-top:2px}
-.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:17px}.card{background:rgba(17,24,39,.96);border:1px solid var(--line);border-radius:21px;padding:21px}.expr{min-height:120px;background:#0b1220;border:1px solid var(--line);border-radius:17px;padding:20px 13px;display:flex;align-items:center;justify-content:center;text-align:center;flex-wrap:wrap;font-size:clamp(1.55rem,5vw,2.45rem);font-weight:900}.instruction{color:var(--muted);line-height:1.5}
-.screen{min-height:58px;background:#0b1220;border:1px solid #475569;border-radius:13px;padding:14px;font-size:1.3rem;font-weight:800;word-break:break-all}.screen:empty:before{content:"Ta réponse apparaîtra ici…";color:#64748b;font-weight:400}
-.keys{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:9px}.key{min-height:45px;background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:10px;font-weight:850;font-size:1.05rem;cursor:pointer}.key.op{background:#172554;color:#bae6fd}.key.wide{grid-column:span 2}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.primary,.secondary{min-height:44px;border-radius:12px;padding:10px 14px;font-weight:850;cursor:pointer}.primary{background:var(--accent);color:#06202e;border:0}.secondary{background:#1e293b;color:#e2e8f0;border:1px solid #475569}.hidden{display:none!important}
-.feedback{min-height:52px;border:1px solid var(--line);background:#0f172a;border-radius:13px;padding:12px 14px;margin-top:12px;color:#cbd5e1}.feedback.good{background:#10251b;border-color:#166534;color:#dcfce7}.feedback.bad{background:#29161a;border-color:#7f1d1d;color:#fee2e2}
-.memo h2{font-size:1rem;margin:0 0 12px}.rule{padding:12px;border:1px solid var(--line);background:#0f172a;border-radius:13px;margin:9px 0;line-height:1.45}.rule b{color:#fff}.example{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;margin-top:5px}.arrow{color:var(--good);font-weight:900}.current{border-color:#475569}.note{font-size:.79rem;color:var(--muted);margin-top:9px}
-@media(max-width:800px){.grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.stats{width:100%}.stat{flex:1}}
-</style>
-</head>
-<body><div class="wrap">
-<div class="top"><div><div class="tag">4e • Nombres relatifs</div><h1>Calculs relatifs : la méthode</h1><p class="intro">Je suis toujours les <b>3 mêmes étapes</b> jusqu'au résultat final.</p></div><div class="stats"><div class="stat"><b id="points">0</b><small>points</small></div><div class="stat"><b id="streak">0</b><small>série</small></div></div></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>Calculs relatifs — méthode en 3 étapes</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --panel: #111827;
+        --line: #29364d;
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --accent: #38bdf8;
+        --good: #22c55e;
+        --bad: #ef4444;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at top right, #16324b 0, transparent 30%),
+          var(--bg);
+        color: var(--text);
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        min-height: 100vh;
+      }
+      .wrap {
+        max-width: 1040px;
+        margin: auto;
+        padding: 26px 17px 48px;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+      .tag {
+        color: var(--accent);
+        font-size: 0.8rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      h1 {
+        font-size: clamp(1.9rem, 4vw, 2.8rem);
+        margin: 6px 0;
+      }
+      .intro {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .stats {
+        display: flex;
+        gap: 8px;
+      }
+      .stat {
+        min-width: 92px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 9px 12px;
+        text-align: center;
+      }
+      .stat b {
+        display: block;
+        font-size: 1.3rem;
+      }
+      .stat small {
+        color: var(--muted);
+      }
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 9px;
+        margin: 20px 0 16px;
+      }
+      .step {
+        border: 1px solid var(--line);
+        background: var(--panel);
+        border-radius: 14px;
+        padding: 11px;
+        color: var(--muted);
+        font-weight: 850;
+      }
+      .step.active {
+        border-color: var(--accent);
+        background: #172554;
+        color: #fff;
+      }
+      .step.done {
+        border-color: #166534;
+        color: #bbf7d0;
+      }
+      .step small {
+        display: block;
+        font-weight: 500;
+        margin-top: 2px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 17px;
+      }
+      .card {
+        background: rgba(17, 24, 39, 0.96);
+        border: 1px solid var(--line);
+        border-radius: 21px;
+        padding: 21px;
+      }
+      .expr {
+        min-height: 120px;
+        background: #0b1220;
+        border: 1px solid var(--line);
+        border-radius: 17px;
+        padding: 20px 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        flex-wrap: wrap;
+        font-size: clamp(1.55rem, 5vw, 2.45rem);
+        font-weight: 900;
+      }
+      .instruction {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .screen {
+        min-height: 58px;
+        background: #0b1220;
+        border: 1px solid #475569;
+        border-radius: 13px;
+        padding: 14px;
+        font-size: 1.3rem;
+        font-weight: 800;
+        word-break: break-all;
+      }
+      .screen:empty:before {
+        content: "Ta réponse apparaîtra ici…";
+        color: #64748b;
+        font-weight: 400;
+      }
+      .keys {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 7px;
+        margin-top: 9px;
+      }
+      .key {
+        min-height: 45px;
+        background: #1e293b;
+        color: #e2e8f0;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        font-weight: 850;
+        font-size: 1.05rem;
+        cursor: pointer;
+      }
+      .key.op {
+        background: #172554;
+        color: #bae6fd;
+      }
+      .key.wide {
+        grid-column: span 2;
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .primary,
+      .secondary {
+        min-height: 44px;
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-weight: 850;
+        cursor: pointer;
+      }
+      .primary {
+        background: var(--accent);
+        color: #06202e;
+        border: 0;
+      }
+      .secondary {
+        background: #1e293b;
+        color: #e2e8f0;
+        border: 1px solid #475569;
+      }
+      .hidden {
+        display: none !important;
+      }
+      .feedback {
+        min-height: 52px;
+        border: 1px solid var(--line);
+        background: #0f172a;
+        border-radius: 13px;
+        padding: 12px 14px;
+        margin-top: 12px;
+        color: #cbd5e1;
+      }
+      .feedback.good {
+        background: #10251b;
+        border-color: #166534;
+        color: #dcfce7;
+      }
+      .feedback.bad {
+        background: #29161a;
+        border-color: #7f1d1d;
+        color: #fee2e2;
+      }
+      .memo h2 {
+        font-size: 1rem;
+        margin: 0 0 12px;
+      }
+      .rule {
+        padding: 12px;
+        border: 1px solid var(--line);
+        background: #0f172a;
+        border-radius: 13px;
+        margin: 9px 0;
+        line-height: 1.45;
+      }
+      .rule b {
+        color: #fff;
+      }
+      .example {
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        margin-top: 5px;
+      }
+      .arrow {
+        color: var(--good);
+        font-weight: 900;
+      }
+      .current {
+        border-color: #475569;
+      }
+      .note {
+        font-size: 0.79rem;
+        color: var(--muted);
+        margin-top: 9px;
+      }
+      @media (max-width: 800px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .steps {
+          grid-template-columns: 1fr;
+        }
+        .stats {
+          width: 100%;
+        }
+        .stat {
+          flex: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="top">
+        <div>
+          <div class="tag">Chapitre 1 • Entraînement (3)</div>
+          <h1>Calculs relatifs : la méthode</h1>
+          <p class="intro">
+            Je suis toujours les <b>3 mêmes étapes</b> jusqu'au résultat final.
+          </p>
+        </div>
+        <div class="stats">
+          <div class="stat"><b id="points">0</b><small>points</small></div>
+          <div class="stat"><b id="streak">0</b><small>série</small></div>
+        </div>
+      </div>
 
-<div class="steps">
-<div class="step active" id="step1">1 • Transformer<small>Je fais disparaître les −</small></div>
-<div class="step" id="step2">2 • Regrouper<small>Négatifs ensemble, positifs ensemble</small></div>
-<div class="step" id="step3">3 • Calculer<small>Je donne le résultat</small></div>
-</div>
+      <div class="steps">
+        <div class="step active" id="step1">
+          1 • Transformer<small>Je fais disparaître les −</small>
+        </div>
+        <div class="step" id="step2">
+          2 • Regrouper<small>Négatifs ensemble, positifs ensemble</small>
+        </div>
+        <div class="step" id="step3">
+          3 • Calculer<small>Je donne le résultat</small>
+        </div>
+      </div>
 
-<div class="grid"><main class="card">
-<div class="expr" id="expression"></div>
-<p class="instruction" id="instruction"></p>
-<div class="screen" id="screen"></div>
-<div class="keys">
-<button class="key" data-k="7">7</button><button class="key" data-k="8">8</button><button class="key" data-k="9">9</button><button class="key op" data-k="+">+</button><button class="key op" data-k="(">(</button>
-<button class="key" data-k="4">4</button><button class="key" data-k="5">5</button><button class="key" data-k="6">6</button><button class="key op" data-k="-">−</button><button class="key op" data-k=")">)</button>
-<button class="key" data-k="1">1</button><button class="key" data-k="2">2</button><button class="key" data-k="3">3</button><button class="key" data-k="0">0</button><button class="key" id="back">⌫</button>
-<button class="key wide" id="clear">Effacer</button>
-</div>
-<div class="feedback" id="feedback">À toi de jouer.</div>
-<div class="actions"><button class="primary" id="check">Vérifier</button><button class="secondary" id="nothing">Il n'y a rien à changer</button><button class="secondary hidden" id="continue">Étape suivante</button><button class="secondary hidden" id="next">Calcul suivant</button></div>
-<div class="note">Les espaces sont ignorés. Pour un positif, 3, +3 et (+3) sont acceptés.</div>
-</main>
+      <div class="grid">
+        <main class="card">
+          <div class="expr" id="expression"></div>
+          <p class="instruction" id="instruction"></p>
+          <div class="screen" id="screen"></div>
+          <div class="keys">
+            <button class="key" data-k="7">7</button
+            ><button class="key" data-k="8">8</button
+            ><button class="key" data-k="9">9</button
+            ><button class="key op" data-k="+">+</button
+            ><button class="key op" data-k="(">(</button>
+            <button class="key" data-k="4">4</button
+            ><button class="key" data-k="5">5</button
+            ><button class="key" data-k="6">6</button
+            ><button class="key op" data-k="-">−</button
+            ><button class="key op" data-k=")">)</button>
+            <button class="key" data-k="1">1</button
+            ><button class="key" data-k="2">2</button
+            ><button class="key" data-k="3">3</button
+            ><button class="key" data-k="0">0</button
+            ><button class="key" id="back">⌫</button>
+            <button class="key wide" id="clear">Effacer</button>
+          </div>
+          <div class="feedback" id="feedback">À toi de jouer.</div>
+          <div class="actions">
+            <button class="primary" id="check">Vérifier</button
+            ><button class="secondary" id="nothing">
+              Il n'y a rien à changer</button
+            ><button class="secondary hidden" id="continue">
+              Étape suivante</button
+            ><button class="secondary hidden" id="next">Calcul suivant</button>
+          </div>
+          <div class="note">
+            Les espaces sont ignorés. Pour un positif, 3, +3 et (+3) sont
+            acceptés.
+          </div>
+        </main>
 
-<aside class="card memo"><h2>La procédure</h2>
-<div class="rule"><b>1. Je transforme les soustractions.</b><div class="example">(-3)+4-5-(-2)<br><span class="arrow">→</span> (-3)+4+(-5)+2</div></div>
-<div class="rule"><b>2. Je regroupe.</b><div class="example">(-3)+4+(-5)+2<br><span class="arrow">→</span> (-8)+6</div></div>
-<div class="rule"><b>3. Je calcule.</b><div class="example">(-8)+6<br><span class="arrow">→</span> 8 − 6 = 2<br>8 est le plus grand → signe −<br><span class="arrow">→</span> <b>−2</b></div></div>
-</aside></div></div>
+        <aside class="card memo">
+          <h2>La procédure</h2>
+          <div class="rule">
+            <b>1. Je transforme les soustractions.</b>
+            <div class="example">
+              (-3)+4-5-(-2)<br /><span class="arrow">→</span> (-3)+4+(-5)+2
+            </div>
+          </div>
+          <div class="rule">
+            <b>2. Je regroupe.</b>
+            <div class="example">
+              (-3)+4+(-5)+2<br /><span class="arrow">→</span> (-8)+6
+            </div>
+          </div>
+          <div class="rule">
+            <b>3. Je calcule.</b>
+            <div class="example">
+              (-8)+6<br /><span class="arrow">→</span> 8 − 6 = 2<br />8 est le
+              plus grand → signe −<br /><span class="arrow">→</span> <b>−2</b>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
 
-<script>
-const $=id=>document.getElementById(id);
-let stage=1,points=0,streak=0,typed="",locked=false,P=null;
-const bank=[
-"(-3)+4-5-(-2)","(-6)-3+5-(-4)-3","7+(-2)-5+3","(-4)-(-6)+2-5",
-"8-3+(-7)-(-2)","(-5)+9-4+(-3)","6+(-2)+5-8","(-7)-2+4-(-3)",
-"5+(-8)+3+(-2)","(-4)+7+(-5)+2"
-];
-const compact=s=>s.replace(/\s/g,"").replace(/−/g,"-");
+    <script>
+      const $ = (id) => document.getElementById(id);
+      let stage = 1,
+        points = 0,
+        streak = 0,
+        typed = "",
+        locked = false,
+        P = null;
+      const bank = [
+        "(-3)+4-5-(-2)",
+        "(-6)-3+5-(-4)-3",
+        "7+(-2)-5+3",
+        "(-4)-(-6)+2-5",
+        "8-3+(-7)-(-2)",
+        "(-5)+9-4+(-3)",
+        "6+(-2)+5-8",
+        "(-7)-2+4-(-3)",
+        "5+(-8)+3+(-2)",
+        "(-4)+7+(-5)+2",
+      ];
+      const compact = (s) => s.replace(/\s/g, "").replace(/−/g, "-");
 
-function numberOf(t){
- t=t.trim();
- while(t.startsWith("(")&&t.endsWith(")"))t=t.slice(1,-1);
- return /^[+-]?\d+$/.test(t)?Number(t):null;
-}
-function parseOriginal(s){
- s=compact(s);let d=0,start=0,terms=[],ops=[];
- for(let i=0;i<s.length;i++){
-  let c=s[i];if(c==="(")d++;else if(c===")")d--;
-  else if(d===0&&i>start&&(c==="+"||c==="-")){terms.push(s.slice(start,i));ops.push(c);start=i+1}
- }
- terms.push(s.slice(start));
- let vals=terms.map(numberOf), transformed=[vals[0]];
- for(let i=0;i<ops.length;i++)transformed.push(ops[i]==="-"?-vals[i+1]:vals[i+1]);
- return {ops,transformed};
-}
-function parseAddition(s){
- s=compact(s);if(!s)return null;let d=0,start=0,terms=[];
- for(let i=0;i<s.length;i++){
-  let c=s[i];if(c==="(")d++;else if(c===")")d--;
-  if(d<0)return null;
-  if(d===0&&i>start&&c==="-")return null;
-  if(d===0&&i>start&&c==="+"){terms.push(s.slice(start,i));start=i+1}
- }
- if(d!==0)return null;terms.push(s.slice(start));
- let vals=terms.map(numberOf);return vals.some(v=>v===null)?null:vals;
-}
-function fmt(v,first=false){if(first)return v<0?`(${v})`:`${v}`;return v<0?`+(${v})`:`+${v}`}
-function transformedText(){return P.transformed.map((v,i)=>fmt(v,i===0)).join("")}
-function grouped(){
- let neg=P.transformed.filter(v=>v<0).reduce((a,b)=>a+b,0);
- let pos=P.transformed.filter(v=>v>0).reduce((a,b)=>a+b,0);
- let arr=[];if(neg!==0)arr.push(neg);if(pos!==0)arr.push(pos);if(!arr.length)arr=[0];return {neg,pos,arr};
-}
-function groupedText(){return grouped().arr.map((v,i)=>fmt(v,i===0)).join("")}
-function same(a,b){return a&&b&&a.length===b.length&&a.every((v,i)=>v===b[i])}
-function setStage(n){
- stage=n;typed="";locked=false;$("screen").textContent="";$("feedback").className="feedback";$("feedback").textContent="À toi de jouer.";
- $("check").classList.remove("hidden");$("continue").classList.add("hidden");$("next").classList.add("hidden");$("nothing").classList.toggle("hidden",stage!==1);
- ["step1","step2","step3"].forEach((id,i)=>$(id).className="step"+(i+1===stage?" active":i+1<stage?" done":""));
- if(stage===1){$("expression").textContent=P.raw.replace(/-/g,"−");$("instruction").innerHTML="Vérifie s'il y a un <b>− en dehors des parenthèses</b>. S'il y en a, transforme chaque soustraction en addition de l'opposé."}
- if(stage===2){$("expression").textContent=transformedText().replace(/-/g,"−");$("instruction").innerHTML="Additionne <b>tous les négatifs entre eux</b> et <b>tous les positifs entre eux</b>. Écris les deux nombres obtenus."}
- if(stage===3){$("expression").textContent=groupedText().replace(/-/g,"−");$("instruction").innerHTML="Donne le <b>résultat final</b>. Si les signes sont différents : GRAND − PETIT, puis prends le signe du nombre dont la valeur absolue est la plus grande."}
-}
-function newProblem(){let raw=bank[Math.floor(Math.random()*bank.length)];P={raw,...parseOriginal(raw)};setStage(1)}
-function success(msg){locked=true;points+=10;streak++;$("points").textContent=points;$("streak").textContent=streak;$("feedback").className="feedback good";$("feedback").textContent=msg+" +10 points";$("check").classList.add("hidden");$("nothing").classList.add("hidden");if(stage<3)$("continue").classList.remove("hidden");else $("next").classList.remove("hidden")}
-function fail(msg){streak=0;$("streak").textContent=0;$("feedback").className="feedback bad";$("feedback").textContent=msg}
-function verify(){
- if(locked)return;
- if(stage===1){
-  let got=parseAddition(typed);
-  if(same(got,P.transformed))success("Parfait. Toutes les soustractions ont disparu.");
-  else fail("Pas encore : chaque − extérieur devient + et le nombre qui suit prend son opposé.");
- }else if(stage===2){
-  let got=parseAddition(typed),exp=grouped().arr;
-  if(same(got,exp)||same(got,[...exp].reverse()))success("Oui. Les négatifs et les positifs sont regroupés.");
-  else fail("Additionne séparément tous les nombres négatifs et tous les nombres positifs.");
- }else{
-  let {neg,pos}=grouped(),res=neg+pos,t=compact(typed);
-  while(t.startsWith("(")&&t.endsWith(")"))t=t.slice(1,-1);
-  if(/^[+-]?\d+$/.test(t)&&Number(t)===res)success("Exact. Tu as terminé le calcul !");
-  else fail("Vérifie les valeurs absolues : GRAND − PETIT, puis choisis le signe de la plus grande.");
- }
-}
-$("nothing").onclick=()=>P.ops.includes("-")?fail("Il y a au moins une soustraction à transformer."):success("Exact : il n'y avait aucune soustraction à transformer.");
-document.querySelectorAll("[data-k]").forEach(k=>k.onclick=()=>{if(!locked){typed+=k.dataset.k;$("screen").textContent=typed.replace(/-/g,"−")}});
-$("back").onclick=()=>{if(!locked){typed=typed.slice(0,-1);$("screen").textContent=typed.replace(/-/g,"−")}};
-$("clear").onclick=()=>{if(!locked){typed="";$("screen").textContent=""}};
-$("check").onclick=verify;$("continue").onclick=()=>setStage(stage+1);$("next").onclick=newProblem;
-newProblem();
-</script>
-</body></html>
+      function numberOf(t) {
+        t = t.trim();
+        while (t.startsWith("(") && t.endsWith(")")) t = t.slice(1, -1);
+        return /^[+-]?\d+$/.test(t) ? Number(t) : null;
+      }
+      function parseOriginal(s) {
+        s = compact(s);
+        let d = 0,
+          start = 0,
+          terms = [],
+          ops = [];
+        for (let i = 0; i < s.length; i++) {
+          let c = s[i];
+          if (c === "(") d++;
+          else if (c === ")") d--;
+          else if (d === 0 && i > start && (c === "+" || c === "-")) {
+            terms.push(s.slice(start, i));
+            ops.push(c);
+            start = i + 1;
+          }
+        }
+        terms.push(s.slice(start));
+        let vals = terms.map(numberOf),
+          transformed = [vals[0]];
+        for (let i = 0; i < ops.length; i++)
+          transformed.push(ops[i] === "-" ? -vals[i + 1] : vals[i + 1]);
+        return { ops, transformed };
+      }
+      function parseAddition(s) {
+        s = compact(s);
+        if (!s) return null;
+        let d = 0,
+          start = 0,
+          terms = [];
+        for (let i = 0; i < s.length; i++) {
+          let c = s[i];
+          if (c === "(") d++;
+          else if (c === ")") d--;
+          if (d < 0) return null;
+          if (d === 0 && i > start && c === "-") return null;
+          if (d === 0 && i > start && c === "+") {
+            terms.push(s.slice(start, i));
+            start = i + 1;
+          }
+        }
+        if (d !== 0) return null;
+        terms.push(s.slice(start));
+        let vals = terms.map(numberOf);
+        return vals.some((v) => v === null) ? null : vals;
+      }
+      function fmt(v, first = false) {
+        if (first) return v < 0 ? `(${v})` : `${v}`;
+        return v < 0 ? `+(${v})` : `+${v}`;
+      }
+      function transformedText() {
+        return P.transformed.map((v, i) => fmt(v, i === 0)).join("");
+      }
+      function grouped() {
+        let neg = P.transformed.filter((v) => v < 0).reduce((a, b) => a + b, 0);
+        let pos = P.transformed.filter((v) => v > 0).reduce((a, b) => a + b, 0);
+        let arr = [];
+        if (neg !== 0) arr.push(neg);
+        if (pos !== 0) arr.push(pos);
+        if (!arr.length) arr = [0];
+        return { neg, pos, arr };
+      }
+      function groupedText() {
+        return grouped()
+          .arr.map((v, i) => fmt(v, i === 0))
+          .join("");
+      }
+      function same(a, b) {
+        return a && b && a.length === b.length && a.every((v, i) => v === b[i]);
+      }
+      function setStage(n) {
+        stage = n;
+        typed = "";
+        locked = false;
+        $("screen").textContent = "";
+        $("feedback").className = "feedback";
+        $("feedback").textContent = "À toi de jouer.";
+        $("check").classList.remove("hidden");
+        $("continue").classList.add("hidden");
+        $("next").classList.add("hidden");
+        $("nothing").classList.toggle("hidden", stage !== 1);
+        ["step1", "step2", "step3"].forEach(
+          (id, i) =>
+            ($(id).className =
+              "step" +
+              (i + 1 === stage ? " active" : i + 1 < stage ? " done" : "")),
+        );
+        if (stage === 1) {
+          $("expression").textContent = P.raw.replace(/-/g, "−");
+          $("instruction").innerHTML =
+            "Vérifie s'il y a un <b>− en dehors des parenthèses</b>. S'il y en a, transforme chaque soustraction en addition de l'opposé.";
+        }
+        if (stage === 2) {
+          $("expression").textContent = transformedText().replace(/-/g, "−");
+          $("instruction").innerHTML =
+            "Additionne <b>tous les négatifs entre eux</b> et <b>tous les positifs entre eux</b>. Écris les deux nombres obtenus.";
+        }
+        if (stage === 3) {
+          $("expression").textContent = groupedText().replace(/-/g, "−");
+          $("instruction").innerHTML =
+            "Donne le <b>résultat final</b>. Si les signes sont différents : GRAND − PETIT, puis prends le signe du nombre dont la valeur absolue est la plus grande.";
+        }
+      }
+      function newProblem() {
+        let raw = bank[Math.floor(Math.random() * bank.length)];
+        P = { raw, ...parseOriginal(raw) };
+        setStage(1);
+      }
+      function success(msg) {
+        locked = true;
+        points += 10;
+        streak++;
+        $("points").textContent = points;
+        $("streak").textContent = streak;
+        $("feedback").className = "feedback good";
+        $("feedback").textContent = msg + " +10 points";
+        $("check").classList.add("hidden");
+        $("nothing").classList.add("hidden");
+        if (stage < 3) $("continue").classList.remove("hidden");
+        else $("next").classList.remove("hidden");
+      }
+      function fail(msg) {
+        streak = 0;
+        $("streak").textContent = 0;
+        $("feedback").className = "feedback bad";
+        $("feedback").textContent = msg;
+      }
+      function verify() {
+        if (locked) return;
+        if (stage === 1) {
+          let got = parseAddition(typed);
+          if (same(got, P.transformed))
+            success("Parfait. Toutes les soustractions ont disparu.");
+          else
+            fail(
+              "Pas encore : chaque − extérieur devient + et le nombre qui suit prend son opposé.",
+            );
+        } else if (stage === 2) {
+          let got = parseAddition(typed),
+            exp = grouped().arr;
+          if (same(got, exp) || same(got, [...exp].reverse()))
+            success("Oui. Les négatifs et les positifs sont regroupés.");
+          else
+            fail(
+              "Additionne séparément tous les nombres négatifs et tous les nombres positifs.",
+            );
+        } else {
+          let { neg, pos } = grouped(),
+            res = neg + pos,
+            t = compact(typed);
+          while (t.startsWith("(") && t.endsWith(")")) t = t.slice(1, -1);
+          if (/^[+-]?\d+$/.test(t) && Number(t) === res)
+            success("Exact. Tu as terminé le calcul !");
+          else
+            fail(
+              "Vérifie les valeurs absolues : GRAND − PETIT, puis choisis le signe de la plus grande.",
+            );
+        }
+      }
+      $("nothing").onclick = () =>
+        P.ops.includes("-")
+          ? fail("Il y a au moins une soustraction à transformer.")
+          : success("Exact : il n'y avait aucune soustraction à transformer.");
+      document.querySelectorAll("[data-k]").forEach(
+        (k) =>
+          (k.onclick = () => {
+            if (!locked) {
+              typed += k.dataset.k;
+              $("screen").textContent = typed.replace(/-/g, "−");
+            }
+          }),
+      );
+      $("back").onclick = () => {
+        if (!locked) {
+          typed = typed.slice(0, -1);
+          $("screen").textContent = typed.replace(/-/g, "−");
+        }
+      };
+      $("clear").onclick = () => {
+        if (!locked) {
+          typed = "";
+          $("screen").textContent = "";
+        }
+      };
+      $("check").onclick = verify;
+      $("continue").onclick = () => setStage(stage + 1);
+      $("next").onclick = newProblem;
+      newProblem();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Lecture fluence — Niveau 1</title>
+    <style>
+      :root {
+        --ink: #17324d;
+        --muted: #6c7d8d;
+        --blue: #3d8fd1;
+        --blue2: #eaf5fc;
+        --paper: #fffdf9;
+        --line: #d9e5ee;
+        --good: #2f8f63;
+        --bad: #c95858;
+        --shadow: 0 12px 30px rgba(35, 70, 100, 0.1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          Arial,
+          sans-serif;
+        color: var(--ink);
+        background: linear-gradient(180deg, #eef8fd 0, #fff 38%, #fffaf3 100%);
+        min-height: 100vh;
+      }
+      .wrap {
+        width: min(920px, calc(100% - 28px));
+        margin: auto;
+        padding: 22px 0 48px;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      .back {
+        color: var(--ink);
+        text-decoration: none;
+        font-weight: 750;
+      }
+      .badge {
+        background: #fff4cf;
+        border: 1px solid #f0dfaa;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-weight: 800;
+        font-size: 0.9rem;
+      }
+      .hero,
+      .card {
+        background: rgba(255, 255, 255, 0.94);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+      }
+      .hero {
+        padding: 26px;
+        text-align: center;
+      }
+      .kicker {
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 900;
+        color: var(--blue);
+      }
+      h1 {
+        font-size: clamp(1.8rem, 5vw, 3rem);
+        margin: 0.25rem 0 0.45rem;
+      }
+      .hero p {
+        max-width: 650px;
+        margin: auto;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+      .progress {
+        height: 10px;
+        background: #e8eef2;
+        border-radius: 99px;
+        overflow: hidden;
+        margin: 22px 0 8px;
+      }
+      .progress > div {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, #6eb6e5, #3d8fd1);
+        transition: width 0.25s;
+      }
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .card {
+        margin-top: 18px;
+        padding: 24px;
+      }
+      .instructions {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 14px;
+        align-items: start;
+      }
+      .icon {
+        font-size: 2rem;
+      }
+      .instructions strong {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .instructions p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .pair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin: 26px 0 20px;
+      }
+      .word {
+        min-height: 94px;
+        border: 2px solid #cfe1ee;
+        border-radius: 18px;
+        background: var(--paper);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px;
+        text-align: center;
+        font-size: clamp(1.35rem, 5vw, 2.15rem);
+        font-weight: 850;
+        overflow-wrap: anywhere;
+      }
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      button {
+        appearance: none;
+        border: 0;
+        border-radius: 16px;
+        padding: 15px 16px;
+        font: inherit;
+        font-weight: 900;
+        cursor: pointer;
+        min-height: 52px;
+      }
+      button:focus-visible {
+        outline: 4px solid rgba(61, 143, 209, 0.25);
+        outline-offset: 2px;
+      }
+      .same {
+        background: #e9f7ef;
+        color: #226746;
+        border: 1px solid #bfe2cd;
+      }
+      .diff {
+        background: #fff0ef;
+        color: #91413e;
+        border: 1px solid #f0c9c5;
+      }
+      button:hover {
+        filter: brightness(0.98);
+      }
+      .feedback {
+        min-height: 30px;
+        text-align: center;
+        margin-top: 15px;
+        font-weight: 850;
+      }
+      .good {
+        color: var(--good);
+      }
+      .bad {
+        color: var(--bad);
+      }
+      .diffmark {
+        font-weight: 950;
+        color: var(--bad);
+        background: #fff0ef;
+        border-radius: 5px;
+        padding: 0 2px;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 3px;
+      }
+      .results {
+        text-align: center;
+        display: none;
+      }
+      .score {
+        font-size: clamp(2.2rem, 8vw, 4.3rem);
+        font-weight: 950;
+        margin: 10px 0;
+        color: var(--blue);
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin: 18px 0;
+      }
+      .stat {
+        background: #f5f9fc;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px;
+      }
+      .stat b {
+        font-size: 1.35rem;
+        display: block;
+      }
+      .stat span {
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+      .note {
+        background: #fff8dd;
+        border: 1px solid #f0dfaa;
+        border-radius: 16px;
+        padding: 14px;
+        line-height: 1.45;
+      }
+      .restart {
+        background: var(--ink);
+        color: white;
+        width: 100%;
+        margin-top: 16px;
+      }
+      .small {
+        font-size: 0.8rem;
+        color: var(--muted);
+        text-align: center;
+        margin-top: 14px;
+      }
+      @media (max-width: 560px) {
+        .wrap {
+          width: min(100% - 18px, 920px);
+        }
+        .hero,
+        .card {
+          border-radius: 20px;
+          padding: 18px;
+        }
+        .pair {
+          gap: 8px;
+        }
+        .word {
+          min-height: 82px;
+          padding: 8px;
+        }
+        .stats {
+          grid-template-columns: 1fr;
+        }
+        .top {
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <div class="top">
+        <a class="back" href="./">← Retour au français 5ème</a>
+        <span class="badge">Lecture fluence · Niveau 1</span>
+      </div>
+
+      <section class="hero">
+        <div class="kicker">Je regarde chaque lettre</div>
+        <h1>Même mot ou pas ?</h1>
+        <p>
+          Observe attentivement les deux mots. Sont-ils exactement identiques ?
+          Ici, la priorité est de répondre juste. Ton temps sert seulement à
+          mesurer tes progrès.
+        </p>
+        <div class="progress" aria-label="Progression">
+          <div id="bar"></div>
+        </div>
+        <div class="meta">
+          <span id="step">Question 1 / 5</span
+          ><span id="correct">0 bonne réponse</span>
+        </div>
+      </section>
+
+      <section class="card" id="game">
+        <div class="instructions">
+          <div class="icon">👀</div>
+          <div>
+            <strong>Regarde bien jusqu'au bout.</strong>
+            <p>
+              Une seule lettre, un accent ou une terminaison peut changer.
+              Prends le temps de vérifier avant de cliquer.
+            </p>
+          </div>
+        </div>
+
+        <div class="pair" aria-live="polite">
+          <div class="word" id="w1"></div>
+          <div class="word" id="w2"></div>
+        </div>
+
+        <div class="actions">
+          <button class="same" id="same">✓ Même mot</button>
+          <button class="diff" id="diff">≠ Pas le même</button>
+        </div>
+        <div class="feedback" id="feedback" aria-live="polite"></div>
+      </section>
+
+      <section class="card results" id="results">
+        <div class="kicker">Parcours terminé</div>
+        <h2>Ton résultat</h2>
+        <div class="score" id="score"></div>
+        <div class="stats">
+          <div class="stat">
+            <b id="rCorrect"></b><span>bonnes réponses</span>
+          </div>
+          <div class="stat"><b id="rTime"></b><span>temps total</span></div>
+          <div class="stat"><b id="rPoints"></b><span>points</span></div>
+        </div>
+        <div class="note" id="message"></div>
+        <button class="restart" id="restart">
+          Recommencer et battre mon score
+        </button>
+        <div class="small">
+          Ton meilleur résultat est enregistré sur cet appareil.
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const SAME_ITEMS = [
+        ["ailleurs", "ailleurs"],
+        ["soigneux", "soigneux"],
+        ["empreinte", "empreinte"],
+        ["accueil", "accueil"],
+        ["signaler", "signaler"],
+        ["mystérieux", "mystérieux"],
+        ["aiguille", "aiguille"],
+        ["apparition", "apparition"],
+        ["prochainement", "prochainement"],
+        ["remerciement", "remerciement"],
+        ["comprendre", "comprendre"],
+        ["merveilleusement", "merveilleusemant"],
+        ["déséquilibre", "déséquilibre"],
+        ["caillou", "caillou"],
+        ["irremplaçable", "irremplaçable"],
+        ["particulièrement", "particulièrement"],
+        ["cependant", "cependant"],
+        ["empreinte", "empreinte"],
+        ["apparition", "apparition"],
+        ["chaleureusement", "chaleureusement"],
+        ["attention", "attention"],
+        ["groseille", "groseille"],
+        ["ennui", "ennui"],
+        ["effort", "effort"],
+        ["respiration", "respiration"],
+        ["directement", "directement"],
+        ["température", "température"],
+      ];
+
+      const DIFF_ITEMS = [
+        ["ailleurs", "ailleur"],
+        ["soigieux", "soigneux"],
+        ["empreinte", "emprunte"],
+        ["accueil", "acueil"],
+        ["signaler", "signalier"],
+        ["mystèrieux", "mystérieux"],
+        ["aiguille", "eiguille"],
+        ["apparition", "aparition"],
+        ["prochainment", "prochainement"],
+        ["remerciement", "remerciment"],
+        ["comprendre", "compendre"],
+        ["merveilleusement", "merveilleusemant"],
+        ["déséquilibre", "déséquillibre"],
+        ["caillou", "cailou"],
+        ["irremplaçable", "irremplacable"],
+        ["ceperdant", "cependant"][("particulièrement", "particuliérement")],
+        ["accompagnement", "acompagnement"],
+        ["chaleureusement", "chaleureusemant"],
+        ["attention", "atention"],
+        ["soigneux", "soigneuse"],
+        ["groseille", "grosseille"],
+        ["mystérieux", "mystérieuse"],
+        ["longueur", "longeur"],
+        ["mailleur", "meilleur"],
+        ["ennui", "emui"],
+        ["effort", "efford"],
+        ["respiration", "respiraton"],
+        ["directement", "dirèctement"],
+        ["tempèrature", "température"],
+      ];
+
+      let deck = [],
+        index = 0,
+        good = 0,
+        started = 0,
+        locked = false,
+        mistakes = [],
+        reviewMode = false;
+      const $ = (id) => document.getElementById(id);
+
+      function shuffle(a) {
+        const b = [...a];
+        for (let i = b.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [b[i], b[j]] = [b[j], b[i]];
+        }
+        return b;
+      }
+
+      function buildDeck() {
+        // Une session = 5 cartes tirées au hasard dans toute la banque.
+        // Les cartes "même mot" et "pas le même" sont donc renouvelées à chaque partie.
+        const bank = [
+          ...SAME_ITEMS.map((x) => [x[0], x[1], 1]),
+          ...DIFF_ITEMS.map((x) => [x[0], x[1], 0]),
+        ];
+        return shuffle(bank).slice(0, 5);
+      }
+
+      function newGame() {
+        deck = buildDeck();
+        index = 0;
+        good = 0;
+        mistakes = [];
+        reviewMode = false;
+        started = performance.now();
+        locked = false;
+        $("results").style.display = "none";
+        $("game").style.display = "block";
+        render();
+      }
+
+      function render() {
+        const [a, b] = deck[index];
+        $("w1").textContent = a;
+        $("w2").textContent = b;
+        $("feedback").textContent = "";
+        $("feedback").className = "feedback";
+        $("step").textContent = reviewMode
+          ? `Révision ${index + 1} / ${deck.length}`
+          : `Question ${index + 1} / ${deck.length}`;
+        $("correct").textContent =
+          `${good} bonne${good > 1 ? "s" : ""} réponse${good > 1 ? "s" : ""}`;
+        $("bar").style.width = `${(index / deck.length) * 100}%`;
+        locked = false;
+      }
+
+      function highlightDifferences(a, b) {
+        // Longest common subsequence: highlights only the characters that differ,
+        // even when a letter has been inserted or omitted.
+        const A = [...a],
+          B = [...b],
+          m = A.length,
+          n = B.length;
+        const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+        for (let i = m - 1; i >= 0; i--) {
+          for (let j = n - 1; j >= 0; j--) {
+            dp[i][j] =
+              A[i] === B[j]
+                ? 1 + dp[i + 1][j + 1]
+                : Math.max(dp[i + 1][j], dp[i][j + 1]);
+          }
+        }
+        const sameA = Array(m).fill(false),
+          sameB = Array(n).fill(false);
+        let i = 0,
+          j = 0;
+        while (i < m && j < n) {
+          if (A[i] === B[j]) {
+            sameA[i] = true;
+            sameB[j] = true;
+            i++;
+            j++;
+          } else if (dp[i + 1][j] >= dp[i][j + 1]) i++;
+          else j++;
+        }
+        const esc = (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c] || c;
+        const mark = (arr, same) =>
+          arr
+            .map((c, k) =>
+              same[k] ? esc(c) : `<span class="diffmark">${esc(c)}</span>`,
+            )
+            .join("");
+        $("w1").innerHTML = mark(A, sameA);
+        $("w2").innerHTML = mark(B, sameB);
+      }
+
+      function answer(same) {
+        if (locked) return;
+        locked = true;
+        const item = deck[index];
+        const ok = (same ? 1 : 0) === item[2];
+
+        if (ok) {
+          good++;
+          $("feedback").textContent = "Bien vu ! ✓";
+          $("feedback").className = "feedback good";
+        } else {
+          if (!reviewMode) mistakes.push(item);
+          if (item[2]) {
+            $("feedback").textContent =
+              "Ils étaient exactement identiques. Regarde-les encore une fois.";
+          } else {
+            highlightDifferences(item[0], item[1]);
+            $("feedback").innerHTML =
+              "Pas tout à fait. <strong>La différence est mise en évidence</strong> : prends le temps de la repérer.";
+          }
+          $("feedback").className = "feedback bad";
+        }
+
+        // Une bonne réponse s'enchaîne assez vite ; après une erreur, on laisse
+        // nettement plus de temps pour observer et comprendre la différence.
+        setTimeout(
+          () => {
+            index++;
+            if (index < deck.length) render();
+            else reviewMode ? finishReview() : finish();
+          },
+          ok ? 800 : 2800,
+        );
+      }
+
+      function formatTime(seconds) {
+        return `${Math.floor(seconds / 60)} min ${String(seconds % 60).padStart(2, "0")} s`;
+      }
+
+      function finish() {
+        const seconds = Math.round((performance.now() - started) / 1000);
+        const accuracy = Math.round((good / deck.length) * 100);
+        const timeBonus = Math.max(0, 300 - seconds);
+        const points = good * 100 + timeBonus;
+        const best = Number(localStorage.getItem("fluence_n1_best") || 0);
+        if (points > best) localStorage.setItem("fluence_n1_best", points);
+
+        $("game").style.display = "none";
+        $("results").style.display = "block";
+        $("bar").style.width = "100%";
+        $("step").textContent = "5 / 5 terminé";
+        $("correct").textContent = `${good} / ${deck.length} justes`;
+        $("score").textContent = `${accuracy} %`;
+        $("rCorrect").textContent = `${good} / ${deck.length}`;
+        $("rTime").textContent = formatTime(seconds);
+        $("rPoints").textContent = points;
+
+        let msg =
+          accuracy === 100
+            ? "Excellent : tu as privilégié l’exactitude. Tu peux recommencer en gardant <strong>zéro erreur</strong>."
+            : accuracy >= 85
+              ? "Très bon travail. Revois maintenant tes erreurs : <strong>lire juste passe avant lire vite</strong>."
+              : "Continue sans te presser. Observe le mot jusqu’à sa dernière lettre avant de répondre.";
+
+        if (mistakes.length) {
+          const rows = mistakes
+            .map(
+              ([a, b, expected]) =>
+                `<div style="padding:8px 0;border-bottom:1px solid #e5edf3"><strong>${a}</strong> / <strong>${b}</strong> — ${expected ? "même mot" : "différents"}</div>`,
+            )
+            .join("");
+          msg += `<div style="margin-top:14px;text-align:left"><strong>Mes erreurs à revoir :</strong>${rows}</div>
+    <button id="review" class="restart" style="margin-top:14px">Revoir uniquement mes erreurs</button>`;
+        }
+
+        $("message").innerHTML = msg;
+        const reviewBtn = $("review");
+        if (reviewBtn) reviewBtn.addEventListener("click", startReview);
+      }
+
+      function startReview() {
+        deck = shuffle(mistakes);
+        index = 0;
+        good = 0;
+        reviewMode = true;
+        started = performance.now();
+        $("results").style.display = "none";
+        $("game").style.display = "block";
+        render();
+      }
+
+      function finishReview() {
+        $("game").style.display = "none";
+        $("results").style.display = "block";
+        $("bar").style.width = "100%";
+        $("step").textContent = "Révision terminée";
+        $("correct").textContent = `${good} / ${deck.length} justes`;
+        $("score").textContent = "Bravo !";
+        $("rCorrect").textContent = `${good} / ${deck.length}`;
+        $("rTime").textContent = "—";
+        $("rPoints").textContent = "—";
+        $("message").innerHTML =
+          "Tu viens de retravailler les mots qui t’avaient posé problème. Recommence le parcours complet pour vérifier tes progrès.";
+      }
+      $("same").addEventListener("click", () => answer(true));
+      $("diff").addEventListener("click", () => answer(false));
+      $("restart").addEventListener("click", newGame);
+      newGame();
+    </script>
+  </body>
+</html>
