@@ -75,9 +75,9 @@ export default function Home() {
               <div className="mt-4 h-1 w-12 rounded-full bg-rose-400" />
 
               <p className="mt-6 text-xl font-medium text-slate-200 sm:text-2xl">
-                Parcours
+                Parcours interactifs
                 <br />
-                interactifs
+                Fluence
               </p>
 
               {/* Livre */}
@@ -184,6 +184,48 @@ export default function Home() {
                     width={280}
                     height={280}
                   />
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div className="grid gap-5">
+            <a
+              href="/histgeo6eme"
+              className="group relative min-h-[270px] overflow-hidden rounded-[2rem] border border-green-400/30 bg-gradient-to-br from-[#171335] via-[#111126] to-[#0b0b16] p-7 shadow-2xl shadow-green-950/20 transition-all duration-500 hover:-translate-y-1 hover:border-green-400/60 hover:shadow-green-900/30 sm:p-9"
+            >
+              <div className="absolute -right-20 top-0 h-72 w-72 rounded-full bg-green-600/20 blur-[70px]" />
+              <div className="absolute bottom-[-100px] right-10 h-52 w-52 rotate-45 rounded-[40px] border border-green-400/10 bg-green-500/5" />
+
+              <span className="absolute right-7 top-6 text-4xl font-bold text-green-300/20">
+                04
+              </span>
+
+              <div className="relative z-10 flex h-full items-center justify-between gap-4">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.35em] text-green-300">
+                    Histoire-Géo
+                  </p>
+
+                  <h2 className="mt-2 text-5xl font-black sm:text-6xl">
+                    <span className="text-green-400">6</span>ème
+                  </h2>
+
+                  <div className="mt-3 h-1 w-10 rounded-full bg-green-400" />
+
+                  <p className="mt-5 text-lg text-slate-300">
+                    Activités et QCM
+                  </p>
+
+                  <div className="mt-6">
+                    <Arrow />
+                  </div>
+                </div>
+
+                {/* Hist-Géo */}
+                <div className="relative flex w-[42%] justify-center">
+                  <div className="absolute inset-0 rounded-full bg-violet-500/20 blur-3xl" />
+                  <Image src="/geo.png" alt="" width={280} height={280} />
                 </div>
               </div>
             </a>
