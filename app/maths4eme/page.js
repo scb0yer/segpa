@@ -17,6 +17,11 @@ const Maths4eme = () => {
       titre: "Les longs calculs en 3 étapes",
       href: "/maths4eme/3-calculs_de_nombres_relatifs_en_3_etapes.html",
     },
+    {
+      numero: "04",
+      titre: "Multiplications de nombres relatifs",
+      href: "/maths4eme/4-multiplications_de_nombres_relatifs.html",
+    },
   ];
 
   return (

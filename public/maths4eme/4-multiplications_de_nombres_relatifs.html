@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mission multiplication — nombres relatifs</title>
+<style>
+:root{--bg:#0f172a;--panel:#111827;--line:#29364d;--text:#f8fafc;--muted:#94a3b8;--accent:#38bdf8;--good:#22c55e;--bad:#ef4444;--violet:#a78bfa}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#16324b 0,transparent 30%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+.wrap{max-width:1000px;margin:auto;padding:25px 16px 45px}.top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}.tag{color:var(--accent);font-size:.8rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}h1{font-size:clamp(1.8rem,4vw,2.7rem);margin:6px 0}.intro{margin:0;color:var(--muted);line-height:1.5}.stats{display:flex;gap:8px}.stat{min-width:88px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:9px 12px;text-align:center}.stat b{display:block;font-size:1.3rem}.stat small{color:var(--muted)}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:20px 0}.level{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:14px;padding:11px;text-align:left;font-weight:850;cursor:pointer}.level.active{border-color:var(--accent);background:#172554;color:#fff}.level small{display:block;font-weight:500;margin-top:3px}
+.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}.card{background:rgba(17,24,39,.97);border:1px solid var(--line);border-radius:21px;padding:21px}.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#172554;color:#bae6fd;font-size:.78rem;font-weight:850}.expr{min-height:125px;margin-top:12px;background:#0b1220;border:1px solid var(--line);border-radius:17px;padding:20px 13px;display:flex;align-items:center;justify-content:center;text-align:center;flex-wrap:wrap;font-size:clamp(1.5rem,5vw,2.35rem);font-weight:900;line-height:1.45}.instruction{color:var(--muted);line-height:1.5}
+.signs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.sign{min-height:70px;border:1px solid #475569;border-radius:14px;background:#1e293b;color:#fff;font-size:2rem;font-weight:900;cursor:pointer}.sign:focus,.key:focus,.primary:focus,.secondary:focus,.level:focus{outline:3px solid rgba(56,189,248,.35);outline-offset:2px}
+.screen{min-height:58px;background:#0b1220;border:1px solid #475569;border-radius:13px;padding:14px;font-size:1.3rem;font-weight:800;word-break:break-all}.screen:empty:before{content:"Ta réponse apparaîtra ici…";color:#64748b;font-weight:400}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:9px}.key{min-height:47px;background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:10px;font-weight:850;font-size:1.05rem;cursor:pointer}.key.op{background:#172554;color:#bae6fd}.key.wide{grid-column:span 2}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.primary,.secondary{min-height:44px;border-radius:12px;padding:10px 14px;font-weight:850;cursor:pointer}.primary{background:var(--accent);color:#06202e;border:0}.secondary{background:#1e293b;color:#e2e8f0;border:1px solid #475569}.feedback{min-height:52px;border:1px solid var(--line);background:#0f172a;border-radius:13px;padding:12px 14px;margin-top:12px;color:#cbd5e1}.feedback.good{background:#10251b;border-color:#166534;color:#dcfce7}.feedback.bad{background:#29161a;border-color:#7f1d1d;color:#fee2e2}.hidden{display:none!important}
+.memo h2{font-size:1rem;margin:0 0 12px}.rule{padding:12px;border:1px solid var(--line);background:#0f172a;border-radius:13px;margin:9px 0;line-height:1.45}.rule b{color:#fff}.ex{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;margin-top:5px}.arrow{color:var(--good);font-weight:900}.tip{font-size:.82rem;color:var(--muted);line-height:1.45}.priority{color:#ddd6fe}.resultline{margin-top:9px;padding-top:9px;border-top:1px solid var(--line);font-size:.86rem;color:var(--muted)}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.levels{grid-template-columns:1fr}.stats{width:100%}.stat{flex:1}}
+</style>
+</head>
+<body><div class="wrap">
+<div class="top"><div><div class="tag">4e • Nombres relatifs</div><h1>Mission multiplication</h1><p class="intro">Du signe d'un produit jusqu'aux calculs avec priorités.</p></div><div class="stats"><div class="stat"><b id="points">0</b><small>points</small></div><div class="stat"><b id="streak">0</b><small>série</small></div></div></div>
+
+<div class="levels">
+<button class="level active" data-level="1">Niveau 1 • Le signe<small>Positif ou négatif ?</small></button>
+<button class="level" data-level="2">Niveau 2 • Le produit<small>Je calcule avec le signe</small></button>
+<button class="level" data-level="3">Niveau 3 • Les priorités<small>+, − et × dans le même calcul</small></button>
+</div>
+
+<div class="grid">
+<main class="card">
+<div class="badge" id="badge">NIVEAU 1</div>
+<div class="expr" id="expr"></div>
+<p class="instruction" id="instruction"></p>
+
+<div id="signArea" class="signs"><button class="sign" data-sign="+">+</button><button class="sign" data-sign="-">−</button></div>
+
+<div id="entryArea" class="hidden">
+<div class="screen" id="screen"></div>
+<div class="keys">
+<button class="key" data-k="7">7</button><button class="key" data-k="8">8</button><button class="key" data-k="9">9</button><button class="key op" data-k="-">−</button>
+<button class="key" data-k="4">4</button><button class="key" data-k="5">5</button><button class="key" data-k="6">6</button><button class="key op" data-k="+">+</button>
+<button class="key" data-k="1">1</button><button class="key" data-k="2">2</button><button class="key" data-k="3">3</button><button class="key" data-k="0">0</button>
+<button class="key wide" id="clear">Effacer</button><button class="key wide" id="back">⌫</button>
+</div>
+</div>
+
+<div class="feedback" id="feedback">À toi de jouer.</div>
+<div class="actions"><button class="primary hidden" id="check">Vérifier</button><button class="secondary hidden" id="next">Calcul suivant</button></div>
+</main>
+
+<aside class="card memo">
+<h2>À retenir</h2>
+<div class="rule"><b>Multiplier 2 nombres</b><div class="ex">même signe <span class="arrow">→</span> +<br>signes différents <span class="arrow">→</span> −</div></div>
+<div class="rule"><b>Multiplier plusieurs nombres</b><div class="ex">nombre de facteurs négatifs pair <span class="arrow">→</span> +<br>nombre de facteurs négatifs impair <span class="arrow">→</span> −</div></div>
+<div class="rule"><b class="priority">Priorités de calcul</b><div class="ex">1. Parenthèses<br>2. Multiplications<br>3. Additions et soustractions</div></div>
+<p class="tip">Au niveau 3, repère d’abord les parenthèses, puis les multiplications. Les facteurs restent inférieurs à 10 et au moins l’un vaut 2, 3 ou 5.</p>
+<div class="resultline" id="progress">Réussites dans ce niveau : 0</div>
+</aside>
+</div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+let level=1, points=0, streak=0, successes=[0,0,0,0], typed="", answer=0, locked=false;
+
+function ri(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function nz(a,b){let n=0;while(n===0)n=ri(a,b);return n}
+function showNum(n){return n<0?`(${n})`:`${n}`}
+function mulText(vals){return vals.map(showNum).join(" × ")}
+function evalTokens(tokens){
+ let a=[...tokens];
+ for(let i=0;i<a.length;i++){if(a[i]==="×"){let v=a[i-1]*a[i+1];a.splice(i-1,3,v);i-=2}}
+ let res=a[0];
+ for(let i=1;i<a.length;i+=2)res=a[i]==="+"?res+a[i+1]:res-a[i+1];
+ return res;
+}
+function makeL1(){
+ let count=ri(2,5), vals=[];
+ for(let i=0;i<count;i++){let n=nz(2,9);if(Math.random()<.48)n=-n;vals.push(n)}
+ answer=vals.reduce((a,b)=>a*b,1);
+ return mulText(vals);
+}
+function makeL2(){
+ const pairs=[[2,2],[2,3],[2,4],[2,5],[2,6],[2,7],[2,8],[2,9],
+ [3,3],[3,4],[3,5],[3,6],[3,7],[3,8],[3,9],[4,4],[4,5],[4,6],
+ [4,7],[4,8],[5,5],[5,6],[5,7],[5,8],[5,9],[6,6],[6,7],[6,8],[7,7]];
+ const triples=[[2,2,2],[2,2,3],[2,2,4],[2,2,5],[2,2,6],
+ [2,3,3],[2,3,4],[2,3,5],[2,3,6],[2,3,7],[2,3,8],
+ [2,4,4],[2,4,5],[2,4,6],[2,5,5],[3,3,3],[3,3,4],[3,3,5]];
+ let source=Math.random()<.55?pairs:triples;
+ let vals=source[ri(0,source.length-1)].slice();
+ vals=vals.map(n=>Math.random()<.5?-n:n);
+ answer=vals.reduce((a,b)=>a*b,1);
+ return mulText(vals);
+}
+function makeL3(){
+ const fav=[2,3,5];
+ const signed=n=>Math.random()<.45?-n:n;
+ const favFactor=()=>signed(fav[ri(0,fav.length-1)]);
+ const otherFactor=()=>signed(ri(2,9));
+ const templates=[
+  ()=>{let a=signed(ri(2,9)),b=favFactor(),c=otherFactor();answer=a+b*c;return `${showNum(a)} + ${showNum(b)} × ${showNum(c)}`},
+  ()=>{let a=signed(ri(2,9)),b=favFactor(),c=otherFactor();answer=a-b*c;return `${showNum(a)} − ${showNum(b)} × ${showNum(c)}`},
+  ()=>{let a=favFactor(),b=otherFactor(),c=signed(ri(2,9));answer=a*b+c;return `${showNum(a)} × ${showNum(b)} + ${showNum(c)}`},
+  ()=>{let a=favFactor(),b=otherFactor(),c=signed(ri(2,9));answer=a*b-c;return `${showNum(a)} × ${showNum(b)} − ${showNum(c)}`},
+  ()=>{let target=fav[ri(0,2)],a=ri(target+1,9),b=a-target,c=otherFactor();answer=(a-b)*c;return `(${showNum(a)} − ${showNum(b)}) × ${showNum(c)}`},
+  ()=>{let target=fav[ri(0,2)],a=ri(1,target-1),b=target-a,c=otherFactor();answer=(a+b)*c;return `(${showNum(a)} + ${showNum(b)}) × ${showNum(c)}`},
+  ()=>{let a=favFactor(),b=ri(3,9),c=ri(1,b-1);answer=a*(b-c);return `${showNum(a)} × (${showNum(b)} − ${showNum(c)})`},
+  ()=>{let a=favFactor(),b=ri(1,4),c=ri(1,Math.min(4,9-b));answer=a*(b+c);return `${showNum(a)} × (${showNum(b)} + ${showNum(c)})`}
+ ];
+ return templates[ri(0,templates.length-1)]();
+}
+function load(){
+ typed="";locked=false;$("screen").textContent="";$("feedback").className="feedback";$("feedback").textContent="À toi de jouer.";$("next").classList.add("hidden");
+ $("badge").textContent=`NIVEAU ${level}`;$("progress").textContent=`Réussites dans ce niveau : ${successes[level]}`;
+ if(level===1){$("expr").textContent=makeL1();$("instruction").innerHTML="Sans effectuer le calcul, détermine le <b>signe du résultat</b>.";$("signArea").classList.remove("hidden");$("entryArea").classList.add("hidden");$("check").classList.add("hidden")}
+ if(level===2){$("expr").textContent=makeL2();$("instruction").innerHTML="Calcule de tête le produit et écris le <b>résultat avec son signe</b>. Le résultat ne dépasse jamais 50 en valeur absolue.";$("signArea").classList.add("hidden");$("entryArea").classList.remove("hidden");$("check").classList.remove("hidden")}
+ if(level===3){$("expr").textContent=makeL3();$("instruction").innerHTML="Calcule en respectant les <b>priorités de calcul</b>. Écris uniquement le résultat final.";$("signArea").classList.add("hidden");$("entryArea").classList.remove("hidden");$("check").classList.remove("hidden")}
+}
+function success(msg){locked=true;points+=10;streak++;successes[level]++;$("points").textContent=points;$("streak").textContent=streak;$("progress").textContent=`Réussites dans ce niveau : ${successes[level]}`;$("feedback").className="feedback good";$("feedback").textContent=msg+"  +10 points";$("check").classList.add("hidden");$("next").classList.remove("hidden")}
+function fail(msg){streak=0;$("streak").textContent=0;$("feedback").className="feedback bad";$("feedback").textContent=msg}
+document.querySelectorAll("[data-sign]").forEach(b=>b.addEventListener("click",()=>{if(locked)return;let correct=answer>=0?"+":"-";if(b.dataset.sign===correct)success("Exact ! Le signe est correct.");else fail("Pas encore. Compte les facteurs négatifs : pair → + ; impair → −.")}));
+document.querySelectorAll("[data-k]").forEach(k=>k.addEventListener("click",()=>{if(!locked){typed+=k.dataset.k;$("screen").textContent=typed.replace(/-/g,"−")}}));
+$("clear").onclick=()=>{if(!locked){typed="";$("screen").textContent=""}};
+$("back").onclick=()=>{if(!locked){typed=typed.slice(0,-1);$("screen").textContent=typed.replace(/-/g,"−")}};
+$("check").onclick=()=>{if(locked)return;let t=typed.trim().replace(/−/g,"-");if(!/^[+-]?\d+$/.test(t)){fail("Écris un nombre entier, avec le signe − si le résultat est négatif.");return}Number(t)===answer?success("Bravo, résultat correct !"):fail(level===3?"Ce n'est pas le bon résultat. Vérifie : parenthèses, puis multiplications, puis additions/soustractions.":"Vérifie d'abord le signe, puis multiplie les valeurs.")};
+$("next").onclick=load;
+document.querySelectorAll("[data-level]").forEach(b=>b.addEventListener("click",()=>{level=Number(b.dataset.level);document.querySelectorAll("[data-level]").forEach(x=>x.classList.toggle("active",x===b));load()}));
+load();
+</script>
+</body>
+</html>
