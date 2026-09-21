@@ -1,310 +1,1076 @@
 <!doctype html>
 <html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mission PGCD</title>
-<style>
-:root{
-  --bg:#0f172a;--panel:#111827;--panel2:#172033;--line:#2b3a55;
-  --text:#f8fafc;--muted:#a8b3c7;--accent:#38bdf8;--good:#22c55e;
-  --bad:#ef4444;--card:#f8fafc;--ink:#102033;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:radial-gradient(circle at 20% 0%,rgba(56,189,248,.14),transparent 28%),linear-gradient(180deg,#0b1222,#111827 60%,#0b1222);
-  color:var(--text);min-height:100vh
-}
-.wrap{max-width:920px;margin:auto;padding:24px 14px 42px}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px}
-.brand h1{margin:0;font-size:clamp(30px,4vw,44px)}
-.brand p{margin:8px 0 0;color:var(--muted)}
-.scorebox{min-width:175px;background:#111827;border:1px solid var(--line);border-radius:18px;padding:14px 16px;text-align:right}
-.label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.14em}
-.score{font-size:30px;font-weight:800}
-.progress-shell{height:10px;background:#1f2a3c;border-radius:999px;overflow:hidden;margin:10px 0 24px}
-.progress{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#60a5fa);transition:.35s}
-.grid{display:grid;grid-template-columns:1.08fr .92fr;gap:18px}
-.panel{background:rgba(17,24,39,.95);border:1px solid var(--line);border-radius:22px;overflow:hidden}
-.head{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
-.head h2{margin:0;font-size:20px}
-.badge{font-size:12px;padding:7px 10px;border:1px solid #34506f;border-radius:999px;color:#c9e8f7;background:#11263c}
-.content{padding:20px}
-.story{background:linear-gradient(180deg,#f8fafc,#edf2f7);color:var(--ink);border-radius:18px;padding:18px;border:1px solid #d6deea}
-.steps{display:grid;grid-template-columns:1fr;gap:8px;margin-top:14px}
-.step{border-radius:13px;padding:11px 12px;border:1px solid #d4dbe5;background:white;font-weight:700}
-.step.done{background:#ecfdf5;border-color:#bbf7d0}
-.pgcd-card{margin-top:16px;background:#0d1627;border:1px solid var(--line);border-radius:18px;padding:18px}
-.pgcd{text-align:center;font-size:42px;font-weight:800}
-.pgcd small{display:block;font-size:13px;color:#a8b3c7;text-transform:uppercase;letter-spacing:.14em;margin-bottom:6px}
-.rule{margin-top:12px;text-align:center;color:#d8e3ef;font-size:15px}
-.rule b{color:white}
-.question-card{background:#f8fafc;color:var(--ink);border-radius:18px;padding:20px;border:1px solid #dbe3ee}
-.qnum{font-size:12px;letter-spacing:.12em;color:#64748b;text-transform:uppercase}
-.question-card h3{font-size:24px;line-height:1.25;margin:8px 0 16px}
-.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-button.answer{border:none;border-radius:14px;padding:14px 12px;font-size:17px;font-weight:700;cursor:pointer;background:#e8eef6;color:#12243a;border:1px solid #d5deea}
-button.answer:hover{background:#dfe8f2}
-button.answer.correct{background:#dcfce7;border-color:#86efac}
-button.answer.wrong{background:#fee2e2;border-color:#fca5a5}
-.feedback{min-height:58px;margin-top:14px;border-radius:14px;padding:12px 14px;background:#edf3f8;color:#294057}
-.feedback.good{background:#dcfce7;color:#14532d}.feedback.bad{background:#fee2e2;color:#7f1d1d}
-.actions{display:flex;justify-content:flex-end;margin-top:14px}
-button.next,button.restart{border:0;border-radius:12px;padding:12px 16px;font-weight:800;cursor:pointer}
-button.next{background:var(--accent);color:#062033}.restart{background:#26364f;color:white}
-.mini{margin-top:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.mini-card{padding:13px;border-radius:14px;border:1px solid var(--line);background:#121b2b;color:#cbd5e1}
-.mini-card b{color:white}
-.result{text-align:center;padding:32px 22px}.result h2{font-size:34px;margin:0 0 8px}.result p{color:var(--muted)}
-.hidden{display:none!important}
-.footer-note{margin-top:18px;color:#7f8ca4;font-size:13px;text-align:center}
-@media(max-width:820px){
-  .wrap{max-width:560px;padding:14px 10px 30px}
-  .grid{grid-template-columns:1fr;gap:12px}
-  .topbar{align-items:stretch;flex-direction:column;gap:10px;margin-bottom:10px}
-  .brand h1{font-size:30px}.brand p{font-size:14px}
-  .scorebox{width:100%;min-width:0;text-align:left;padding:10px 12px;border-radius:14px}
-  .score{font-size:24px}.progress-shell{margin:8px 0 14px}
-  .panel{border-radius:16px}.head{padding:12px 14px}.head h2{font-size:18px}
-  .badge{font-size:11px;padding:5px 8px}.content{padding:12px}
-  .story{padding:13px;border-radius:14px;font-size:14px}
-  .step{padding:9px 10px;font-size:14px}
-  .pgcd-card{padding:12px;margin-top:10px;border-radius:14px}
-  .pgcd{font-size:34px}.rule{font-size:13px}
-  .mini{grid-template-columns:1fr;gap:6px;margin-top:10px}
-  .mini-card{padding:9px 11px;font-size:12px}
-  .question-card{padding:14px;border-radius:14px}
-  .question-card h3{font-size:20px;margin:6px 0 12px}
-  .answers{grid-template-columns:1fr;gap:7px}
-  button.answer{padding:12px 10px;font-size:16px}
-  .feedback{font-size:14px;padding:10px 11px;min-height:52px}
-  button.next{width:100%}.footer-note{font-size:11px;margin-top:12px}
-}
-@media(max-width:390px){
-  .wrap{padding-left:7px;padding-right:7px}
-  .brand h1{font-size:27px}
-}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div class="topbar">
-    <div class="brand">
-      <h1>Mission PGCD</h1>
-      <p>Trouver le plus grand diviseur commun de deux nombres.</p>
-    </div>
-    <div class="scorebox">
-      <div class="label">Score</div>
-      <div class="score"><span id="score">0</span> pts</div>
-    </div>
-  </div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mission PGCD — 2 niveaux</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --panel: #111827;
+        --panel2: #172033;
+        --line: #2b3a55;
+        --text: #f8fafc;
+        --muted: #a8b3c7;
+        --accent: #38bdf8;
+        --good: #22c55e;
+        --bad: #ef4444;
+        --card: #f8fafc;
+        --ink: #102033;
+        --yellow: #facc15;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Arial,
+          sans-serif;
+        background:
+          radial-gradient(
+            circle at 20% 0%,
+            rgba(56, 189, 248, 0.14),
+            transparent 28%
+          ),
+          linear-gradient(180deg, #0b1222, #111827 60%, #0b1222);
+        color: var(--text);
+        min-height: 100vh;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      .wrap {
+        max-width: 920px;
+        margin: auto;
+        padding: 24px 14px 42px;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 16px;
+      }
+      .brand h1 {
+        margin: 0;
+        font-size: clamp(30px, 4vw, 44px);
+      }
+      .brand p {
+        margin: 8px 0 0;
+        color: var(--muted);
+      }
+      .scorebox {
+        min-width: 175px;
+        background: #111827;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 14px 16px;
+        text-align: right;
+      }
+      .label {
+        font-size: 12px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+      }
+      .score {
+        font-size: 30px;
+        font-weight: 800;
+      }
+      .tabs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 9px;
+        margin: 0 0 14px;
+      }
+      .tab {
+        border: 1px solid var(--line);
+        background: #111827;
+        color: #b9c5d6;
+        border-radius: 15px;
+        padding: 12px;
+        cursor: pointer;
+        text-align: left;
+      }
+      .tab b {
+        display: block;
+        color: #fff;
+        font-size: 15px;
+        margin-bottom: 3px;
+      }
+      .tab span {
+        font-size: 12px;
+      }
+      .tab.active {
+        border-color: #38bdf8;
+        background: #11263c;
+        box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.12) inset;
+      }
+      .tab.active span {
+        color: #c9e8f7;
+      }
+      .progress-shell {
+        height: 10px;
+        background: #1f2a3c;
+        border-radius: 999px;
+        overflow: hidden;
+        margin: 10px 0 20px;
+      }
+      .progress {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, var(--accent), #60a5fa);
+        transition: 0.35s;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1.02fr 0.98fr;
+        gap: 18px;
+      }
+      .panel {
+        background: rgba(17, 24, 39, 0.95);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        overflow: hidden;
+      }
+      .head {
+        padding: 17px 20px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .head h2 {
+        margin: 0;
+        font-size: 20px;
+      }
+      .badge {
+        font-size: 12px;
+        padding: 7px 10px;
+        border: 1px solid #34506f;
+        border-radius: 999px;
+        color: #c9e8f7;
+        background: #11263c;
+        white-space: nowrap;
+      }
+      .content {
+        padding: 20px;
+      }
+      .story {
+        background: linear-gradient(180deg, #f8fafc, #edf2f7);
+        color: var(--ink);
+        border-radius: 18px;
+        padding: 18px;
+        border: 1px solid #d6deea;
+        line-height: 1.45;
+      }
+      .steps {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-top: 14px;
+      }
+      .step {
+        border-radius: 13px;
+        padding: 11px 12px;
+        border: 1px solid #d4dbe5;
+        background: white;
+        font-weight: 700;
+      }
+      .step.done {
+        background: #ecfdf5;
+        border-color: #bbf7d0;
+      }
+      .pgcd-card {
+        margin-top: 16px;
+        background: #0d1627;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 18px;
+      }
+      .pgcd {
+        text-align: center;
+        font-size: 42px;
+        font-weight: 800;
+      }
+      .pgcd small {
+        display: block;
+        font-size: 13px;
+        color: #a8b3c7;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        margin-bottom: 6px;
+      }
+      .rule {
+        margin-top: 12px;
+        text-align: center;
+        color: #d8e3ef;
+        font-size: 15px;
+        line-height: 1.45;
+      }
+      .rule b {
+        color: white;
+      }
+      .question-card {
+        background: #f8fafc;
+        color: var(--ink);
+        border-radius: 18px;
+        padding: 20px;
+        border: 1px solid #dbe3ee;
+      }
+      .qnum {
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        color: #64748b;
+        text-transform: uppercase;
+      }
+      .question-card h3 {
+        font-size: 23px;
+        line-height: 1.25;
+        margin: 8px 0 16px;
+      }
+      .answers {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      button.answer {
+        border: none;
+        border-radius: 14px;
+        padding: 14px 12px;
+        font-size: 17px;
+        font-weight: 700;
+        cursor: pointer;
+        background: #e8eef6;
+        color: #12243a;
+        border: 1px solid #d5deea;
+      }
+      button.answer:hover {
+        background: #dfe8f2;
+      }
+      button.answer.correct {
+        background: #dcfce7;
+        border-color: #86efac;
+      }
+      button.answer.wrong {
+        background: #fee2e2;
+        border-color: #fca5a5;
+      }
+      .feedback {
+        min-height: 58px;
+        margin-top: 14px;
+        border-radius: 14px;
+        padding: 12px 14px;
+        background: #edf3f8;
+        color: #294057;
+        line-height: 1.4;
+      }
+      .feedback.good {
+        background: #dcfce7;
+        color: #14532d;
+      }
+      .feedback.bad {
+        background: #fee2e2;
+        color: #7f1d1d;
+      }
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 9px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+      }
+      button.next,
+      button.new {
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      button.next {
+        background: var(--accent);
+        color: #062033;
+      }
+      button.new {
+        background: #26364f;
+        color: white;
+      }
+      .mini {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .mini-card {
+        padding: 13px;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: #121b2b;
+        color: #cbd5e1;
+      }
+      .mini-card b {
+        color: white;
+      }
+      .hidden {
+        display: none !important;
+      }
+      .footer-note {
+        margin-top: 18px;
+        color: #7f8ca4;
+        font-size: 13px;
+        text-align: center;
+      }
 
-  <div class="progress-shell"><div id="progress" class="progress"></div></div>
+      /* Niveau 2 */
+      .calc-list {
+        display: grid;
+        gap: 10px;
+      }
+      .calc-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        flex-wrap: wrap;
+        background: #fff;
+        border: 1px solid #d7e0ea;
+        border-radius: 13px;
+        padding: 11px;
+      }
+      .calc-row.current {
+        border-color: #7dd3fc;
+        box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.1);
+      }
+      .calc-row.solved {
+        background: #ecfdf5;
+        border-color: #86efac;
+      }
+      .calc-row input,
+      .final-pgcd input {
+        width: 72px;
+        height: 44px;
+        text-align: center;
+        border: 2px solid #cbd5e1;
+        border-radius: 10px;
+        color: #102033;
+        background: #fff;
+        font-size: 18px;
+        font-weight: 800;
+      }
+      .calc-row input:focus,
+      .final-pgcd input:focus {
+        outline: 3px solid rgba(56, 189, 248, 0.18);
+        border-color: #38bdf8;
+      }
+      .calc-row input.ok {
+        border-color: #86efac;
+        background: #f0fdf4;
+      }
+      .calc-row .result-box {
+        width: 72px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #dbe3ee;
+        border-radius: 10px;
+        background: #f1f5f9;
+        font-size: 18px;
+        font-weight: 800;
+        color: #102033;
+      }
+      .calc-row .result-box.revealed {
+        background: #dcfce7;
+        border-color: #86efac;
+      }
+      .operator {
+        font-size: 20px;
+        font-weight: 800;
+        color: #334155;
+      }
+      .final-pgcd {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+        padding: 14px;
+        background: #e8eef6;
+        border-radius: 13px;
+        font-size: 18px;
+        font-weight: 800;
+      }
+      .live-message {
+        margin-top: 9px;
+        font-size: 13px;
+        color: #64748b;
+        text-align: center;
+      }
+      .method-note {
+        margin-top: 12px;
+        padding: 11px;
+        border-radius: 12px;
+        background: #fff;
+        border: 1px solid #d4dbe5;
+      }
+      .method-note b {
+        color: #0f4c6e;
+      }
 
-  <div id="game" class="grid">
-    <section class="panel">
-      <div class="head">
-        <h2>Méthode</h2>
-        <span class="badge">3ème — Chapitre 3</span>
-      </div>
-      <div class="content">
-        <div id="storyBox" class="story"></div>
-        <div id="pgcdBox" class="pgcd-card"></div>
-        <div class="mini">
-          <div class="mini-card"><b>PGCD</b><br>Le plus grand nombre qui divise exactement les deux nombres.</div>
-          <div class="mini-card"><b>Soustraire</b><br>On enlève toujours le plus petit du plus grand.</div>
-          <div class="mini-card"><b>Arrêt</b><br>Quand on obtient deux nombres égaux, ce nombre est le PGCD.</div>
+      @media (max-width: 820px) {
+        .wrap {
+          max-width: 560px;
+          padding: 14px 10px 30px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        .topbar {
+          align-items: stretch;
+          flex-direction: column;
+          gap: 10px;
+          margin-bottom: 10px;
+        }
+        .brand h1 {
+          font-size: 30px;
+        }
+        .brand p {
+          font-size: 14px;
+        }
+        .scorebox {
+          width: 100%;
+          min-width: 0;
+          text-align: left;
+          padding: 10px 12px;
+          border-radius: 14px;
+        }
+        .score {
+          font-size: 24px;
+        }
+        .tabs {
+          gap: 6px;
+        }
+        .tab {
+          padding: 9px 10px;
+        }
+        .tab b {
+          font-size: 14px;
+        }
+        .tab span {
+          font-size: 11px;
+        }
+        .progress-shell {
+          margin: 8px 0 14px;
+        }
+        .panel {
+          border-radius: 16px;
+        }
+        .head {
+          padding: 12px 14px;
+        }
+        .head h2 {
+          font-size: 18px;
+        }
+        .badge {
+          font-size: 11px;
+          padding: 5px 8px;
+        }
+        .content {
+          padding: 12px;
+        }
+        .story {
+          padding: 13px;
+          border-radius: 14px;
+          font-size: 14px;
+        }
+        .step {
+          padding: 9px 10px;
+          font-size: 14px;
+        }
+        .pgcd-card {
+          padding: 12px;
+          margin-top: 10px;
+          border-radius: 14px;
+        }
+        .pgcd {
+          font-size: 34px;
+        }
+        .rule {
+          font-size: 13px;
+        }
+        .mini {
+          grid-template-columns: 1fr;
+          gap: 6px;
+          margin-top: 10px;
+        }
+        .mini-card {
+          padding: 9px 11px;
+          font-size: 12px;
+        }
+        .question-card {
+          padding: 14px;
+          border-radius: 14px;
+        }
+        .question-card h3 {
+          font-size: 20px;
+          margin: 6px 0 12px;
+        }
+        .answers {
+          grid-template-columns: 1fr;
+          gap: 7px;
+        }
+        button.answer {
+          padding: 12px 10px;
+          font-size: 16px;
+        }
+        .feedback {
+          font-size: 14px;
+          padding: 10px 11px;
+          min-height: 52px;
+        }
+        .actions button {
+          flex: 1 1 auto;
+        }
+        .calc-row {
+          gap: 5px;
+          padding: 9px 6px;
+        }
+        .calc-row input,
+        .calc-row .result-box,
+        .final-pgcd input {
+          width: 62px;
+          height: 40px;
+          font-size: 16px;
+        }
+        .operator {
+          font-size: 17px;
+        }
+        .final-pgcd {
+          font-size: 16px;
+        }
+        .footer-note {
+          font-size: 11px;
+          margin-top: 12px;
+        }
+      }
+      @media (max-width: 390px) {
+        .wrap {
+          padding-left: 7px;
+          padding-right: 7px;
+        }
+        .brand h1 {
+          font-size: 27px;
+        }
+        .tabs {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">
+          <h1>Mission PGCD</h1>
+          <p>Comprendre puis calculer un PGCD par soustractions successives.</p>
+        </div>
+        <div class="scorebox">
+          <div class="label">Score total</div>
+          <div class="score"><span id="score">0</span> pts</div>
         </div>
       </div>
-    </section>
 
-    <section class="panel">
-      <div class="head">
-        <h2>Défi</h2>
-        <span id="combo" class="badge">Série : 0</span>
+      <nav class="tabs">
+        <button class="tab active" data-level="1">
+          <b>Niveau 1</b><span>Comprendre la méthode</span>
+        </button>
+        <button class="tab" data-level="2">
+          <b>Niveau 2</b><span>Écrire les calculs soi-même</span>
+        </button>
+      </nav>
+
+      <div class="progress-shell">
+        <div id="progress" class="progress"></div>
       </div>
-      <div class="content">
-        <div class="question-card">
-          <div id="qnum" class="qnum"></div>
-          <h3 id="question"></h3>
-          <div id="answers" class="answers"></div>
-          <div id="feedback" class="feedback">Choisis une réponse.</div>
-          <div class="actions">
-            <button id="nextBtn" class="next hidden">Question suivante →</button>
+
+      <div class="grid">
+        <section class="panel">
+          <div class="head">
+            <h2>Méthode</h2>
+            <span id="levelBadge" class="badge">Niveau 1</span>
           </div>
-        </div>
+          <div class="content">
+            <div id="storyBox" class="story"></div>
+            <div id="pgcdBox" class="pgcd-card"></div>
+            <div class="mini">
+              <div class="mini-card">
+                <b>PGCD</b><br />Le plus grand nombre qui divise exactement les
+                deux nombres.
+              </div>
+              <div class="mini-card">
+                <b>Soustraire</b><br />On écrit toujours le plus grand nombre en
+                premier.
+              </div>
+              <div class="mini-card">
+                <b>Arrêt</b><br />Quand les deux nombres deviennent égaux, ce
+                nombre est le PGCD.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="head">
+            <h2>Défi</h2>
+            <span id="combo" class="badge">Série : 0</span>
+          </div>
+          <div class="content">
+            <div class="question-card">
+              <div id="qnum" class="qnum"></div>
+              <h3 id="question"></h3>
+              <div id="activity"></div>
+              <div id="feedback" class="feedback"></div>
+              <div class="actions" id="actions"></div>
+            </div>
+          </div>
+        </section>
       </div>
-    </section>
-  </div>
-
-  <section id="result" class="panel hidden">
-    <div class="result">
-      <h2>Parcours terminé</h2>
-      <p id="finalText"></p>
-      <button id="restartBtn" class="restart">Recommencer</button>
+      <div class="footer-note">
+        3ème — Chapitre 3 • Le score est conservé quand tu changes de niveau.
+      </div>
     </div>
-  </section>
 
-  <div class="footer-note">Objectif : comprendre la méthode des soustractions successives et reconnaître le PGCD.</div>
-</div>
+    <script>
+      const questions = [
+        {
+          a: 48,
+          b: 18,
+          steps: ["48 − 18 = 30", "30 − 18 = 12", "18 − 12 = 6", "12 − 6 = 6"],
+          pgcd: 6,
+          hint: "On soustrait toujours le plus petit nombre du plus grand.",
+          ask: "Quelle est la première soustraction à faire avec 48 et 18 ?",
+          choices: ["48 − 18", "48 − 30", "18 − 12", "30 − 18"],
+          correct: "48 − 18",
+          explain:
+            "On commence avec les deux nombres : 48 est le plus grand et 18 le plus petit.",
+        },
+        {
+          a: 48,
+          b: 18,
+          steps: ["48 − 18 = 30", "30 − 18 = 12", "18 − 12 = 6", "12 − 6 = 6"],
+          pgcd: 6,
+          hint: "Après chaque soustraction, on garde le résultat et l'autre nombre.",
+          ask: "Après 48 − 18 = 30, avec quels nombres continue-t-on ?",
+          choices: ["30 et 18", "48 et 30", "18 et 12", "30 et 12"],
+          correct: "30 et 18",
+          explain:
+            "On garde le résultat 30 et le nombre 18, puis on recommence.",
+        },
+        {
+          a: 48,
+          b: 18,
+          steps: ["48 − 18 = 30", "30 − 18 = 12", "18 − 12 = 6", "12 − 6 = 6"],
+          pgcd: 6,
+          hint: "La méthode s'arrête quand les deux nombres deviennent égaux.",
+          ask: "Quel est le PGCD de 48 et 18 ?",
+          choices: ["3", "6", "12", "18"],
+          correct: "6",
+          explain:
+            "On obtient finalement 6 et 6. Le PGCD de 48 et 18 est donc 6.",
+        },
+        {
+          a: 42,
+          b: 30,
+          steps: ["42 − 30 = 12", "30 − 12 = 18", "18 − 12 = 6", "12 − 6 = 6"],
+          pgcd: 6,
+          hint: "On compare toujours les deux nombres avant de soustraire.",
+          ask: "Après 42 − 30 = 12, quelle soustraction faut-il faire ?",
+          choices: ["30 − 12", "42 − 12", "30 − 18", "18 − 12"],
+          correct: "30 − 12",
+          explain:
+            "On continue avec 30 et 12. Le plus grand est 30, donc 30 − 12.",
+        },
+        {
+          a: 42,
+          b: 30,
+          steps: ["42 − 30 = 12", "30 − 12 = 18", "18 − 12 = 6", "12 − 6 = 6"],
+          pgcd: 6,
+          hint: "Quand les deux nombres obtenus sont égaux, on a terminé.",
+          ask: "Quel est le PGCD de 42 et 30 ?",
+          choices: ["2", "3", "6", "12"],
+          correct: "6",
+          explain: "Les soustractions successives conduisent à 6 et 6.",
+        },
+        {
+          a: 36,
+          b: 24,
+          steps: ["36 − 24 = 12", "24 − 12 = 12"],
+          pgcd: 12,
+          hint: "Certains calculs se terminent très vite.",
+          ask: "Quel est le PGCD de 36 et 24 ?",
+          choices: ["6", "8", "12", "24"],
+          correct: "12",
+          explain: "36 − 24 = 12 puis 24 − 12 = 12. Le PGCD est donc 12.",
+        },
+        {
+          a: 35,
+          b: 21,
+          steps: ["35 − 21 = 14", "21 − 14 = 7", "14 − 7 = 7"],
+          pgcd: 7,
+          hint: "Le PGCD doit diviser les deux nombres sans reste.",
+          ask: "Le nombre 7 est-il bien un diviseur commun à 35 et 21 ?",
+          choices: ["Oui", "Non"],
+          correct: "Oui",
+          explain: "Oui : 35 ÷ 7 = 5 et 21 ÷ 7 = 3.",
+        },
+        {
+          a: 35,
+          b: 21,
+          steps: ["35 − 21 = 14", "21 − 14 = 7", "14 − 7 = 7"],
+          pgcd: 7,
+          hint: "Le PGCD est le plus grand diviseur commun, pas seulement un diviseur commun.",
+          ask: "Parmi ces nombres, lequel est le PGCD de 35 et 21 ?",
+          choices: ["1", "5", "7", "14"],
+          correct: "7",
+          explain:
+            "7 divise 35 et 21, et aucun diviseur commun plus grand ne convient.",
+        },
+        {
+          a: 45,
+          b: 28,
+          steps: [
+            "45 − 28 = 17",
+            "28 − 17 = 11",
+            "17 − 11 = 6",
+            "11 − 6 = 5",
+            "6 − 5 = 1",
+            "5 − 1 = 4",
+            "4 − 1 = 3",
+            "3 − 1 = 2",
+            "2 − 1 = 1",
+          ],
+          pgcd: 1,
+          hint: "Si on finit par obtenir 1 et 1, le PGCD vaut 1.",
+          ask: "Que signifie PGCD(45 ; 28) = 1 ?",
+          choices: [
+            "Ils n'ont aucun diviseur",
+            "Leur seul diviseur commun est 1",
+            "Ils sont tous les deux premiers",
+            "45 est divisible par 28",
+          ],
+          correct: "Leur seul diviseur commun est 1",
+          explain:
+            "Un PGCD égal à 1 signifie que 1 est leur seul diviseur commun.",
+        },
+      ];
 
-<script>
-const questions = [
-  {
-    a:48,b:18,steps:["48 − 18 = 30","30 − 18 = 12","18 − 12 = 6","12 − 6 = 6"],
-    pgcd:6,
-    hint:"On soustrait toujours le plus petit nombre du plus grand.",
-    ask:"Quelle est la première soustraction à faire avec 48 et 18 ?",
-    choices:["48 − 18","48 − 30","18 − 12","30 − 18"],correct:"48 − 18",
-    explain:"On commence avec les deux nombres : 48 est le plus grand et 18 le plus petit."
-  },
-  {
-    a:48,b:18,steps:["48 − 18 = 30","30 − 18 = 12","18 − 12 = 6","12 − 6 = 6"],
-    pgcd:6,
-    hint:"Après chaque soustraction, on garde le résultat et l'autre nombre.",
-    ask:"Après 48 − 18 = 30, avec quels nombres continue-t-on ?",
-    choices:["30 et 18","48 et 30","18 et 12","30 et 12"],correct:"30 et 18",
-    explain:"On garde le résultat 30 et le nombre 18, puis on recommence."
-  },
-  {
-    a:48,b:18,steps:["48 − 18 = 30","30 − 18 = 12","18 − 12 = 6","12 − 6 = 6"],
-    pgcd:6,
-    hint:"La méthode s'arrête quand les deux nombres deviennent égaux.",
-    ask:"Quel est le PGCD de 48 et 18 ?",
-    choices:["3","6","12","18"],correct:"6",
-    explain:"On obtient finalement 6 et 6. Le PGCD de 48 et 18 est donc 6."
-  },
-  {
-    a:42,b:30,steps:["42 − 30 = 12","30 − 12 = 18","18 − 12 = 6","12 − 6 = 6"],
-    pgcd:6,
-    hint:"On compare toujours les deux nombres avant de soustraire.",
-    ask:"Après 42 − 30 = 12, quelle soustraction faut-il faire ?",
-    choices:["30 − 12","42 − 12","30 − 18","18 − 12"],correct:"30 − 12",
-    explain:"On continue avec 30 et 12. Le plus grand est 30, donc 30 − 12."
-  },
-  {
-    a:42,b:30,steps:["42 − 30 = 12","30 − 12 = 18","18 − 12 = 6","12 − 6 = 6"],
-    pgcd:6,
-    hint:"Quand les deux nombres obtenus sont égaux, on a terminé.",
-    ask:"Quel est le PGCD de 42 et 30 ?",
-    choices:["2","3","6","12"],correct:"6",
-    explain:"Les soustractions successives conduisent à 6 et 6."
-  },
-  {
-    a:36,b:24,steps:["36 − 24 = 12","24 − 12 = 12"],
-    pgcd:12,
-    hint:"Certains calculs se terminent très vite.",
-    ask:"Quel est le PGCD de 36 et 24 ?",
-    choices:["6","8","12","24"],correct:"12",
-    explain:"36 − 24 = 12 puis 24 − 12 = 12. Le PGCD est donc 12."
-  },
-  {
-    a:35,b:21,steps:["35 − 21 = 14","21 − 14 = 7","14 − 7 = 7"],
-    pgcd:7,
-    hint:"Le PGCD doit diviser les deux nombres sans reste.",
-    ask:"Le nombre 7 est-il bien un diviseur commun à 35 et 21 ?",
-    choices:["Oui","Non"],correct:"Oui",
-    explain:"Oui : 35 ÷ 7 = 5 et 21 ÷ 7 = 3."
-  },
-  {
-    a:35,b:21,steps:["35 − 21 = 14","21 − 14 = 7","14 − 7 = 7"],
-    pgcd:7,
-    hint:"Le PGCD est le plus grand diviseur commun, pas seulement un diviseur commun.",
-    ask:"Parmi ces nombres, lequel est le PGCD de 35 et 21 ?",
-    choices:["1","5","7","14"],correct:"7",
-    explain:"7 divise 35 et 21, et aucun diviseur commun plus grand ne convient."
-  },
-  {
-    a:45,b:28,steps:["45 − 28 = 17","28 − 17 = 11","17 − 11 = 6","11 − 6 = 5","6 − 5 = 1","5 − 1 = 4","4 − 1 = 3","3 − 1 = 2","2 − 1 = 1"],
-    pgcd:1,
-    hint:"Si on finit par obtenir 1 et 1, le PGCD vaut 1.",
-    ask:"Que signifie PGCD(45 ; 28) = 1 ?",
-    choices:["Ils n'ont aucun diviseur","Leur seul diviseur commun est 1","Ils sont tous les deux premiers","45 est divisible par 28"],correct:"Leur seul diviseur commun est 1",
-    explain:"Un PGCD égal à 1 signifie que 1 est leur seul diviseur commun."
-  }
-];
+      const $ = (id) => document.getElementById(id);
+      const scoreEl = $("score"),
+        progressEl = $("progress"),
+        storyBox = $("storyBox"),
+        pgcdBox = $("pgcdBox"),
+        qnum = $("qnum"),
+        qEl = $("question"),
+        activity = $("activity"),
+        feedback = $("feedback"),
+        actions = $("actions"),
+        combo = $("combo"),
+        levelBadge = $("levelBadge");
 
-let index=0,score=0,streak=0,locked=false;
-const $=id=>document.getElementById(id);
-const scoreEl=$("score"),progressEl=$("progress"),storyBox=$("storyBox"),pgcdBox=$("pgcdBox"),
-qnum=$("qnum"),qEl=$("question"),answersEl=$("answers"),feedback=$("feedback"),
-nextBtn=$("nextBtn"),combo=$("combo"),game=$("game"),result=$("result"),
-finalText=$("finalText"),restartBtn=$("restartBtn");
+      let level = 1,
+        index = 0,
+        score = 0,
+        streak = 0,
+        locked = false,
+        currentL2 = null,
+        recentPairs = [];
 
-function render(){
-  locked=false;
-  nextBtn.classList.add("hidden");
-  feedback.className="feedback";
-  feedback.textContent="Choisis une réponse.";
-  const q=questions[index];
-  progressEl.style.width=`${index/questions.length*100}%`;
-  qnum.textContent=`Question ${index+1} / ${questions.length}`;
-  qEl.textContent=q.ask;
+      function addScore(base = 100) {
+        streak++;
+        const gain = base + Math.min(streak - 1, 4) * 20;
+        score += gain;
+        scoreEl.textContent = score;
+        combo.textContent = `Série : ${streak}`;
+        return gain;
+      }
+      function loseStreak() {
+        streak = 0;
+        combo.textContent = "Série : 0";
+      }
+      function setFeedback(text, type = "") {
+        feedback.className = "feedback" + (type ? ` ${type}` : "");
+        feedback.textContent = text;
+      }
+      function makeButton(label, cls, fn) {
+        const b = document.createElement("button");
+        b.className = cls;
+        b.textContent = label;
+        b.onclick = fn;
+        actions.appendChild(b);
+        return b;
+      }
 
-  storyBox.innerHTML=`
-    <strong>${q.hint}</strong>
-    <div class="steps">
-      ${q.steps.map((s,i)=>`<div class="step ${i===q.steps.length-1?'done':''}">${s}</div>`).join("")}
-    </div>`;
+      document
+        .querySelectorAll(".tab")
+        .forEach(
+          (t) => (t.onclick = () => switchLevel(Number(t.dataset.level))),
+        );
+      function switchLevel(n) {
+        level = n;
+        index = 0;
+        streak = 0;
+        combo.textContent = "Série : 0";
+        levelBadge.textContent = `Niveau ${n}`;
+        document
+          .querySelectorAll(".tab")
+          .forEach((t) =>
+            t.classList.toggle("active", Number(t.dataset.level) === n),
+          );
+        if (n === 1) renderL1();
+        else newL2();
+      }
 
-  pgcdBox.innerHTML=`
-    <div class="pgcd"><small>Nombres étudiés</small>${q.a} et ${q.b}</div>
-    <div class="rule"><b>Repère :</b> quand les deux nombres deviennent égaux, ce nombre est le PGCD.</div>`;
+      /* Niveau 1 : contenu du fichier d'origine conservé */
+      function renderL1() {
+        locked = false;
+        actions.innerHTML = "";
+        const q = questions[index];
+        progressEl.style.width = `${(index / questions.length) * 100}%`;
+        qnum.textContent = `Question ${index + 1} / ${questions.length}`;
+        qEl.textContent = q.ask;
+        storyBox.innerHTML = `<strong>${q.hint}</strong><div class="steps">${q.steps.map((s, i) => `<div class="step ${i === q.steps.length - 1 ? "done" : ""}">${s}</div>`).join("")}</div>`;
+        pgcdBox.innerHTML = `<div class="pgcd"><small>Nombres étudiés</small>${q.a} et ${q.b}</div><div class="rule"><b>Repère :</b> quand les deux nombres deviennent égaux, ce nombre est le PGCD.</div>`;
+        activity.innerHTML = `<div class="answers"></div>`;
+        const ans = activity.querySelector(".answers");
+        q.choices.forEach((choice) => {
+          const b = document.createElement("button");
+          b.className = "answer";
+          b.textContent = choice;
+          b.onclick = () => {
+            if (locked) return;
+            locked = true;
+            [...ans.children].forEach((x) => {
+              if (x.textContent === q.correct) x.classList.add("correct");
+            });
+            if (choice === q.correct) {
+              const gain = addScore();
+              setFeedback(
+                `Bonne réponse. +${gain} points. ${q.explain}`,
+                "good",
+              );
+            } else {
+              loseStreak();
+              b.classList.add("wrong");
+              setFeedback(`Pas tout à fait. ${q.explain}`, "bad");
+            }
+            makeButton(
+              index === questions.length - 1
+                ? "Recommencer le niveau"
+                : "Question suivante →",
+              "next",
+              () => {
+                index = (index + 1) % questions.length;
+                renderL1();
+              },
+            );
+          };
+          ans.appendChild(b);
+        });
+        setFeedback("Choisis une réponse.");
+      }
 
-  answersEl.innerHTML="";
-  q.choices.forEach(c=>{
-    const b=document.createElement("button");
-    b.className="answer";b.textContent=c;
-    b.onclick=()=>choose(c,b);
-    answersEl.appendChild(b);
-  });
-}
+      /* Niveau 2 */
+      function gcd(a, b) {
+        while (b) {
+          [a, b] = [b, a % b];
+        }
+        return a;
+      }
+      function subtractionSteps(a, b) {
+        const steps = [];
+        let x = a,
+          y = b;
+        while (x !== y) {
+          const hi = Math.max(x, y),
+            lo = Math.min(x, y),
+            r = hi - lo;
+          steps.push({ hi, lo, r });
+          x = r;
+          y = lo;
+        }
+        return { steps, g: x };
+      }
+      function generatePair() {
+        // Values remain manageable but varied; avoids extremely long subtraction chains.
+        const poolG = [
+          2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20,
+        ];
+        for (let tries = 0; tries < 500; tries++) {
+          const g = poolG[Math.floor(Math.random() * poolG.length)];
+          let m = 2 + Math.floor(Math.random() * 15),
+            n = 2 + Math.floor(Math.random() * 15);
+          if (m === n || gcd(m, n) !== 1) continue;
+          let a = g * m,
+            b = g * n;
+          if (a > 350 || b > 350) continue;
+          const hi = Math.max(a, b),
+            lo = Math.min(a, b);
+          const data = subtractionSteps(hi, lo);
+          if (data.steps.length < 2 || data.steps.length > 8) continue;
+          const key = `${hi}-${lo}`;
+          if (recentPairs.includes(key)) continue;
+          recentPairs.push(key);
+          if (recentPairs.length > 18) recentPairs.shift();
+          return { a: lo, b: hi, ...data };
+        }
+        return { a: 156, b: 328, ...subtractionSteps(328, 156) };
+      }
+      function newL2() {
+        currentL2 = generatePair();
+        actions.innerHTML = "";
+        progressEl.style.width = "100%";
+        const { a, b } = currentL2;
+        qnum.textContent = "Niveau 2 • Calcul autonome";
+        qEl.textContent = `Trouve le PGCD de ${a} et ${b} par soustractions successives.`;
+        storyBox.innerHTML = `
+    <strong>À toi d’écrire les calculs.</strong>
+    <div class="method-note"><b>Règle :</b> sur chaque ligne, écris d’abord le plus grand des deux nombres, puis le plus petit. Le résultat apparaîtra automatiquement quand les deux nombres sont corrects.</div>
+    <div class="method-note"><b>Exemple de forme :</b> [ plus grand ] − [ plus petit ] = [ résultat ]</div>`;
+        pgcdBox.innerHTML = `<div class="pgcd"><small>Nombres de départ</small>${a} et ${b}</div><div class="rule"><b>Objectif :</b> continue jusqu’à obtenir deux nombres égaux.</div>`;
+        renderL2Rows();
+        setFeedback(
+          "Commence par écrire les deux nombres de la première soustraction.",
+        );
+      }
+      function renderL2Rows() {
+        const { a, b, steps, g } = currentL2;
+        activity.innerHTML = `<div class="calc-list"></div>`;
+        const list = activity.querySelector(".calc-list");
 
-function choose(choice,btn){
-  if(locked)return;
-  locked=true;
-  const q=questions[index];
-  [...document.querySelectorAll(".answer")].forEach(b=>{
-    if(b.textContent===q.correct)b.classList.add("correct");
-  });
-  if(choice===q.correct){
-    streak++;
-    const gain=100+Math.min(streak-1,4)*20;
-    score+=gain;
-    feedback.className="feedback good";
-    feedback.textContent=`Bonne réponse. +${gain} points. ${q.explain}`;
-  }else{
-    streak=0;btn.classList.add("wrong");
-    feedback.className="feedback bad";
-    feedback.textContent=`Pas tout à fait. ${q.explain}`;
-  }
-  combo.textContent=`Série : ${streak}`;
-  scoreEl.textContent=score;
-  nextBtn.classList.remove("hidden");
-}
+        steps.forEach((s, i) => {
+          const row = document.createElement("div");
+          row.className = "calc-row" + (i === 0 ? " current" : " hidden");
+          row.dataset.i = i;
+          row.innerHTML = `
+      <input inputmode="numeric" aria-label="Premier nombre de la soustraction">
+      <span class="operator">−</span>
+      <input inputmode="numeric" aria-label="Deuxième nombre de la soustraction">
+      <span class="operator">=</span>
+      <span class="result-box">?</span>`;
+          list.appendChild(row);
+          const inputs = [...row.querySelectorAll("input")];
+          inputs.forEach((inp) =>
+            inp.addEventListener("input", () => checkLiveRow(i)),
+          );
+        });
 
-nextBtn.onclick=()=>{
-  index++;
-  if(index<questions.length){render()}
-  else{
-    progressEl.style.width="100%";
-    game.classList.add("hidden");
-    result.classList.remove("hidden");
-    const msg=score>=850?"Très solide : la méthode des soustractions successives est bien maîtrisée."
-      :score>=600?"Bon travail : tu sais déjà bien repérer les étapes et le PGCD."
-      :"Rejoue le parcours pour automatiser l'ordre des soustractions et le repérage du PGCD.";
-    finalText.textContent=`Score final : ${score} points. ${msg}`;
-  }
-};
+        const final = document.createElement("div");
+        final.id = "finalPgcd";
+        final.className = "final-pgcd hidden";
+        final.innerHTML = `<span>PGCD(${a} ; ${b}) =</span><input inputmode="numeric" aria-label="Valeur du PGCD">`;
+        list.appendChild(final);
+        final.querySelector("input").addEventListener("input", checkFinalPgcd);
+        setTimeout(() => list.querySelector("input")?.focus(), 0);
+      }
+      function checkLiveRow(i) {
+        const step = currentL2.steps[i];
+        const row = activity.querySelector(`.calc-row[data-i="${i}"]`);
+        const [left, right] = [...row.querySelectorAll("input")];
+        const result = row.querySelector(".result-box");
+        const lv = left.value === "" ? null : Number(left.value),
+          rv = right.value === "" ? null : Number(right.value);
 
-restartBtn.onclick=()=>{
-  index=0;score=0;streak=0;
-  scoreEl.textContent="0";combo.textContent="Série : 0";
-  result.classList.add("hidden");game.classList.remove("hidden");render();
-};
+        result.textContent = "?";
+        result.classList.remove("revealed");
+        left.classList.remove("ok");
+        right.classList.remove("ok");
 
-render();
-</script>
-</body>
+        // Give immediate targeted feedback as soon as both boxes contain values.
+        if (lv === null || rv === null) {
+          setFeedback("Écris les deux nombres de la soustraction.");
+          return;
+        }
+        if (lv === step.lo && rv === step.hi) {
+          loseStreak();
+          setFeedback(
+            `L’ordre n’est pas bon : on écrit le plus grand nombre en premier. Ici, ${step.hi} − ${step.lo}.`,
+            "bad",
+          );
+          return;
+        }
+        if (lv !== step.hi || rv !== step.lo) {
+          loseStreak();
+          setFeedback(
+            "Ce ne sont pas les bons nombres. Reprends les deux nombres obtenus à l’étape précédente et place le plus grand en premier.",
+            "bad",
+          );
+          return;
+        }
+
+        left.classList.add("ok");
+        right.classList.add("ok");
+        left.disabled = true;
+        right.disabled = true;
+        result.textContent = step.r;
+        result.classList.add("revealed");
+        const gain = addScore(60);
+        setFeedback(
+          `Exact : ${step.hi} − ${step.lo} = ${step.r}. +${gain} points.`,
+          "good",
+        );
+
+        const next = row.nextElementSibling;
+        if (i === currentL2.steps.length - 1) {
+          const final = $("finalPgcd");
+          final.classList.remove("hidden");
+          setFeedback(
+            `Tu obtiens ${currentL2.g} et ${currentL2.g}. La méthode s’arrête ici. Écris maintenant le PGCD.`,
+            "good",
+          );
+          setTimeout(() => final.querySelector("input").focus(), 0);
+        } else {
+          next.classList.remove("hidden");
+          next.classList.add("current");
+          row.classList.remove("current");
+          row.classList.add("solved");
+          setTimeout(() => next.querySelector("input")?.focus(), 0);
+        }
+      }
+      function checkFinalPgcd() {
+        const inp = $("finalPgcd").querySelector("input");
+        if (inp.value === "") return;
+        const v = Number(inp.value);
+        if (v === currentL2.g) {
+          inp.disabled = true;
+          inp.classList.add("ok");
+          const gain = addScore(120);
+          setFeedback(
+            `Bravo ! PGCD(${currentL2.a} ; ${currentL2.b}) = ${currentL2.g}. +${gain} points.`,
+            "good",
+          );
+          actions.innerHTML = "";
+          makeButton("Nouveau PGCD →", "next", newL2);
+        } else {
+          loseStreak();
+          setFeedback(
+            "Ce n’est pas le bon PGCD. Regarde le nombre obtenu à la dernière étape : les deux nombres doivent être égaux.",
+            "bad",
+          );
+        }
+      }
+
+      switchLevel(1);
+    </script>
+  </body>
 </html>
