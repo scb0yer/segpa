@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 const Francais5eme = () => {
   const parcours = [
@@ -104,6 +105,29 @@ const Francais5eme = () => {
               5ème
             </span>
           </h1>
+          <section className="flex justify-center px-5 py-8">
+            <a
+              href="https://cloud.moncollege95.fr/index.php/s/AgxGW63tGpC2frn"
+              className="inline-flex items-center justify-center gap-3 rounded-2xl
+                                 border border-white/25 bg-white/5 px-6 py-4 text-white
+                                 transition-colors duration-200
+                                 hover:border-white/60 hover:bg-white/15
+                                 focus-visible:outline-none focus-visible:ring-2
+                                 focus-visible:ring-white/70 focus-visible:ring-offset-2
+                                 focus-visible:ring-offset-[#070914]"
+            >
+              <Image
+                src="/submit.png"
+                alt=""
+                width={40}
+                height={40}
+                className="shrink-0 object-contain"
+              />
+              <span className="text-base font-semibold sm:text-lg">
+                Rendre un travail
+              </span>
+            </a>
+          </section>
           <p className="mt-5 max-w-xl text-base text-slate-400 sm:text-lg">
             La fluence
           </p>

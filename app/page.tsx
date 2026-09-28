@@ -317,6 +317,24 @@ export default function Home() {
                 →
               </span>
             </a>
+
+            {/* Athéna */}
+            <a
+              href="https://cloud.moncollege95.fr/index.php/apps/files/files"
+              className="group flex items-center gap-5 rounded-2xl border border-emerald-400/25 bg-gradient-to-r from-emerald-950/30 to-[#11111a] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-400/60 hover:bg-emerald-950/40"
+            >
+              <div className="flex h-16 w-20 shrink-0 items-center justify-center rounded-xl bg-emerald-400/10 text-3xl font-black text-emerald-400 transition-transform duration-300 group-hover:scale-110">
+                📂
+              </div>
+
+              <div className="flex-1">
+                <p className="font-bold sm:text-lg">Athéna cloud</p>
+              </div>
+
+              <span className="flex h-10 w-10 items-center justify-center rounded-full border border-emerald-300/30 text-lg transition-all group-hover:bg-emerald-400 group-hover:text-slate-950">
+                →
+              </span>
+            </a>
           </div>
         </section>
 
