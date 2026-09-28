@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Classe les verbes — Mme Boyer</title>
+    <style>
+      :root {
+        --ink: #17324a;
+        --muted: #647789;
+        --paper: #fffdf8;
+        --blue: #2f7697;
+        --blue2: #dceef5;
+        --green: #2f7d62;
+        --red: #a94848;
+        --sand: #f3eadb;
+        --gold: #d99b2b;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Arial,
+          sans-serif;
+        color: var(--ink);
+        background: linear-gradient(#eaf5f8, #f7f2e8 62%, #fffdf8);
+        min-height: 100vh;
+      }
+      header,
+      main {
+        max-width: 1100px;
+        margin: auto;
+        padding: 28px 20px 10px;
+      }
+      .eyebrow {
+        font-weight: 800;
+        color: var(--blue);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.82rem;
+      }
+      h1 {
+        font:
+          700 clamp(2rem, 5vw, 3.5rem)/1 Georgia,
+          serif;
+        margin: 0.25rem 0;
+      }
+      .lead {
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.5;
+      }
+      .card {
+        background: #fffdf8;
+        border: 1px solid #d8e7ed;
+        border-radius: 24px;
+        box-shadow: 0 16px 45px #1837481f;
+        padding: clamp(18px, 3vw, 32px);
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .badge {
+        background: var(--blue2);
+        color: #235f79;
+        border-radius: 999px;
+        padding: 8px 13px;
+        font-weight: 800;
+      }
+      .score {
+        font-weight: 800;
+        color: var(--muted);
+      }
+      .prompt {
+        text-align: center;
+        margin: 24px 0 18px;
+      }
+      .prompt small {
+        display: block;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      .tile {
+        display: inline-block;
+        background: white;
+        border: 2px solid var(--blue);
+        border-radius: 15px;
+        padding: 13px 25px;
+        font:
+          700 1.55rem Georgia,
+          serif;
+        box-shadow: 0 7px 15px #2f769720;
+        cursor: grab;
+        touch-action: none;
+      }
+      .tile:active {
+        cursor: grabbing;
+      }
+      .tile.dragging {
+        opacity: 0.55;
+      }
+      .zones {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      .zone {
+        min-height: 310px;
+        border: 2px dashed #a8bbc5;
+        border-radius: 18px;
+        padding: 15px;
+        background: #fff;
+        transition: 0.15s;
+        text-align: center;
+      }
+      .zone.over {
+        border-color: var(--blue);
+        background: #eef7fa;
+        transform: translateY(-2px);
+      }
+      .zone h2 {
+        font:
+          700 1.2rem Georgia,
+          serif;
+        margin: 0 0 8px;
+      }
+      .hint {
+        font-size: 0.87rem;
+        color: var(--muted);
+        min-height: 34px;
+      }
+      .example {
+        margin: 12px auto 7px;
+        background: #f6f1e7;
+        border-radius: 11px;
+        padding: 9px;
+        font-size: 1.05rem;
+        max-width: 210px;
+      }
+      .ending {
+        font-weight: 900;
+        color: #a55328;
+      }
+      .conjugation {
+        line-height: 1.55;
+        text-align: left;
+        padding-left: 22px;
+      }
+      .conjugation small {
+        font-size: 0.72rem;
+        color: var(--muted);
+      }
+      .irregulars {
+        font-weight: 800;
+        line-height: 1.65;
+        color: #7a4b20;
+      }
+      .dropnote {
+        margin-top: 17px;
+        color: #78909c;
+        font-size: 0.88rem;
+      }
+      .feedback {
+        text-align: center;
+        min-height: 52px;
+        margin-top: 18px;
+        padding: 12px;
+        border-radius: 13px;
+        display: none;
+      }
+      .feedback.show {
+        display: block;
+      }
+      .ok {
+        background: #e7f5ee;
+        color: #245f4d;
+      }
+      .no {
+        background: #fbeaea;
+        color: #853b3b;
+      }
+      .actions {
+        text-align: center;
+        margin-top: 12px;
+      }
+      button {
+        border: 0;
+        border-radius: 12px;
+        padding: 11px 17px;
+        font-weight: 800;
+        font-size: 1rem;
+        cursor: pointer;
+        background: var(--sand);
+        color: var(--ink);
+      }
+      footer {
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.85rem;
+        padding: 26px;
+      }
+      @media (max-width: 760px) {
+        .zones {
+          grid-template-columns: 1fr;
+        }
+        .zone {
+          min-height: 150px;
+        }
+        .tile {
+          font-size: 1.35rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="eyebrow">Français · Conjugaison</div>
+      <h1>Classe les verbes</h1>
+      <div class="lead">
+        Observe le verbe conjugué puis glisse-le dans la bonne famille.
+      </div>
+    </header>
+    <main>
+      <section class="card">
+        <div class="top">
+          <span class="badge">Étape 2 · Reconnaître la famille</span
+          ><span class="score" id="score">Réussites : 0 / 0</span>
+        </div>
+        <div class="prompt">
+          <small>Glisse ce verbe :</small>
+          <div class="tile" id="tile" draggable="true"></div>
+        </div>
+        <div class="zones">
+          <div class="zone" data-type="er">
+            <h2>Se conjugue comme les verbes en -ER</h2>
+            <div class="hint">Même modèle de terminaisons au présent.</div>
+            <div class="example conjugation">
+              <b>marcher</b><br />
+              je march<span class="ending">e</span><br />
+              tu march<span class="ending">es</span><br />
+              il / elle march<span class="ending">e</span><br />
+              nous march<span class="ending">ons</span><br />
+              vous march<span class="ending">ez</span><br />
+              ils / elles march<span class="ending">ent</span><br />
+              <small
+                ><b>ouvrir</b> et <b>offrir</b> se conjuguent aussi sur ce
+                modèle au présent.</small
+              >
+            </div>
+            <div class="dropnote">Dépose le verbe ici</div>
+          </div>
+          <div class="zone" data-type="noner">
+            <h2>Se conjugue comme les verbes PAS en -ER</h2>
+            <div class="hint">Autre modèle de terminaisons au présent.</div>
+            <div class="example conjugation">
+              <b>courir</b><br />
+              je cour<span class="ending">s</span>
+              <small>(parfois <b>-x</b>)</small><br />
+              tu cour<span class="ending">s</span>
+              <small>(parfois <b>-x</b>)</small><br />
+              il / elle cour<span class="ending">t</span>
+              <small>(parfois <b>-d</b>)</small><br />
+              nous cour<span class="ending">ons</span><br />
+              vous cour<span class="ending">ez</span><br />
+              ils / elles cour<span class="ending">ent</span>
+            </div>
+            <div class="dropnote">Dépose le verbe ici</div>
+          </div>
+          <div class="zone" data-type="irr">
+            <h2>Verbes irréguliers</h2>
+            <div class="hint">À reconnaître et à mémoriser.</div>
+            <div class="example irregulars">
+              être · avoir · aller<br />faire · dire
+            </div>
+            <div class="dropnote">Dépose le verbe ici</div>
+          </div>
+        </div>
+        <div class="feedback" id="fb"></div>
+        <div class="actions">
+          <button id="reset">Recommencer le score</button>
+        </div>
+      </section>
+    </main>
+    <footer>Classes de Mme Boyer · Français 5ème</footer>
+    <script>
+      const BANK = [
+        { form: "je parle", inf: "parler", type: "er" },
+        { form: "tu regardes", inf: "regarder", type: "er" },
+        { form: "il écoute", inf: "écouter", type: "er" },
+        { form: "nous jouons", inf: "jouer", type: "er" },
+        { form: "vous chantez", inf: "chanter", type: "er" },
+        { form: "elles arrivent", inf: "arriver", type: "er" },
+        { form: "je cherche", inf: "chercher", type: "er" },
+        { form: "tu dessines", inf: "dessiner", type: "er" },
+        { form: "on traverse", inf: "traverser", type: "er" },
+        { form: "nous marchons", inf: "marcher", type: "er" },
+        { form: "vous fermez", inf: "fermer", type: "er" },
+        { form: "ils travaillent", inf: "travailler", type: "er" },
+        { form: "j’ouvre", inf: "ouvrir", type: "er" },
+        { form: "tu ouvres", inf: "ouvrir", type: "er" },
+        { form: "nous ouvrons", inf: "ouvrir", type: "er" },
+        { form: "j’offre", inf: "offrir", type: "er" },
+        { form: "vous offrez", inf: "offrir", type: "er" },
+        { form: "ils offrent", inf: "offrir", type: "er" },
+        { form: "je prends", inf: "prendre", type: "noner" },
+        { form: "tu descends", inf: "descendre", type: "noner" },
+        { form: "il part", inf: "partir", type: "noner" },
+        { form: "nous courons", inf: "courir", type: "noner" },
+        { form: "vous sortez", inf: "sortir", type: "noner" },
+        { form: "elles mettent", inf: "mettre", type: "noner" },
+        { form: "je lis", inf: "lire", type: "noner" },
+        { form: "tu écris", inf: "écrire", type: "noner" },
+        { form: "on choisit", inf: "choisir", type: "noner" },
+        { form: "nous finissons", inf: "finir", type: "noner" },
+        { form: "vous attendez", inf: "attendre", type: "noner" },
+        { form: "ils suivent", inf: "suivre", type: "noner" },
+        { form: "je dors", inf: "dormir", type: "noner" },
+        { form: "tu réponds", inf: "répondre", type: "noner" },
+        { form: "elle ouvre", inf: "ouvrir", type: "er" },
+        { form: "nous lisons", inf: "lire", type: "noner" },
+        { form: "vous prenez", inf: "prendre", type: "noner" },
+        { form: "ils courent", inf: "courir", type: "noner" },
+        { form: "je suis", inf: "être", type: "irr" },
+        { form: "tu es", inf: "être", type: "irr" },
+        { form: "il est", inf: "être", type: "irr" },
+        { form: "nous sommes", inf: "être", type: "irr" },
+        { form: "vous êtes", inf: "être", type: "irr" },
+        { form: "elles sont", inf: "être", type: "irr" },
+        { form: "j'ai", inf: "avoir", type: "irr" },
+        { form: "tu as", inf: "avoir", type: "irr" },
+        { form: "il a", inf: "avoir", type: "irr" },
+        { form: "nous avons", inf: "avoir", type: "irr" },
+        { form: "je vais", inf: "aller", type: "irr" },
+        { form: "tu vas", inf: "aller", type: "irr" },
+        { form: "nous allons", inf: "aller", type: "irr" },
+        { form: "ils vont", inf: "aller", type: "irr" },
+        { form: "je fais", inf: "faire", type: "irr" },
+        { form: "tu fais", inf: "faire", type: "irr" },
+        { form: "vous faites", inf: "faire", type: "irr" },
+        { form: "ils font", inf: "faire", type: "irr" },
+        { form: "je dis", inf: "dire", type: "irr" },
+        { form: "vous dites", inf: "dire", type: "irr" },
+        { form: "ils disent", inf: "dire", type: "irr" },
+      ];
+      let current,
+        last = -1,
+        ok = 0,
+        tries = 0,
+        locked = false;
+      const tile = document.getElementById("tile"),
+        zones = [...document.querySelectorAll(".zone")],
+        fb = document.getElementById("fb"),
+        score = document.getElementById("score");
+      function pick() {
+        let i;
+        do {
+          i = Math.floor(Math.random() * BANK.length);
+        } while (i === last && BANK.length > 1);
+        last = i;
+        current = BANK[i];
+        locked = false;
+        tile.textContent = current.form;
+        tile.style.visibility = "visible";
+        fb.className = "feedback";
+      }
+      function answer(type) {
+        if (locked) return;
+        locked = true;
+        tries++;
+        const good = type === current.type;
+        if (good) ok++;
+        score.textContent = `Réussites : ${ok} / ${tries}`;
+        fb.className = "feedback show " + (good ? "ok" : "no");
+        fb.innerHTML = good
+          ? `<b>Bravo !</b> « ${current.form} » vient du verbe <b>${current.inf}</b>.`
+          : `<b>Pas tout à fait.</b> « ${current.form} » vient du verbe <b>${current.inf}</b>.`;
+        setTimeout(pick, good ? 850 : 1450);
+      }
+      tile.addEventListener("dragstart", (e) => {
+        if (locked) {
+          e.preventDefault();
+          return;
+        }
+        tile.classList.add("dragging");
+        e.dataTransfer.setData("text/plain", "verb");
+      });
+      tile.addEventListener("dragend", () => tile.classList.remove("dragging"));
+      zones.forEach((z) => {
+        z.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          z.classList.add("over");
+        });
+        z.addEventListener("dragleave", () => z.classList.remove("over"));
+        z.addEventListener("drop", (e) => {
+          e.preventDefault();
+          z.classList.remove("over");
+          answer(z.dataset.type);
+        });
+        z.addEventListener("click", () => answer(z.dataset.type));
+      });
+      let sx = 0,
+        sy = 0;
+      tile.addEventListener("pointerdown", (e) => {
+        sx = e.clientX;
+        sy = e.clientY;
+      });
+      tile.addEventListener("pointerup", (e) => {
+        if (locked) return;
+        let el = document.elementFromPoint(e.clientX, e.clientY),
+          z = el && el.closest(".zone");
+        if (z && Math.hypot(e.clientX - sx, e.clientY - sy) > 15)
+          answer(z.dataset.type);
+      });
+      reset.onclick = () => {
+        ok = tries = 0;
+        score.textContent = "Réussites : 0 / 0";
+        pick();
+      };
+      pick();
+    </script>
+  </body>
+</html>

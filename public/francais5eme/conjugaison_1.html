@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Chasse aux verbes — Mme Boyer</title>
+    <style>
+      :root {
+        --ink: #17324a;
+        --muted: #647789;
+        --paper: #fffdf8;
+        --blue: #2f7697;
+        --blue2: #dceef5;
+        --green: #2f7d62;
+        --greenbg: #e7f5ee;
+        --red: #a94848;
+        --redbg: #fbeaea;
+        --sand: #f3eadb;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Arial,
+          sans-serif;
+        color: var(--ink);
+        background: linear-gradient(#eaf5f8, #f7f2e8 60%, #fffdf8);
+        min-height: 100vh;
+      }
+      header,
+      main {
+        max-width: 980px;
+        margin: auto;
+        padding: 30px 20px 10px;
+      }
+      .eyebrow {
+        font-weight: 800;
+        color: var(--blue);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.82rem;
+      }
+      h1 {
+        font:
+          700 clamp(2rem, 5vw, 3.6rem)/1 Georgia,
+          serif;
+        margin: 0.25rem 0;
+      }
+      .lead {
+        color: var(--muted);
+        font-size: 1.06rem;
+        line-height: 1.55;
+      }
+      main {
+        padding-top: 12px;
+      }
+      .card {
+        background: #fffdf8;
+        border: 1px solid #d8e7ed;
+        border-radius: 24px;
+        box-shadow: 0 16px 45px #1837481f;
+        padding: clamp(20px, 4vw, 38px);
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .badge {
+        background: var(--blue2);
+        color: #235f79;
+        border-radius: 999px;
+        padding: 8px 13px;
+        font-weight: 800;
+      }
+      .score {
+        font-weight: 800;
+        color: var(--muted);
+      }
+      .rule {
+        margin: 24px 0 8px;
+        font-size: 1.05rem;
+      }
+      .rule b {
+        color: var(--blue);
+      }
+      .textbox {
+        margin: 18px 0 22px;
+        padding: 25px 22px;
+        border-radius: 18px;
+        background: #fff;
+        border: 2px solid #e8e2d7;
+        font:
+          1.5rem/1.9 Georgia,
+          serif;
+      }
+      .word {
+        display: inline-block;
+        padding: 2px 5px;
+        border-radius: 8px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .word:hover {
+        background: #eef6f9;
+      }
+      .selected {
+        background: #cfe8f3;
+        box-shadow: inset 0 0 0 2px #6da9c2;
+      }
+      .good {
+        background: var(--greenbg);
+        color: var(--green);
+        box-shadow: inset 0 0 0 2px #83bda8;
+      }
+      .bad {
+        background: var(--redbg);
+        color: var(--red);
+        box-shadow: inset 0 0 0 2px #d89b9b;
+      }
+      .missed {
+        background: #fff1c9;
+        color: #755b0b;
+        box-shadow: inset 0 0 0 2px #e0bd58;
+      }
+      .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      button {
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 17px;
+        font-size: 1rem;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .primary {
+        background: var(--blue);
+        color: #fff;
+      }
+      .secondary {
+        background: var(--sand);
+        color: var(--ink);
+      }
+      button:disabled {
+        opacity: 0.45;
+      }
+      .feedback {
+        display: none;
+        margin-top: 18px;
+        padding: 14px 16px;
+        border-radius: 14px;
+        line-height: 1.45;
+      }
+      .feedback.show {
+        display: block;
+      }
+      .ok {
+        background: var(--greenbg);
+        color: #245f4d;
+      }
+      .no {
+        background: #fff4d8;
+        color: #6f5818;
+      }
+      .legend {
+        display: none;
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .legend.show {
+        display: block;
+      }
+      .dot {
+        display: inline-block;
+        width: 11px;
+        height: 11px;
+        border-radius: 3px;
+        margin: 0 4px 0 12px;
+      }
+      .dot:first-child {
+        margin-left: 0;
+      }
+      footer {
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.85rem;
+        padding: 28px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="eyebrow">Français · Conjugaison</div>
+      <h1>Chasse aux verbes</h1>
+      <div class="lead">
+        Clique uniquement sur les <b>verbes conjugués</b>. Attention : un
+        infinitif n’est pas un verbe conjugué.
+      </div>
+    </header>
+    <main>
+      <section class="card">
+        <div class="top">
+          <span class="badge">Étape 1 · Repérer</span
+          ><span class="score" id="score">Réussites : 0 / 0</span>
+        </div>
+        <div class="rule">
+          <b>Consigne :</b> clique sur tous les verbes conjugués du texte, puis
+          vérifie.
+        </div>
+        <div class="textbox" id="box"></div>
+        <div class="actions">
+          <button class="primary" id="check">Vérifier</button
+          ><button class="secondary" id="next" disabled>Un autre texte →</button
+          ><button class="secondary" id="reset">Recommencer</button>
+        </div>
+        <div class="feedback" id="fb"></div>
+        <div class="legend" id="legend">
+          <span class="dot" style="background: #83bda8"></span>bon choix
+          <span class="dot" style="background: #e0bd58"></span>verbe oublié
+          <span class="dot" style="background: #d89b9b"></span>mot choisi par
+          erreur
+        </div>
+      </section>
+    </main>
+    <footer>Classes de Mme Boyer · Français 5ème</footer>
+    <script>
+      const BANK = [
+        {
+          text: "Le vent souffle sur la cour et les feuilles tournent près du portail.",
+          verbs: ["souffle", "tournent"],
+        },
+        {
+          text: "Chaque matin, Lina traverse la place puis rejoint ses amis devant le collège.",
+          verbs: ["traverse", "rejoint"],
+        },
+        {
+          text: "Dans le jardin, les oiseaux chantent pendant que le chat observe les branches.",
+          verbs: ["chantent", "observe"],
+        },
+        {
+          text: "La pluie tombe doucement et les passants ouvrent leurs parapluies.",
+          verbs: ["tombe", "ouvrent"],
+        },
+        {
+          text: "Au loin, un train ralentit puis disparaît derrière la colline.",
+          verbs: ["ralentit", "disparaît"],
+        },
+        {
+          text: "Mon frère range ses affaires avant de descendre dans la cour.",
+          verbs: ["range"],
+        },
+        {
+          text: "Nous regardons la mer et nous entendons les vagues frapper les rochers.",
+          verbs: ["regardons", "entendons"],
+        },
+        {
+          text: "Tu prends ton sac pour partir avant la nuit.",
+          verbs: ["prends"],
+        },
+        {
+          text: "Les élèves lisent le poème puis cherchent les mots difficiles.",
+          verbs: ["lisent", "cherchent"],
+        },
+        {
+          text: "La cloche sonne et chacun retourne travailler en classe.",
+          verbs: ["sonne", "retourne"],
+        },
+        {
+          text: "Je ferme les yeux pour écouter le bruit de la pluie.",
+          verbs: ["ferme"],
+        },
+        {
+          text: "Vous avancez lentement car le chemin devient étroit.",
+          verbs: ["avancez", "devient"],
+        },
+        {
+          text: "Les enfants courent vers la fontaine pour remplir leurs bouteilles.",
+          verbs: ["courent"],
+        },
+        {
+          text: "Ma voisine plante des fleurs et choisit de les arroser chaque soir.",
+          verbs: ["plante", "choisit"],
+        },
+        {
+          text: "Nous partons tôt afin de découvrir le vieux village.",
+          verbs: ["partons"],
+        },
+        {
+          text: "Le bateau quitte le port et commence à longer la côte.",
+          verbs: ["quitte", "commence"],
+        },
+        {
+          text: "Tu souris lorsque la musique commence dans la rue.",
+          verbs: ["souris", "commence"],
+        },
+        {
+          text: "Je mets mon manteau avant de sortir sous la pluie.",
+          verbs: ["mets"],
+        },
+        {
+          text: "Les voyageurs attendent le bus sans quitter leurs bagages des yeux.",
+          verbs: ["attendent"],
+        },
+        {
+          text: "Le marchand ouvre sa boutique et dispose les fruits sur son étal.",
+          verbs: ["ouvre", "dispose"],
+        },
+        {
+          text: "Dans la bibliothèque, chacun parle doucement pour ne pas déranger les lecteurs.",
+          verbs: ["parle"],
+        },
+        {
+          text: "Nous écrivons quelques lignes puis nous relisons notre texte.",
+          verbs: ["écrivons", "relisons"],
+        },
+        {
+          text: "La rivière descend de la montagne et traverse plusieurs villages.",
+          verbs: ["descend", "traverse"],
+        },
+        {
+          text: "Vous choisissez un livre avant de rejoindre votre place.",
+          verbs: ["choisissez"],
+        },
+        {
+          text: "Je cours jusqu'à la gare mais le train part devant moi.",
+          verbs: ["cours", "part"],
+        },
+        {
+          text: "Le chien entend un bruit et lève aussitôt la tête.",
+          verbs: ["entend", "lève"],
+        },
+        {
+          text: "Les nuages cachent le soleil puis laissent passer un rayon de lumière.",
+          verbs: ["cachent", "laissent"],
+        },
+        {
+          text: "Tu finis ton exercice avant de prendre une feuille neuve.",
+          verbs: ["finis"],
+        },
+        {
+          text: "La petite fille observe les étoiles et rêve de voyager très loin.",
+          verbs: ["observe", "rêve"],
+        },
+        {
+          text: "Nous descendons l'escalier sans courir dans le couloir.",
+          verbs: ["descendons"],
+        },
+        {
+          text: "Le professeur écrit la consigne et demande aux élèves de la lire.",
+          verbs: ["écrit", "demande"],
+        },
+        {
+          text: "Je choisis une couleur pour dessiner le paysage.",
+          verbs: ["choisis"],
+        },
+        {
+          text: "Les feuilles rougissent quand l'automne arrive.",
+          verbs: ["rougissent", "arrive"],
+        },
+        {
+          text: "Vous prenez le chemin qui longe la rivière.",
+          verbs: ["prenez", "longe"],
+        },
+        {
+          text: "La lune apparaît et éclaire le sentier.",
+          verbs: ["apparaît", "éclaire"],
+        },
+        {
+          text: "Tu attends ton tour pour répondre à la question.",
+          verbs: ["attends"],
+        },
+        {
+          text: "Les touristes photographient la place avant de visiter le musée.",
+          verbs: ["photographient"],
+        },
+        {
+          text: "Nous mettons nos chaussures puis nous sortons dans le jardin.",
+          verbs: ["mettons", "sortons"],
+        },
+        {
+          text: "Le facteur passe devant la maison et dépose une lettre.",
+          verbs: ["passe", "dépose"],
+        },
+        {
+          text: "Je lis la carte pour trouver le chemin le plus court.",
+          verbs: ["lis"],
+        },
+        {
+          text: "La neige recouvre les montagnes et transforme le paysage.",
+          verbs: ["recouvre", "transforme"],
+        },
+        {
+          text: "Les musiciens accordent leurs instruments avant de commencer le concert.",
+          verbs: ["accordent"],
+        },
+        {
+          text: "Tu regardes le ciel pendant que les oiseaux s'éloignent.",
+          verbs: ["regardes", "s'éloignent"],
+        },
+        {
+          text: "Le vieux pont résiste au courant et relie les deux rives.",
+          verbs: ["résiste", "relie"],
+        },
+        {
+          text: "Nous suivons le sentier pour atteindre le sommet.",
+          verbs: ["suivons"],
+        },
+        {
+          text: "La lumière entre par la fenêtre et dessine des ombres sur le mur.",
+          verbs: ["entre", "dessine"],
+        },
+        {
+          text: "Vous sortez vos cahiers sans oublier de noter la date.",
+          verbs: ["sortez"],
+        },
+        {
+          text: "Je prends le temps de relire la phrase avant de répondre.",
+          verbs: ["prends"],
+        },
+        {
+          text: "Les vagues frappent la digue tandis que les mouettes volent au-dessus du port.",
+          verbs: ["frappent", "volent"],
+        },
+      ];
+      let cur,
+        done = false,
+        ok = 0,
+        tries = 0,
+        last = -1;
+      const norm = (s) =>
+        s
+          .toLocaleLowerCase("fr-FR")
+          .replace(/[’]/g, "'")
+          .replace(/^[«“"([]+|[»”"),.!?;:\]]+$/g, "");
+      function pick() {
+        let i;
+        do {
+          i = Math.floor(Math.random() * BANK.length);
+        } while (i === last && BANK.length > 1);
+        last = i;
+        cur = BANK[i];
+        done = false;
+        render();
+      }
+      function render() {
+        const b = document.getElementById("box");
+        b.innerHTML = "";
+        cur.text.split(/(\s+)/).forEach((p) => {
+          if (/^\s+$/.test(p)) {
+            b.append(p);
+            return;
+          }
+          let s = document.createElement("span");
+          s.className = "word";
+          s.textContent = p;
+          s.dataset.t = norm(p);
+          s.onclick = () => {
+            if (!done) s.classList.toggle("selected");
+          };
+          b.append(s);
+        });
+        fb.className = "feedback";
+        legend.className = "legend";
+        check.disabled = false;
+        next.disabled = true;
+      }
+      function verify() {
+        if (done) return;
+        done = true;
+        tries++;
+        let targets = cur.verbs.map(norm),
+          perfect = true;
+        document.querySelectorAll(".word").forEach((w) => {
+          let v = targets.includes(w.dataset.t),
+            sel = w.classList.contains("selected");
+          w.classList.remove("selected");
+          if (v && sel) w.classList.add("good");
+          else if (v) {
+            w.classList.add("missed");
+            perfect = false;
+          } else if (sel) {
+            w.classList.add("bad");
+            perfect = false;
+          }
+        });
+        if (perfect) ok++;
+        score.textContent = `Réussites : ${ok} / ${tries}`;
+        fb.className = "feedback show " + (perfect ? "ok" : "no");
+        fb.innerHTML = perfect
+          ? "<b>Bravo !</b> Tu as repéré tous les verbes conjugués."
+          : "<b>Observe la correction.</b> Vert : bon choix · jaune : verbe oublié · rouge : mot choisi par erreur.";
+        legend.className = "legend show";
+        check.disabled = true;
+        next.disabled = false;
+      }
+      check.onclick = verify;
+      next.onclick = pick;
+      reset.onclick = () => {
+        ok = tries = 0;
+        last = -1;
+        score.textContent = "Réussites : 0 / 0";
+        pick();
+      };
+      pick();
+    </script>
+  </body>
+</html>

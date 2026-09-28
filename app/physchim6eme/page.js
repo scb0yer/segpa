@@ -1,11 +1,11 @@
 "use client";
 
-const Histgeo6eme = () => {
+const Physchim6eme = () => {
   const activities = [
     {
       numero: "01",
-      titre: "Mission cartographie",
-      href: "/histgeo6eme/mission_cartographe_1.html",
+      titre: "QCM sur les propriétés de la matière",
+      href: "/physchim6eme/QCM1.html",
     },
   ];
 
@@ -40,7 +40,7 @@ const Histgeo6eme = () => {
         {/* Titre */}
         <header className="mb-12">
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.4em] text-green-400">
-            Histoire -Géographie
+            Physique - Chimie
           </p>
 
           <h1 className="text-5xl font-black tracking-tight sm:text-7xl">
@@ -89,11 +89,11 @@ const Histgeo6eme = () => {
 
         {/* Footer */}
         <footer className="mt-16 border-t border-white/[0.07] pt-7 text-xs text-slate-600">
-          Classes de Mme Boyer · Histoire- Géographie 6ème
+          Classes de Mme Boyer · Physique - Chimie 6ème
         </footer>
       </main>
     </div>
   );
 };
 
-export default Histgeo6eme;
+export default Physchim6eme;

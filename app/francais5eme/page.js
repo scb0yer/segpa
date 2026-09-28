@@ -13,6 +13,23 @@ const Francais5eme = () => {
       href: "/francais5eme/semaine2.html",
     },
   ];
+  const conjugaison = [
+    {
+      numero: "01",
+      titre: "Repérer le verbe",
+      href: "/francais5eme/conjugaison_1.html",
+    },
+    {
+      numero: "02",
+      titre: "Classer les verbes",
+      href: "/francais5eme/conjugaison_2.html",
+    },
+    {
+      numero: "03",
+      titre: "Conjuguer au présent",
+      href: "/francais5eme/conjugaison_3.html",
+    },
+  ];
 
   const chatbox = [
     {
@@ -125,12 +142,12 @@ const Francais5eme = () => {
           </section>
 
           <p className="mt-5 max-w-xl text-base text-slate-400 sm:text-lg">
-            Les parcours littéraires
+            Conjugaison
           </p>
 
           {/* Liste des parcours */}
           <section className="grid gap-4">
-            {parcours.map((parcours) => (
+            {conjugaison.map((parcours) => (
               <a
                 key={parcours.numero}
                 href={parcours.href}
@@ -160,6 +177,7 @@ const Francais5eme = () => {
               </a>
             ))}
           </section>
+
           <p className="mt-5 max-w-xl text-base text-slate-400 sm:text-lg">
             Les chatbox littéraires
           </p>

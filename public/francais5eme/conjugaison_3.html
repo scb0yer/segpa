@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Conjugue au présent — Mme Boyer</title>
+<style>
+:root{--ink:#17324a;--muted:#647789;--blue:#2f7697;--blue2:#dceef5;--green:#2f7d62;--greenbg:#e7f5ee;--red:#a94848;--redbg:#fbeaea;--sand:#f3eadb;--gold:#f4c44e}
+*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--ink);background:linear-gradient(#eaf5f8,#f7f2e8 62%,#fffdf8);min-height:100vh}
+header,main{max-width:980px;margin:auto;padding:28px 20px 10px}.eyebrow{font-weight:800;color:var(--blue);letter-spacing:.08em;text-transform:uppercase;font-size:.82rem}
+h1{font:700 clamp(2rem,5vw,3.5rem)/1 Georgia,serif;margin:.25rem 0}.lead{color:var(--muted);font-size:1.05rem;line-height:1.5}
+.card{background:#fffdf8;border:1px solid #d8e7ed;border-radius:24px;box-shadow:0 16px 45px #1837481f;padding:clamp(20px,4vw,38px)}
+.top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.badge{background:var(--blue2);color:#235f79;border-radius:999px;padding:8px 13px;font-weight:800}.score{font-weight:800;color:var(--muted)}
+.rule{margin:24px 0 8px;font-size:1.05rem}.rule b{color:var(--blue)}
+.exercise{margin:20px 0;padding:28px 24px;background:white;border:2px solid #e8e2d7;border-radius:18px;text-align:center}
+.sentence{font:1.45rem/2 Georgia,serif}.subject.hint-on{font-weight:900;background:#fff2b8;border-radius:5px;padding:1px 3px}
+.answer{display:inline-block;min-width:155px;border:0;border-bottom:3px solid #7ca7ba;background:#f8fcfd;padding:5px 8px;font:700 1.25rem Georgia,serif;color:var(--ink);text-align:center;outline:none}
+.answer:focus{background:#eef8fb;border-color:var(--blue)}.answer.correct{background:var(--greenbg);border-color:var(--green)}.answer.wrong{background:var(--redbg);border-color:var(--red)}
+.inf{display:inline-block;margin-right:7px;font:italic 1rem Georgia,serif;color:#6d5c4d}.inf::before{content:"(";}.inf::after{content:")";}
+.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:17px}
+button{border:0;border-radius:12px;padding:11px 16px;font-size:1rem;font-weight:800;cursor:pointer}.primary{background:var(--blue);color:white}.secondary{background:var(--sand);color:var(--ink)}.hintbtn{background:#fff2bd;color:#654f00}
+button:disabled{opacity:.45;cursor:not-allowed}.feedback{display:none;margin:18px auto 0;max-width:680px;padding:13px 16px;border-radius:13px;line-height:1.45}.feedback.show{display:block}.ok{background:var(--greenbg);color:#245f4d}.no{background:#fff0ed;color:#813f38}
+.tip{margin-top:14px;color:var(--muted);font-size:.88rem;text-align:center}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:27px}
+@media(max-width:600px){.sentence{font-size:1.22rem}.exercise{padding:22px 13px}.answer{min-width:125px}}
+</style></head>
+<body>
+<header><div class="eyebrow">Français · Conjugaison</div><h1>Conjugue au présent</h1>
+<div class="lead">Complète la phrase en conjuguant le verbe indiqué à l'infinitif.</div></header>
+<main><section class="card">
+<div class="top"><span class="badge">Étape 3 · Conjuguer</span><span class="score" id="score">Réussites : 0 / 0</span></div>
+<div class="rule"><b>Consigne :</b> conjugue le verbe au <b>présent de l'indicatif</b>.</div>
+<div class="exercise"><div class="sentence" id="sentence"></div>
+<div class="actions"><button class="hintbtn" id="hint">💡 Indice</button><button class="primary" id="check">Vérifier</button><button class="secondary" id="next" disabled>Une autre phrase →</button></div>
+<div class="feedback" id="fb"></div></div>
+<div class="tip">💡 L'indice met le <b>sujet</b> en évidence. C'est lui qui commande l'accord du verbe.</div>
+</section></main><footer>Classes de Mme Boyer · Français 5ème</footer>
+<script>
+const BANK=[{"text": "Chaque matin, Lina ___ devant le collège.", "inf": "arriver", "answer": "arrive", "subject": "Lina"}, {"text": "Souvent, mon petit frère ___ ses affaires au dernier moment.", "inf": "ranger", "answer": "range", "subject": "mon petit frère"}, {"text": "Dans la cour, les élèves de sixième ___ près du préau.", "inf": "jouer", "answer": "jouent", "subject": "les élèves de sixième"}, {"text": "Aujourd'hui, la professeure de français ___ un nouveau poème.", "inf": "présenter", "answer": "présente", "subject": "la professeure de français"}, {"text": "Parfois, les oiseaux du jardin ___ dès le lever du jour.", "inf": "chanter", "answer": "chantent", "subject": "les oiseaux du jardin"}, {"text": "Au fond de la classe, deux élèves ___ une grande affiche.", "inf": "préparer", "answer": "préparent", "subject": "deux élèves"}, {"text": "Chaque soir, ma grande sœur ___ quelques pages de son roman.", "inf": "lire", "answer": "lit", "subject": "ma grande sœur"}, {"text": "En hiver, le vieux platane de la place ___ toutes ses feuilles.", "inf": "perdre", "answer": "perd", "subject": "le vieux platane de la place"}, {"text": "Soudain, le train pour Paris ___ le quai.", "inf": "quitter", "answer": "quitte", "subject": "le train pour Paris"}, {"text": "Au loin, les lumières de la ville ___ dans la nuit.", "inf": "briller", "answer": "brillent", "subject": "les lumières de la ville"}, {"text": "Doucement, la pluie fine ___ sur les vitres.", "inf": "tomber", "answer": "tombe", "subject": "la pluie fine"}, {"text": "Chaque semaine, notre classe ___ un nouveau texte.", "inf": "étudier", "answer": "étudie", "subject": "notre classe"}, {"text": "Dans le jardin, une petite fille ___ les papillons.", "inf": "observer", "answer": "observe", "subject": "une petite fille"}, {"text": "Souvent, les touristes étrangers ___ la vieille ville.", "inf": "photographier", "answer": "photographient", "subject": "les touristes étrangers"}, {"text": "Après le repas, mon père ___ les fenêtres du salon.", "inf": "fermer", "answer": "ferme", "subject": "mon père"}, {"text": "Au printemps, les fleurs du jardin ___ rapidement.", "inf": "pousser", "answer": "poussent", "subject": "les fleurs du jardin"}, {"text": "Parfois, le chien de nos voisins ___ devant le portail.", "inf": "aboyer", "answer": "aboie", "subject": "le chien de nos voisins"}, {"text": "Le matin, les premiers rayons du soleil ___ les montagnes.", "inf": "éclairer", "answer": "éclairent", "subject": "les premiers rayons du soleil"}, {"text": "Avec précaution, la gardienne du musée ___ la grande porte.", "inf": "ouvrir", "answer": "ouvre", "subject": "la gardienne du musée"}, {"text": "À Noël, mes grands-parents ___ des livres aux enfants.", "inf": "offrir", "answer": "offrent", "subject": "mes grands-parents"}, {"text": "Chaque matin, le boulanger du village ___ sa boutique très tôt.", "inf": "ouvrir", "answer": "ouvre", "subject": "le boulanger du village"}, {"text": "Dans le bus, un jeune garçon ___ son livre préféré.", "inf": "lire", "answer": "lit", "subject": "un jeune garçon"}, {"text": "À huit heures, le train de banlieue ___ de la gare.", "inf": "partir", "answer": "part", "subject": "le train de banlieue"}, {"text": "Très vite, les coureurs de l'équipe ___ vers la ligne d'arrivée.", "inf": "courir", "answer": "courent", "subject": "les coureurs de l'équipe"}, {"text": "Avant le cours, les élèves du premier rang ___ leurs cahiers sur la table.", "inf": "mettre", "answer": "mettent", "subject": "les élèves du premier rang"}, {"text": "À midi, tous les enfants de l'école ___ dans la cour.", "inf": "sortir", "answer": "sortent", "subject": "tous les enfants de l'école"}, {"text": "En silence, la jeune fille ___ une réponse sur sa feuille.", "inf": "écrire", "answer": "écrit", "subject": "la jeune fille"}, {"text": "Finalement, mon meilleur ami ___ le livre rouge.", "inf": "choisir", "answer": "choisit", "subject": "mon meilleur ami"}, {"text": "Devant le cinéma, une longue file de spectateurs ___ l'ouverture des portes.", "inf": "attendre", "answer": "attend", "subject": "une longue file de spectateurs"}, {"text": "Sur le sentier, les randonneurs fatigués ___ les marques rouges.", "inf": "suivre", "answer": "suivent", "subject": "les randonneurs fatigués"}, {"text": "Toute la journée, le vieux chat gris ___ près du radiateur.", "inf": "dormir", "answer": "dort", "subject": "le vieux chat gris"}, {"text": "Sans hésiter, la déléguée de classe ___ à la question.", "inf": "répondre", "answer": "répond", "subject": "la déléguée de classe"}, {"text": "En automne, les feuilles des arbres ___ peu à peu.", "inf": "rougir", "answer": "rougissent", "subject": "les feuilles des arbres"}, {"text": "Lentement, le bateau de pêche ___ la rivière.", "inf": "descendre", "answer": "descend", "subject": "le bateau de pêche"}, {"text": "Tous les matins, mon voisin ___ le même bus.", "inf": "prendre", "answer": "prend", "subject": "mon voisin"}, {"text": "Avant la récréation, la plupart des élèves ___ leur exercice.", "inf": "finir", "answer": "finissent", "subject": "la plupart des élèves"}, {"text": "Aujourd'hui, la salle de classe ___ particulièrement calme.", "inf": "être", "answer": "est", "subject": "la salle de classe"}, {"text": "Ce matin, les couloirs du collège ___ très bruyants.", "inf": "être", "answer": "sont", "subject": "les couloirs du collège"}, {"text": "Dans son sac, ma voisine ___ toujours deux stylos bleus.", "inf": "avoir", "answer": "a", "subject": "ma voisine"}, {"text": "Pour ce projet, les élèves de notre groupe ___ beaucoup d'idées.", "inf": "avoir", "answer": "ont", "subject": "les élèves de notre groupe"}, {"text": "Chaque mercredi, le club de théâtre ___ dans la grande salle.", "inf": "aller", "answer": "va", "subject": "le club de théâtre"}, {"text": "Après les cours, mes deux amies ___ à la bibliothèque.", "inf": "aller", "answer": "vont", "subject": "mes deux amies"}, {"text": "Souvent, notre professeur ___ un dessin au tableau.", "inf": "faire", "answer": "fait", "subject": "notre professeur"}, {"text": "Pendant l'atelier, les enfants ___ de petites affiches.", "inf": "faire", "answer": "font", "subject": "les enfants"}, {"text": "À voix basse, le garçon du premier rang ___ la réponse.", "inf": "dire", "answer": "dit", "subject": "le garçon du premier rang"}, {"text": "Parfois, les élèves les plus timides ___ leur avis à la classe.", "inf": "dire", "answer": "disent", "subject": "les élèves les plus timides"}, {"text": "Parfois, nous ___ le chemin le plus long.", "inf": "prendre", "answer": "prenons", "subject": "nous"}, {"text": "Aujourd'hui, vous ___ un texte sur le voyage.", "inf": "lire", "answer": "lisez", "subject": "vous"}, {"text": "Ensuite, tu ___ la date dans ton cahier.", "inf": "écrire", "answer": "écris", "subject": "tu"}, {"text": "Enfin, je ___ mon travail avant de sortir.", "inf": "finir", "answer": "finis", "subject": "je"}];
+let current,last=-1,ok=0,tries=0,locked=false,hinted=false;
+const sentence=document.getElementById('sentence'), fb=document.getElementById('fb'), score=document.getElementById('score');
+const norm=s=>s.trim().toLocaleLowerCase('fr-FR').replace(/[’]/g,"'");
+
+function esc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+function pick(){
+ let i; do{i=Math.floor(Math.random()*BANK.length)}while(i===last&&BANK.length>1);
+ last=i; current=BANK[i]; locked=false; hinted=false; render();
+}
+function render(){
+ let txt=current.text;
+ // Marque le sujet sans modifier le reste de la phrase.
+ const re=new RegExp(esc(current.subject));
+ txt=txt.replace(re,`<span class="subject">${current.subject}</span>`);
+ txt=txt.replace("___",`<span class="inf">${current.inf}</span><input id="answer" class="answer" autocomplete="off" spellcheck="false" aria-label="Réponse">`);
+ sentence.innerHTML=txt;
+ fb.className='feedback'; fb.textContent='';
+ document.getElementById('hint').disabled=false; document.getElementById('check').disabled=false; document.getElementById('next').disabled=true;
+ const a=document.getElementById('answer'); a.focus(); a.addEventListener('keydown',e=>{if(e.key==='Enter')verify()});
+}
+function showHint(){
+ if(locked)return; hinted=true;
+ document.querySelector('.subject').classList.add('hint-on');
+ document.getElementById('hint').disabled=true;
+}
+function verify(){
+ if(locked)return;
+ const a=document.getElementById('answer'); if(!a.value.trim()){a.focus();return}
+ locked=true; tries++;
+ const good=norm(a.value)===norm(current.answer);
+ if(good)ok++;
+ score.textContent=`Réussites : ${ok} / ${tries}`;
+ a.classList.add(good?'correct':'wrong'); a.disabled=true;
+ fb.className='feedback show '+(good?'ok':'no');
+ fb.innerHTML=good
+ ? `<b>Bravo !</b> ${current.subject} → <b>${current.answer}</b>.`
+ : `<b>À revoir :</b> on écrit <b>${current.answer}</b>. Le verbe est <b>${current.inf}</b>.`;
+ document.getElementById('check').disabled=true; document.getElementById('hint').disabled=true; document.getElementById('next').disabled=false;
+}
+document.getElementById('hint').onclick=showHint;
+document.getElementById('check').onclick=verify;
+document.getElementById('next').onclick=pick;
+pick();
+</script></body></html>
