@@ -5,6 +5,13 @@ const Anglais3eme = () => {
   const jeux = [
     {
       numero: "01",
+      titre: "Podcasts British Council",
+      description:
+        "Améliore ta compréhension orale en écoutant un podcast en anglais et en travaillant sur le vocabulaire autour.",
+      href: "https://learnenglishteens.britishcouncil.org/skills/listening/a1-listening",
+    },
+    {
+      numero: "02",
       titre: "Let's go to eat !",
       description:
         "Tu dois choisir un restaurant auquel aller manger avec ton nouveau collègue de travail.",
