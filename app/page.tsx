@@ -184,7 +184,7 @@ export default function Home() {
               },
             };
 
-            const c = styles[groupe.couleur];
+            const c = styles[groupe.couleur as keyof typeof styles];
 
             return (
               <div key={groupe.niveau}>
