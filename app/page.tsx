@@ -47,229 +47,373 @@ export default function Home() {
         </header>
 
         {/* COURS */}
-        <section className="grid gap-5 lg:grid-cols-2">
-          {/* FRANÇAIS */}
-          <a
-            href="/francais5eme"
-            className="group relative min-h-[440px] overflow-hidden rounded-[2rem] border border-rose-400/30 bg-gradient-to-br from-[#32131e] via-[#1d1019] to-[#0e0c14] p-7 shadow-2xl shadow-rose-950/20 transition-all duration-500 hover:-translate-y-1 hover:border-rose-400/60 hover:shadow-rose-900/30 sm:min-h-[570px] sm:p-10"
-          >
-            {/* Glow */}
-            <div className="absolute -bottom-32 -right-24 h-80 w-80 rounded-full bg-rose-500/30 blur-[80px] transition-all duration-700 group-hover:bg-rose-500/40" />
+        {/* ESPACES PAR NIVEAU */}
+        <section className="space-y-16">
+          {[
+            {
+              niveau: "6ème",
+              numero: "06",
+              couleur: "green",
+              titreCouleur: "text-green-400",
+              ligneCouleur: "from-green-400/70",
+              matieres: [
+                {
+                  titre: "Histoire-Géo",
+                  description: "Activités et QCM",
+                  href: "/histgeo6eme",
+                  image: "/geo.png",
+                },
+                {
+                  titre: "Physique Chimie",
+                  description: "Activités et QCM",
+                  href: "/physchim6eme",
+                  image: "/phys.png",
+                },
+              ],
+            },
 
-            {/* Formes décoratives */}
-            <div className="absolute right-[-80px] top-[110px] h-64 w-64 rotate-12 rounded-[60px] border border-rose-400/10 bg-rose-400/5" />
+            {
+              niveau: "5ème",
+              numero: "05",
+              couleur: "blue",
+              titreCouleur: "text-blue-400",
+              ligneCouleur: "from-blue-400/70",
+              matieres: [
+                {
+                  titre: "Français",
+                  description: "Parcours interactifs · Fluence",
+                  href: "/francais5eme",
+                  image: "/livrev2.png",
+                },
+              ],
+            },
 
-            <span className="absolute right-7 top-6 text-4xl font-bold text-rose-300/20">
-              01
-            </span>
+            {
+              niveau: "4ème",
+              numero: "04",
+              couleur: "orange",
+              titreCouleur: "text-orange-400",
+              ligneCouleur: "from-orange-400/70",
+              matieres: [
+                {
+                  titre: "Maths",
+                  description: "Jeux numériques",
+                  href: "/maths4eme",
+                  image: "/calculatricev2.png",
+                },
+              ],
+            },
 
-            <div className="relative z-10 flex h-full flex-col">
-              <p className="text-sm font-bold uppercase tracking-[0.35em] text-rose-200">
-                Français
-              </p>
+            {
+              niveau: "3ème",
+              numero: "03",
+              couleur: "yellow",
+              titreCouleur: "text-yellow-400",
+              ligneCouleur: "from-yellow-400/70",
+              matieres: [
+                {
+                  titre: "Maths",
+                  description: "Jeux numériques",
+                  href: "/maths3eme",
+                  image: "/calculatricev2.png",
+                },
+                {
+                  titre: "Anglais",
+                  description: "Activités",
+                  href: "/anglais3eme",
+                  image: "/eng.png",
+                },
+              ],
+            },
+          ].map((groupe) => {
+            const styles = {
+              green: {
+                border: "border-green-400/25",
+                hoverBorder: "hover:border-green-400/60",
+                glow: "bg-green-500/15",
+                glowHover: "group-hover:bg-green-500/25",
+                label: "text-green-300",
+                number: "text-green-400",
+                line: "bg-green-400",
+                button:
+                  "border-green-400/30 bg-green-400/10 text-green-300 group-hover:bg-green-400",
+                shadow: "hover:shadow-green-950/40",
+                gradient: "from-green-950/60 via-[#101a17] to-[#0b0d12]",
+              },
 
-              <h2 className="mt-3 text-6xl font-black tracking-tight sm:text-8xl">
-                <span className="text-rose-400">5</span>ème
-              </h2>
+              blue: {
+                border: "border-blue-400/25",
+                hoverBorder: "hover:border-blue-400/60",
+                glow: "bg-blue-500/15",
+                glowHover: "group-hover:bg-blue-500/25",
+                label: "text-blue-300",
+                number: "text-blue-400",
+                line: "bg-blue-400",
+                button:
+                  "border-blue-400/30 bg-blue-400/10 text-blue-300 group-hover:bg-blue-400",
+                shadow: "hover:shadow-blue-950/40",
+                gradient: "from-blue-950/60 via-[#101522] to-[#0b0d12]",
+              },
 
-              <div className="mt-4 h-1 w-12 rounded-full bg-rose-400" />
+              orange: {
+                border: "border-orange-400/25",
+                hoverBorder: "hover:border-orange-400/60",
+                glow: "bg-orange-500/15",
+                glowHover: "group-hover:bg-orange-500/25",
+                label: "text-orange-300",
+                number: "text-orange-400",
+                line: "bg-orange-400",
+                button:
+                  "border-orange-400/30 bg-orange-400/10 text-orange-300 group-hover:bg-orange-400",
+                shadow: "hover:shadow-orange-950/40",
+                gradient: "from-orange-950/60 via-[#1b1510] to-[#0b0d12]",
+              },
 
-              <p className="mt-6 text-xl font-medium text-slate-200 sm:text-2xl">
-                Parcours interactifs
-                <br />
-                Fluence
-              </p>
+              yellow: {
+                border: "border-yellow-400/25",
+                hoverBorder: "hover:border-yellow-400/60",
+                glow: "bg-yellow-500/15",
+                glowHover: "group-hover:bg-yellow-500/25",
+                label: "text-yellow-300",
+                number: "text-yellow-400",
+                line: "bg-yellow-400",
+                button:
+                  "border-yellow-400/30 bg-yellow-400/10 text-yellow-300 group-hover:bg-yellow-400",
+                shadow: "hover:shadow-yellow-950/40",
+                gradient: "from-yellow-950/50 via-[#19170f] to-[#0b0d12]",
+              },
+            };
 
-              {/* Livre */}
-              <div className="relative my-auto flex min-h-[150px] items-center justify-center py-5">
-                <div className="relative transition-transform duration-500 group-hover:-rotate-2 group-hover:scale-105">
-                  <div className="absolute inset-0 scale-125 rounded-full bg-rose-500/20 blur-3xl" />
+            const c = styles[groupe.couleur];
 
-                  <Image src="/livrev2.png" alt="" width={280} height={280} />
-                </div>
-              </div>
+            return (
+              <div key={groupe.niveau}>
+                {/* EN-TÊTE DU NIVEAU */}
+                <div className="mb-6 flex items-end gap-5 px-1">
+                  <div>
+                    <p className="mb-1 text-xs font-bold uppercase tracking-[0.35em] text-slate-500">
+                      Niveau
+                    </p>
 
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold uppercase tracking-[0.25em] text-rose-200/60">
-                  Ouvrir
-                </span>
-                <Arrow />
-              </div>
-            </div>
-          </a>
-
-          {/* COLONNE MATHS */}
-          <div className="grid gap-5">
-            {/* MATHS 4e */}
-            <a
-              href="/maths4eme"
-              className="group relative min-h-[270px] overflow-hidden rounded-[2rem] border border-violet-400/30 bg-gradient-to-br from-[#171335] via-[#111126] to-[#0b0b16] p-7 shadow-2xl shadow-violet-950/20 transition-all duration-500 hover:-translate-y-1 hover:border-violet-400/60 hover:shadow-violet-900/30 sm:p-9"
-            >
-              <div className="absolute -right-20 top-0 h-72 w-72 rounded-full bg-violet-600/20 blur-[70px]" />
-              <div className="absolute bottom-[-100px] right-10 h-52 w-52 rotate-45 rounded-[40px] border border-violet-400/10 bg-violet-500/5" />
-
-              <span className="absolute right-7 top-6 text-4xl font-bold text-violet-300/20">
-                02
-              </span>
-
-              <div className="relative z-10 flex h-full items-center justify-between gap-4">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.35em] text-violet-300">
-                    Maths
-                  </p>
-
-                  <h2 className="mt-2 text-5xl font-black sm:text-6xl">
-                    <span className="text-violet-400">4</span>ème
-                  </h2>
-
-                  <div className="mt-3 h-1 w-10 rounded-full bg-violet-400" />
-
-                  <p className="mt-5 text-lg text-slate-300">Jeux numériques</p>
-
-                  <div className="mt-6">
-                    <Arrow />
+                    <h2
+                      className={`text-4xl font-black tracking-tight sm:text-5xl ${groupe.titreCouleur}`}
+                    >
+                      {groupe.niveau}
+                    </h2>
                   </div>
-                </div>
 
-                {/* Calculatrice */}
-                <div className="relative flex w-[42%] justify-center">
-                  <div className="absolute inset-0 rounded-full bg-violet-500/20 blur-3xl" />
-                  <Image
-                    src="/calculatricev2.png"
-                    alt=""
-                    width={280}
-                    height={280}
+                  <div
+                    className={`mb-2 h-px flex-1 bg-gradient-to-r ${groupe.ligneCouleur} to-transparent`}
                   />
+
+                  <span className="mb-1 hidden text-xs uppercase tracking-[0.25em] text-slate-600 sm:block">
+                    Fais défiler →
+                  </span>
+                </div>
+
+                {/* CARROUSEL */}
+                <div
+                  className="
+            -mx-5 flex snap-x snap-mandatory gap-5
+            overflow-x-auto px-5 pb-5
+            sm:-mx-8 sm:px-8
+            lg:-mx-2 lg:px-2
+            [scrollbar-width:none]
+            [&::-webkit-scrollbar]:hidden
+          "
+                >
+                  {groupe.matieres.map((matiere, index) => (
+                    <a
+                      key={matiere.titre}
+                      href={matiere.href}
+                      className={`
+                group relative
+                min-h-[300px]
+                w-[85vw]
+                max-w-[420px]
+                shrink-0
+                snap-start
+                overflow-hidden
+                rounded-[2rem]
+                border
+                bg-gradient-to-br
+                p-7
+                shadow-2xl
+                transition-all
+                duration-500
+
+                sm:w-[380px]
+                sm:p-9
+
+                hover:-translate-y-1
+
+                ${c.border}
+                ${c.hoverBorder}
+                ${c.shadow}
+                ${c.gradient}
+              `}
+                    >
+                      {/* HALO */}
+                      <div
+                        className={`
+                  absolute -right-24 -top-20
+                  h-72 w-72
+                  rounded-full
+                  blur-[80px]
+                  transition-all
+                  duration-700
+
+                  ${c.glow}
+                  ${c.glowHover}
+                `}
+                      />
+
+                      {/* FORME DÉCORATIVE */}
+                      <div
+                        className={`
+                  absolute
+                  -bottom-28 right-4
+                  h-52 w-52
+                  rotate-45
+                  rounded-[45px]
+                  border
+                  ${c.border}
+                  bg-white/[0.02]
+                `}
+                      />
+
+                      <div className="relative z-10 flex h-full min-h-[240px] flex-col">
+                        {/* Petit badge du niveau */}
+                        <div className="flex items-center justify-between">
+                          <span
+                            className={`
+        inline-flex rounded-full border px-3 py-1
+        text-[11px] font-bold uppercase tracking-[0.18em]
+        ${c.border} ${c.label}
+        bg-white/[0.04]
+      `}
+                          >
+                            {groupe.niveau}
+                          </span>
+
+                          <span
+                            className={`text-sm font-bold tracking-widest opacity-30 ${c.number}`}
+                          >
+                            {String(index + 1).padStart(2, "0")}
+                          </span>
+                        </div>
+
+                        {/* Contenu principal */}
+                        <div className="relative mt-7 flex-1">
+                          {/* Matière : information principale */}
+                          <h3
+                            className="
+        relative z-10
+        max-w-[65%]
+        text-3xl font-black
+        uppercase
+        leading-[0.95]
+        tracking-tight
+        text-white
+        sm:text-4xl
+      "
+                          >
+                            {matiere.titre}
+                          </h3>
+
+                          {/* Trait de couleur */}
+                          <div
+                            className={`relative z-10 mt-4 h-1 w-12 rounded-full ${c.line}`}
+                          />
+
+                          {/* Description */}
+                          <p className="relative z-10 mt-5 max-w-[55%] text-base leading-snug text-slate-400">
+                            {matiere.description}
+                          </p>
+
+                          {/* Illustration */}
+                          <div
+                            className="
+        absolute
+        -right-5
+        top-1/2
+        flex
+        h-[190px]
+        w-[52%]
+        -translate-y-1/2
+        items-center
+        justify-center
+      "
+                          >
+                            {/* Halo derrière l'image */}
+                            <div
+                              className={`absolute inset-5 rounded-full ${c.glow} blur-3xl`}
+                            />
+
+                            <Image
+                              src={matiere.image}
+                              alt=""
+                              width={230}
+                              height={230}
+                              className="
+          relative
+          max-h-[185px]
+          w-auto
+          object-contain
+          drop-shadow-2xl
+          transition-all
+          duration-500
+          group-hover:-rotate-3
+          group-hover:scale-110
+        "
+                            />
+                          </div>
+                        </div>
+
+                        {/* Bas de carte */}
+                        <div className="relative z-10 mt-5 flex items-center justify-between">
+                          <span
+                            className={`
+        text-[11px]
+        font-bold
+        uppercase
+        tracking-[0.25em]
+        ${c.label}
+        opacity-60
+      `}
+                          >
+                            Ouvrir
+                          </span>
+
+                          <div
+                            className={`
+        flex h-11 w-11
+        items-center justify-center
+        rounded-full
+        border
+        text-lg
+        transition-all
+        duration-300
+
+        group-hover:translate-x-1
+        group-hover:text-[#070914]
+
+        ${c.button}
+      `}
+                          >
+                            →
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  ))}
+
+                  {/* ESPACE FINAL DU CARROUSEL */}
+                  <div className="w-1 shrink-0" />
                 </div>
               </div>
-            </a>
-
-            {/* MATHS 3e */}
-            <a
-              href="/maths3eme"
-              className="group relative min-h-[270px] overflow-hidden rounded-[2rem] border border-cyan-400/30 bg-gradient-to-br from-[#09243a] via-[#0b1728] to-[#090e18] p-7 shadow-2xl shadow-cyan-950/20 transition-all duration-500 hover:-translate-y-1 hover:border-cyan-400/60 hover:shadow-cyan-900/30 sm:p-9"
-            >
-              <div className="absolute -right-20 top-0 h-72 w-72 rounded-full bg-cyan-500/20 blur-[70px]" />
-              <div className="absolute bottom-[-100px] right-10 h-52 w-52 rotate-45 rounded-[40px] border border-cyan-400/10 bg-cyan-500/5" />
-
-              <span className="absolute right-7 top-6 text-4xl font-bold text-cyan-300/20">
-                03
-              </span>
-
-              <div className="relative z-10 flex h-full items-center justify-between gap-4">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.35em] text-cyan-300">
-                    Maths
-                  </p>
-
-                  <h2 className="mt-2 text-5xl font-black sm:text-6xl">
-                    <span className="text-cyan-400">3</span>ème
-                  </h2>
-
-                  <div className="mt-3 h-1 w-10 rounded-full bg-cyan-400" />
-
-                  <p className="mt-5 text-lg text-slate-300">Jeux numériques</p>
-
-                  <div className="mt-6">
-                    <Arrow />
-                  </div>
-                </div>
-
-                {/* Même calculatrice */}
-                <div className="relative flex w-[42%] justify-center">
-                  <div className="absolute inset-0 rounded-full bg-cyan-500/20 blur-3xl" />
-                  <Image
-                    src="/calculatricev2.png"
-                    alt=""
-                    width={280}
-                    height={280}
-                  />
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div className="grid gap-5 lg:col-span-2 lg:grid-cols-2">
-            <a
-              href="/histgeo6eme"
-              className="group relative min-h-[270px] overflow-hidden rounded-[2rem] border border-green-400/30 bg-gradient-to-br from-[#171335] via-[#111126] to-[#0b0b16] p-7 shadow-2xl shadow-green-950/20 transition-all duration-500 hover:-translate-y-1 hover:border-green-400/60 hover:shadow-green-900/30 sm:p-9"
-            >
-              <div className="absolute -right-20 top-0 h-72 w-72 rounded-full bg-green-600/20 blur-[70px]" />
-              <div className="absolute bottom-[-100px] right-10 h-52 w-52 rotate-45 rounded-[40px] border border-green-400/10 bg-green-500/5" />
-
-              <span className="absolute right-7 top-6 text-4xl font-bold text-green-300/20">
-                04
-              </span>
-
-              <div className="relative z-10 flex h-full items-center justify-between gap-4">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.35em] text-green-300">
-                    Histoire-Géo
-                  </p>
-
-                  <h2 className="mt-2 text-5xl font-black sm:text-6xl">
-                    <span className="text-green-400">6</span>ème
-                  </h2>
-
-                  <div className="mt-3 h-1 w-10 rounded-full bg-green-400" />
-
-                  <p className="mt-5 text-lg text-slate-300">
-                    Activités et QCM
-                  </p>
-
-                  <div className="mt-6">
-                    <Arrow />
-                  </div>
-                </div>
-
-                {/* Hist-Géo */}
-                <div className="relative flex w-[42%] justify-center">
-                  <div className="absolute inset-0 rounded-full bg-violet-500/20 blur-3xl" />
-                  <Image src="/geo.png" alt="" width={280} height={280} />
-                </div>
-              </div>
-            </a>
-
-            <a
-              href="/physchim6eme"
-              className="group relative min-h-[270px] overflow-hidden rounded-[2rem] border border-green-400/30 bg-gradient-to-br from-[#171335] via-[#111126] to-[#0b0b16] p-7 shadow-2xl shadow-green-950/20 transition-all duration-500 hover:-translate-y-1 hover:border-green-400/60 hover:shadow-green-900/30 sm:p-9"
-            >
-              <div className="absolute -right-20 top-0 h-72 w-72 rounded-full bg-green-600/20 blur-[70px]" />
-              <div className="absolute bottom-[-100px] right-10 h-52 w-52 rotate-45 rounded-[40px] border border-green-400/10 bg-green-500/5" />
-
-              <span className="absolute right-7 top-6 text-4xl font-bold text-green-300/20">
-                04
-              </span>
-
-              <div className="relative z-10 flex h-full items-center justify-between gap-4">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.35em] text-green-300">
-                    Physique Chimie
-                  </p>
-
-                  <h2 className="mt-2 text-5xl font-black sm:text-6xl">
-                    <span className="text-green-400">6</span>ème
-                  </h2>
-
-                  <div className="mt-3 h-1 w-10 rounded-full bg-green-400" />
-
-                  <p className="mt-5 text-lg text-slate-300">
-                    Activités et QCM
-                  </p>
-
-                  <div className="mt-6">
-                    <Arrow />
-                  </div>
-                </div>
-
-                {/* Hist-Géo */}
-                <div className="relative flex w-[42%] justify-center">
-                  <div className="absolute inset-0 rounded-full bg-violet-500/20 blur-3xl" />
-                  <Image src="/phys.png" alt="" width={280} height={280} />
-                </div>
-              </div>
-            </a>
-          </div>
+            );
+          })}
         </section>
 
         {/* ACCÈS RAPIDES */}
