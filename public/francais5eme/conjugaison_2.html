@@ -6,207 +6,294 @@
     <title>Classe les verbes — Mme Boyer</title>
     <style>
       :root {
-        --ink: #17324a;
-        --muted: #647789;
-        --paper: #fffdf8;
-        --blue: #2f7697;
-        --blue2: #dceef5;
-        --green: #2f7d62;
-        --red: #a94848;
-        --sand: #f3eadb;
-        --gold: #d99b2b;
+        color-scheme: dark;
+        --ink: #f5f5fa;
+        --muted: #b9c0d0;
+        --blue: #54a2ff;
+        --blue-light: #90c5ff;
+        --line: #ffffff1a;
+        --green: #a9ecc7;
+        --greenbg: #183b2c;
+        --red: #ffd3d3;
+        --redbg: #44262d;
       }
+
       * {
         box-sizing: border-box;
       }
+
       body {
         margin: 0;
+        min-height: 100vh;
         font-family:
           system-ui,
           -apple-system,
-          Segoe UI,
+          "Segoe UI",
           Arial,
           sans-serif;
         color: var(--ink);
-        background: linear-gradient(#eaf5f8, #f7f2e8 62%, #fffdf8);
-        min-height: 100vh;
+        background:
+          radial-gradient(ellipse at top right, #16245670, transparent 55%),
+          #070914;
       }
+
       header,
       main {
         max-width: 1100px;
         margin: auto;
-        padding: 28px 20px 10px;
+        padding: 38px 20px 10px;
       }
+
+      .back {
+        display: inline-block;
+        margin-bottom: 28px;
+        color: #adb5c7;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 650;
+      }
+
+      .back:hover {
+        color: var(--blue-light);
+      }
+
       .eyebrow {
-        font-weight: 800;
         color: var(--blue);
-        letter-spacing: 0.08em;
+        font-size: 0.8rem;
+        font-weight: 800;
+        letter-spacing: 0.2em;
         text-transform: uppercase;
-        font-size: 0.82rem;
       }
+
       h1 {
-        font:
-          700 clamp(2rem, 5vw, 3.5rem)/1 Georgia,
-          serif;
-        margin: 0.25rem 0;
+        margin: 12px 0 18px;
+        color: var(--blue-light);
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 850;
+        line-height: 1.1;
+        letter-spacing: -0.045em;
       }
+
       .lead {
+        max-width: 720px;
         color: var(--muted);
         font-size: 1.05rem;
-        line-height: 1.5;
+        line-height: 1.65;
       }
+
+      main {
+        padding-top: 20px;
+      }
+
       .card {
-        background: #fffdf8;
-        border: 1px solid #d8e7ed;
-        border-radius: 24px;
-        box-shadow: 0 16px 45px #1837481f;
         padding: clamp(18px, 3vw, 32px);
+        border: 1px solid var(--line);
+        border-radius: 25px;
+        background: #ffffff06;
       }
+
       .top {
         display: flex;
+        align-items: center;
         justify-content: space-between;
         gap: 12px;
         flex-wrap: wrap;
       }
+
       .badge {
-        background: var(--blue2);
-        color: #235f79;
-        border-radius: 999px;
         padding: 8px 13px;
-        font-weight: 800;
+        border: 1px solid #54a2ff40;
+        border-radius: 999px;
+        background: #54a2ff15;
+        color: var(--blue-light);
+        font-size: 0.9rem;
+        font-weight: 750;
       }
+
       .score {
-        font-weight: 800;
         color: var(--muted);
+        font-size: 0.95rem;
+        font-weight: 750;
       }
+
       .prompt {
+        margin: 28px 0 24px;
         text-align: center;
-        margin: 24px 0 18px;
       }
+
       .prompt small {
         display: block;
+        margin-bottom: 12px;
         color: var(--muted);
-        margin-bottom: 8px;
+        line-height: 1.6;
       }
+
       .tile {
         display: inline-block;
-        background: white;
+        padding: 14px 26px;
         border: 2px solid var(--blue);
-        border-radius: 15px;
-        padding: 13px 25px;
-        font:
-          700 1.55rem Georgia,
-          serif;
-        box-shadow: 0 7px 15px #2f769720;
+        border-radius: 16px;
+        background: #54a2ff15;
+        color: var(--blue-light);
+        font-size: 1.55rem;
+        font-weight: 800;
         cursor: grab;
         touch-action: none;
+        user-select: none;
       }
+
       .tile:active {
         cursor: grabbing;
       }
       .tile.dragging {
         opacity: 0.55;
       }
+
       .zones {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 14px;
       }
+
       .zone {
         min-height: 310px;
-        border: 2px dashed #a8bbc5;
+        padding: 18px 15px;
+        border: 2px dashed #54a2ff40;
         border-radius: 18px;
-        padding: 15px;
-        background: #fff;
-        transition: 0.15s;
+        background: #0d1121;
         text-align: center;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          border-color 0.2s,
+          transform 0.2s;
       }
+
+      .zone:hover,
       .zone.over {
         border-color: var(--blue);
-        background: #eef7fa;
+        background: #54a2ff12;
         transform: translateY(-2px);
       }
+
       .zone h2 {
-        font:
-          700 1.2rem Georgia,
-          serif;
-        margin: 0 0 8px;
-      }
-      .hint {
-        font-size: 0.87rem;
-        color: var(--muted);
-        min-height: 34px;
-      }
-      .example {
-        margin: 12px auto 7px;
-        background: #f6f1e7;
-        border-radius: 11px;
-        padding: 9px;
-        font-size: 1.05rem;
-        max-width: 210px;
-      }
-      .ending {
-        font-weight: 900;
-        color: #a55328;
-      }
-      .conjugation {
-        line-height: 1.55;
-        text-align: left;
-        padding-left: 22px;
-      }
-      .conjugation small {
-        font-size: 0.72rem;
-        color: var(--muted);
-      }
-      .irregulars {
+        margin: 0 0 10px;
+        color: var(--blue-light);
+        font-size: 1.15rem;
         font-weight: 800;
-        line-height: 1.65;
-        color: #7a4b20;
+        line-height: 1.4;
       }
+
+      .hint {
+        min-height: 38px;
+        color: var(--muted);
+        font-size: 0.87rem;
+        line-height: 1.5;
+      }
+
+      .example {
+        max-width: 230px;
+        margin: 14px auto 7px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #ffffff06;
+        font-size: 1.05rem;
+      }
+
+      .ending {
+        color: var(--blue-light);
+        font-weight: 900;
+      }
+
+      .conjugation {
+        text-align: left;
+        line-height: 1.7;
+      }
+
+      .conjugation small {
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+
+      .irregulars {
+        color: var(--blue-light);
+        font-weight: 800;
+        line-height: 1.8;
+      }
+
       .dropnote {
-        margin-top: 17px;
-        color: #78909c;
+        margin-top: 18px;
+        color: var(--muted);
         font-size: 0.88rem;
       }
+
       .feedback {
-        text-align: center;
-        min-height: 52px;
-        margin-top: 18px;
-        padding: 12px;
-        border-radius: 13px;
         display: none;
+        min-height: 52px;
+        margin-top: 20px;
+        padding: 14px 16px;
+        border: 1px solid transparent;
+        border-radius: 14px;
+        text-align: center;
+        line-height: 1.6;
       }
+
       .feedback.show {
         display: block;
       }
+
       .ok {
-        background: #e7f5ee;
-        color: #245f4d;
+        border-color: #79d6a240;
+        background: var(--greenbg);
+        color: var(--green);
       }
+
       .no {
-        background: #fbeaea;
-        color: #853b3b;
+        border-color: #ff999940;
+        background: var(--redbg);
+        color: var(--red);
       }
+
       .actions {
+        margin-top: 20px;
         text-align: center;
-        margin-top: 12px;
       }
+
       button {
-        border: 0;
-        border-radius: 12px;
-        padding: 11px 17px;
-        font-weight: 800;
-        font-size: 1rem;
-        cursor: pointer;
-        background: var(--sand);
+        min-height: 48px;
+        padding: 12px 18px;
+        border: 1px solid #ffffff26;
+        border-radius: 14px;
+        background: #ffffff09;
         color: var(--ink);
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
       }
+
+      button:hover {
+        border-color: var(--blue);
+        background: #54a2ff15;
+      }
+
+      button:focus-visible,
+      a:focus-visible,
+      .zone:focus-visible {
+        outline: 3px solid var(--blue-light);
+        outline-offset: 4px;
+      }
+
       footer {
-        text-align: center;
-        color: var(--muted);
+        max-width: 1060px;
+        margin: 36px auto 0;
+        padding: 24px 20px 32px;
+        border-top: 1px solid var(--line);
+        color: #adb5c7;
         font-size: 0.85rem;
-        padding: 26px;
+        text-align: center;
       }
+
       @media (max-width: 760px) {
         .zones {
           grid-template-columns: 1fr;
@@ -214,32 +301,68 @@
         .zone {
           min-height: 150px;
         }
+        .hint {
+          min-height: 0;
+        }
         .tile {
           font-size: 1.35rem;
         }
       }
+
+      @media (max-width: 560px) {
+        header,
+        main {
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+        .eyebrow {
+          line-height: 1.7;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .zone {
+          transition: none;
+        }
+        .zone:hover,
+        .zone.over {
+          transform: none;
+        }
+      }
     </style>
   </head>
+
   <body>
     <header>
+      <a class="back" href="/francais5eme/"> ← Retour au français 5ème </a>
       <div class="eyebrow">Français · Conjugaison</div>
       <h1>Classe les verbes</h1>
       <div class="lead">
-        Observe le verbe conjugué puis glisse-le dans la bonne famille.
+        Observe le verbe conjugué puis glisse-le dans la bonne famille. Tu peux
+        aussi cliquer sur la famille de ton choix.
       </div>
     </header>
+
     <main>
       <section class="card">
         <div class="top">
-          <span class="badge">Étape 2 · Reconnaître la famille</span
-          ><span class="score" id="score">Réussites : 0 / 0</span>
+          <span class="badge">Étape 2 · Reconnaître la famille</span>
+          <span class="score" id="score">Réussites : 0 / 0</span>
         </div>
+
         <div class="prompt">
-          <small>Glisse ce verbe :</small>
+          <small>Glisse ce verbe ou choisis sa famille :</small>
           <div class="tile" id="tile" draggable="true"></div>
         </div>
+
         <div class="zones">
-          <div class="zone" data-type="er">
+          <div
+            class="zone"
+            data-type="er"
+            role="button"
+            tabindex="0"
+            aria-label="Choisir : se conjugue comme les verbes en ER"
+          >
             <h2>Se conjugue comme les verbes en -ER</h2>
             <div class="hint">Même modèle de terminaisons au présent.</div>
             <div class="example conjugation">
@@ -250,14 +373,21 @@
               nous march<span class="ending">ons</span><br />
               vous march<span class="ending">ez</span><br />
               ils / elles march<span class="ending">ent</span><br />
-              <small
-                ><b>ouvrir</b> et <b>offrir</b> se conjuguent aussi sur ce
-                modèle au présent.</small
-              >
+              <small>
+                <b>ouvrir</b> et <b>offrir</b> se conjuguent aussi sur ce modèle
+                au présent.
+              </small>
             </div>
-            <div class="dropnote">Dépose le verbe ici</div>
+            <div class="dropnote">Dépose le verbe ici ou clique</div>
           </div>
-          <div class="zone" data-type="noner">
+
+          <div
+            class="zone"
+            data-type="noner"
+            role="button"
+            tabindex="0"
+            aria-label="Choisir : se conjugue comme les verbes pas en ER"
+          >
             <h2>Se conjugue comme les verbes PAS en -ER</h2>
             <div class="hint">Autre modèle de terminaisons au présent.</div>
             <div class="example conjugation">
@@ -272,24 +402,36 @@
               vous cour<span class="ending">ez</span><br />
               ils / elles cour<span class="ending">ent</span>
             </div>
-            <div class="dropnote">Dépose le verbe ici</div>
+            <div class="dropnote">Dépose le verbe ici ou clique</div>
           </div>
-          <div class="zone" data-type="irr">
+
+          <div
+            class="zone"
+            data-type="irr"
+            role="button"
+            tabindex="0"
+            aria-label="Choisir : verbes irréguliers"
+          >
             <h2>Verbes irréguliers</h2>
             <div class="hint">À reconnaître et à mémoriser.</div>
             <div class="example irregulars">
-              être · avoir · aller<br />faire · dire
+              être · avoir · aller<br />
+              faire · dire
             </div>
-            <div class="dropnote">Dépose le verbe ici</div>
+            <div class="dropnote">Dépose le verbe ici ou clique</div>
           </div>
         </div>
-        <div class="feedback" id="fb"></div>
+
+        <div class="feedback" id="fb" role="status" aria-live="polite"></div>
+
         <div class="actions">
-          <button id="reset">Recommencer le score</button>
+          <button id="reset" type="button">Recommencer le score</button>
         </div>
       </section>
     </main>
+
     <footer>Classes de Mme Boyer · Français 5ème</footer>
+
     <script>
       const BANK = [
         { form: "je parle", inf: "parler", type: "er" },
@@ -350,80 +492,185 @@
         { form: "vous dites", inf: "dire", type: "irr" },
         { form: "ils disent", inf: "dire", type: "irr" },
       ];
-      let current,
-        last = -1,
-        ok = 0,
-        tries = 0,
-        locked = false;
-      const tile = document.getElementById("tile"),
-        zones = [...document.querySelectorAll(".zone")],
-        fb = document.getElementById("fb"),
-        score = document.getElementById("score");
-      function pick() {
-        let i;
-        do {
-          i = Math.floor(Math.random() * BANK.length);
-        } while (i === last && BANK.length > 1);
-        last = i;
-        current = BANK[i];
-        locked = false;
-        tile.textContent = current.form;
-        tile.style.visibility = "visible";
-        fb.className = "feedback";
+
+      const tile = document.getElementById("tile");
+      const zones = [...document.querySelectorAll(".zone")];
+      const feedback = document.getElementById("fb");
+      const score = document.getElementById("score");
+      const resetButton = document.getElementById("reset");
+
+      let current;
+      let last = -1;
+      let successes = 0;
+      let attempts = 0;
+      let locked = false;
+      let nextTimeout = null;
+      let touchStart = null;
+
+      function clearHighlights() {
+        zones.forEach((zone) => zone.classList.remove("over"));
+        tile.classList.remove("dragging");
       }
+
+      function pick() {
+        clearTimeout(nextTimeout);
+        nextTimeout = null;
+        clearHighlights();
+
+        let index;
+        do {
+          index = Math.floor(Math.random() * BANK.length);
+        } while (index === last && BANK.length > 1);
+
+        last = index;
+        current = BANK[index];
+        locked = false;
+
+        tile.textContent = current.form;
+        tile.draggable = true;
+        feedback.className = "feedback";
+        feedback.textContent = "";
+
+        zones.forEach((zone) => {
+          zone.setAttribute("aria-disabled", "false");
+        });
+      }
+
       function answer(type) {
         if (locked) return;
+
         locked = true;
-        tries++;
+        tile.draggable = false;
+        clearHighlights();
+        attempts++;
+
         const good = type === current.type;
-        if (good) ok++;
-        score.textContent = `Réussites : ${ok} / ${tries}`;
-        fb.className = "feedback show " + (good ? "ok" : "no");
-        fb.innerHTML = good
+        if (good) successes++;
+
+        score.textContent = `Réussites : ${successes} / ${attempts}`;
+        feedback.className = "feedback show " + (good ? "ok" : "no");
+
+        feedback.innerHTML = good
           ? `<b>Bravo !</b> « ${current.form} » vient du verbe <b>${current.inf}</b>.`
           : `<b>Pas tout à fait.</b> « ${current.form} » vient du verbe <b>${current.inf}</b>.`;
-        setTimeout(pick, good ? 850 : 1450);
+
+        zones.forEach((zone) => {
+          zone.setAttribute("aria-disabled", "true");
+        });
+
+        nextTimeout = setTimeout(pick, good ? 850 : 1450);
       }
-      tile.addEventListener("dragstart", (e) => {
+
+      tile.addEventListener("dragstart", (event) => {
         if (locked) {
-          e.preventDefault();
+          event.preventDefault();
           return;
         }
+
         tile.classList.add("dragging");
-        e.dataTransfer.setData("text/plain", "verb");
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/plain", "verb");
       });
-      tile.addEventListener("dragend", () => tile.classList.remove("dragging"));
-      zones.forEach((z) => {
-        z.addEventListener("dragover", (e) => {
-          e.preventDefault();
-          z.classList.add("over");
+
+      tile.addEventListener("dragend", clearHighlights);
+
+      zones.forEach((zone) => {
+        zone.addEventListener("dragover", (event) => {
+          event.preventDefault();
+          if (locked) return;
+          event.dataTransfer.dropEffect = "move";
+          zone.classList.add("over");
         });
-        z.addEventListener("dragleave", () => z.classList.remove("over"));
-        z.addEventListener("drop", (e) => {
-          e.preventDefault();
-          z.classList.remove("over");
-          answer(z.dataset.type);
+
+        zone.addEventListener("dragleave", (event) => {
+          if (!zone.contains(event.relatedTarget)) {
+            zone.classList.remove("over");
+          }
         });
-        z.addEventListener("click", () => answer(z.dataset.type));
+
+        zone.addEventListener("drop", (event) => {
+          event.preventDefault();
+          clearHighlights();
+
+          if (event.dataTransfer.getData("text/plain") === "verb") {
+            answer(zone.dataset.type);
+          }
+        });
+
+        zone.addEventListener("click", () => {
+          answer(zone.dataset.type);
+        });
+
+        zone.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            answer(zone.dataset.type);
+          }
+        });
       });
-      let sx = 0,
-        sy = 0;
-      tile.addEventListener("pointerdown", (e) => {
-        sx = e.clientX;
-        sy = e.clientY;
+
+      function zoneAt(x, y) {
+        return document.elementFromPoint(x, y)?.closest(".zone");
+      }
+
+      tile.addEventListener("pointerdown", (event) => {
+        if (locked || event.pointerType === "mouse") return;
+
+        touchStart = {
+          x: event.clientX,
+          y: event.clientY,
+          id: event.pointerId,
+        };
+
+        tile.setPointerCapture(event.pointerId);
       });
-      tile.addEventListener("pointerup", (e) => {
+
+      tile.addEventListener("pointermove", (event) => {
+        if (!touchStart || locked) return;
+
+        zones.forEach((zone) => zone.classList.remove("over"));
+        const zone = zoneAt(event.clientX, event.clientY);
+        if (zone) zone.classList.add("over");
+      });
+
+      tile.addEventListener("pointerup", (event) => {
+        if (!touchStart) return;
+
+        const start = touchStart;
+        touchStart = null;
+        clearHighlights();
+
+        if (tile.hasPointerCapture(event.pointerId)) {
+          tile.releasePointerCapture(event.pointerId);
+        }
+
         if (locked) return;
-        let el = document.elementFromPoint(e.clientX, e.clientY),
-          z = el && el.closest(".zone");
-        if (z && Math.hypot(e.clientX - sx, e.clientY - sy) > 15)
-          answer(z.dataset.type);
+
+        const zone = zoneAt(event.clientX, event.clientY);
+        const distance = Math.hypot(
+          event.clientX - start.x,
+          event.clientY - start.y,
+        );
+
+        if (zone && distance > 15) {
+          answer(zone.dataset.type);
+        }
       });
-      reset.onclick = () => {
-        ok = tries = 0;
+
+      tile.addEventListener("pointercancel", () => {
+        touchStart = null;
+        clearHighlights();
+      });
+
+      resetButton.addEventListener("click", () => {
+        clearTimeout(nextTimeout);
+        touchStart = null;
+        successes = 0;
+        attempts = 0;
         score.textContent = "Réussites : 0 / 0";
         pick();
-      };
+      });
+
       pick();
     </script>
   </body>

@@ -686,13 +686,13 @@
 
       const level1Questions = [
         {
-          target: 12,
-          pairs: ["1 × 12", "2 × 6", "3 × 4"],
-          hint: "Les diviseurs de 12 apparaissent par couples.",
-          ask: "Lequel de ces nombres est un diviseur de 12 ?",
+          target: 10,
+          pairs: ["1 × 10", "2 × 5"],
+          hint: "Les diviseurs de 10 apparaissent par couples.",
+          ask: "Lequel de ces nombres est un diviseur de 10 ?",
           choices: ["5", "7", "6", "11"],
-          correct: "6",
-          explain: "6 est un diviseur de 12 car 12 ÷ 6 = 2, sans reste.",
+          correct: "5",
+          explain: "5 est un diviseur de 10 car 10 ÷ 5 = 2, sans reste.",
         },
         {
           target: 12,
@@ -705,6 +705,16 @@
             "3 × 4 = 12. Donc 3 et 4 sont tous les deux des diviseurs de 12.",
         },
         {
+          target: 15,
+          pairs: ["1 × 15", "3 × 5"],
+          hint: "Un nombre est diviseur seulement si la division tombe juste.",
+          ask: "7 est-il un diviseur de 15 ?",
+          choices: ["Oui", "Non"],
+          correct: "Non",
+          explain:
+            "Non : 15 ÷ 7 ne donne pas un entier. Il reste quelque chose.",
+        },
+        {
           target: 18,
           pairs: ["1 × 18", "2 × 9", "3 × 6"],
           hint: "Cherche les couples de nombres dont le produit vaut 18.",
@@ -713,15 +723,7 @@
           correct: "9",
           explain: "18 = 2 × 9. Donc 2 et 9 sont des diviseurs de 18.",
         },
-        {
-          target: 18,
-          pairs: ["1 × 18", "2 × 9", "3 × 6"],
-          hint: "Quand on trouve un diviseur, on cherche son partenaire.",
-          ask: "Quel est le partenaire de 3 pour faire 18 ?",
-          choices: ["4", "5", "6", "9"],
-          correct: "6",
-          explain: "3 × 6 = 18. Donc 3 et 6 forment un couple de diviseurs.",
-        },
+
         {
           target: 20,
           pairs: ["1 × 20", "2 × 10", "4 × 5"],
@@ -737,19 +739,19 @@
           explain:
             "Les couples sont 1×20, 2×10 et 4×5. On obtient donc 1, 2, 4, 5, 10 et 20.",
         },
+
         {
-          target: 15,
-          pairs: ["1 × 15", "3 × 5"],
-          hint: "Un nombre est diviseur seulement si la division tombe juste.",
-          ask: "7 est-il un diviseur de 15 ?",
-          choices: ["Oui", "Non"],
-          correct: "Non",
-          explain:
-            "Non : 15 ÷ 7 ne donne pas un entier. Il reste quelque chose.",
+          target: 22,
+          pairs: ["1 × 22", "2 × 11"],
+          hint: "Quand on trouve un diviseur, on cherche son partenaire.",
+          ask: "Quel est le partenaire de 2 pour faire 22 ?",
+          choices: ["3", "5", "11", "15"],
+          correct: "11",
+          explain: "2 × 11 = 22. Donc 2 et 11 forment un couple de diviseurs.",
         },
         {
           target: 24,
-          pairs: ["1 × 24", "2 × 12", "3 × 8", "4 × 6"],
+          pairs: ["1 × 24", "2 × 12", "4 × 6", "3 × 8"],
           hint: "On cherche toutes les façons de multiplier deux nombres entiers pour obtenir 24.",
           ask: "Lequel de ces couples est faux ?",
           choices: ["1 × 24", "2 × 12", "4 × 6", "5 × 4"],
@@ -758,14 +760,23 @@
             "5 × 4 = 20, pas 24. Ce n’est donc pas un couple de diviseurs de 24.",
         },
         {
-          target: 24,
-          pairs: ["1 × 24", "2 × 12", "3 × 8", "4 × 6"],
+          target: 25,
+          pairs: ["1 × 25", "5 × 5"],
           hint: "Une fois tous les couples trouvés, on range les diviseurs dans l’ordre croissant.",
-          ask: "Combien de diviseurs possède 24 ?",
-          choices: ["6", "7", "8", "10"],
+          ask: "Combien de diviseurs possède 25 ?",
+          choices: ["2", "3", "4", "5"],
+          correct: "3",
+          explain: "Les diviseurs sont 1, 5 et 25 : il y en a 3.",
+        },
+        {
+          target: 30,
+          pairs: ["1 × 30", "2 × 15", "3 × 10", "5 × 6"],
+          hint: "Une fois tous les couples trouvés, on range les diviseurs dans l’ordre croissant.",
+          ask: "Combien de diviseurs possède 30 ?",
+          choices: ["4", "6", "8", "10"],
           correct: "8",
           explain:
-            "Les diviseurs sont 1, 2, 3, 4, 6, 8, 12 et 24 : il y en a 8.",
+            "Les diviseurs sont 1, 2, 3, 5, 6, 10, 15 et 30 : il y en a 8.",
         },
         {
           target: 13,

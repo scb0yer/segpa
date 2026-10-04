@@ -4,23 +4,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Lecture fluence — Niveau 1</title>
+
     <style>
       :root {
-        --ink: #17324d;
-        --muted: #6c7d8d;
-        --blue: #3d8fd1;
-        --blue2: #eaf5fc;
-        --paper: #fffdf9;
-        --line: #d9e5ee;
-        --good: #2f8f63;
-        --bad: #c95858;
-        --shadow: 0 12px 30px rgba(35, 70, 100, 0.1);
+        color-scheme: dark;
+        --ink: #f5f5fa;
+        --muted: #b9c0d0;
+        --blue: #54a2ff;
+        --blue-light: #90c5ff;
+        --line: #ffffff1a;
+        --good: #a9ecc7;
+        --bad: #ffd3d3;
       }
+
       * {
         box-sizing: border-box;
       }
+
       body {
         margin: 0;
+        min-height: 100vh;
         font-family:
           system-ui,
           -apple-system,
@@ -29,252 +32,359 @@
           Arial,
           sans-serif;
         color: var(--ink);
-        background: linear-gradient(180deg, #eef8fd 0, #fff 38%, #fffaf3 100%);
-        min-height: 100vh;
+        background:
+          radial-gradient(ellipse at top right, #16245670, transparent 55%),
+          #070914;
       }
+
       .wrap {
-        width: min(920px, calc(100% - 28px));
+        width: min(920px, calc(100% - 40px));
         margin: auto;
-        padding: 22px 0 48px;
+        padding: 38px 0 48px;
       }
+
       .top {
         display: flex;
         justify-content: space-between;
-        gap: 14px;
         align-items: center;
-        margin-bottom: 18px;
+        gap: 14px;
+        margin-bottom: 24px;
       }
+
       .back {
-        color: var(--ink);
+        color: #adb5c7;
         text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 650;
+      }
+
+      .back:hover {
+        color: var(--blue-light);
+      }
+
+      .badge {
+        padding: 8px 12px;
+        border: 1px solid #54a2ff40;
+        border-radius: 999px;
+        background: #54a2ff15;
+        color: var(--blue-light);
+        font-size: 0.9rem;
         font-weight: 750;
       }
-      .badge {
-        background: #fff4cf;
-        border: 1px solid #f0dfaa;
-        padding: 8px 12px;
-        border-radius: 999px;
-        font-weight: 800;
-        font-size: 0.9rem;
-      }
+
       .hero,
       .card {
-        background: rgba(255, 255, 255, 0.94);
         border: 1px solid var(--line);
-        border-radius: 24px;
-        box-shadow: var(--shadow);
+        border-radius: 25px;
+        background: #ffffff06;
       }
+
       .hero {
-        padding: 26px;
-        text-align: center;
+        padding: 30px;
       }
+
       .kicker {
-        font-size: 0.82rem;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        font-weight: 900;
         color: var(--blue);
+        font-size: 0.8rem;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
       }
+
       h1 {
+        margin: 12px 0 18px;
+        color: var(--blue-light);
         font-size: clamp(1.8rem, 5vw, 3rem);
-        margin: 0.25rem 0 0.45rem;
+        font-weight: 850;
+        line-height: 1.1;
+        letter-spacing: -0.045em;
       }
+
       .hero p {
         max-width: 650px;
-        margin: auto;
+        margin: 0;
         color: var(--muted);
-        line-height: 1.55;
+        line-height: 1.65;
       }
+
       .progress {
         height: 10px;
-        background: #e8eef2;
+        margin: 24px 0 10px;
         border-radius: 99px;
+        background: #ffffff12;
         overflow: hidden;
-        margin: 22px 0 8px;
       }
+
       .progress > div {
-        height: 100%;
         width: 0;
-        background: linear-gradient(90deg, #6eb6e5, #3d8fd1);
+        height: 100%;
+        background: linear-gradient(90deg, #90c5ff, #3080ff);
         transition: width 0.25s;
       }
+
       .meta {
         display: flex;
         justify-content: space-between;
-        font-size: 0.9rem;
+        gap: 12px;
         color: var(--muted);
+        font-size: 0.9rem;
         font-weight: 700;
       }
+
       .card {
         margin-top: 18px;
         padding: 24px;
       }
+
       .instructions {
         display: grid;
         grid-template-columns: auto 1fr;
-        gap: 14px;
         align-items: start;
+        gap: 14px;
       }
+
       .icon {
         font-size: 2rem;
       }
+
       .instructions strong {
         display: block;
         margin-bottom: 5px;
       }
+
       .instructions p {
         margin: 0;
         color: var(--muted);
-        line-height: 1.5;
+        line-height: 1.6;
       }
+
       .pair {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
         gap: 14px;
         margin: 26px 0 20px;
       }
+
       .word {
-        min-height: 94px;
-        border: 2px solid #cfe1ee;
-        border-radius: 18px;
-        background: var(--paper);
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 14px;
+        min-height: 100px;
+        padding: 16px;
+        border: 1px solid #54a2ff40;
+        border-radius: 18px;
+        background: #0d1121;
+        color: var(--ink);
         text-align: center;
-        font-size: clamp(1.35rem, 5vw, 2.15rem);
+        font-size: clamp(1.25rem, 4vw, 2.15rem);
         font-weight: 850;
+      }
+
+      .word-text {
+        min-width: 0;
         overflow-wrap: anywhere;
       }
+
       .actions {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 12px;
       }
+
       button {
         appearance: none;
-        border: 0;
-        border-radius: 16px;
-        padding: 15px 16px;
-        font: inherit;
-        font-weight: 900;
-        cursor: pointer;
         min-height: 52px;
+        padding: 15px 16px;
+        border: 1px solid #ffffff26;
+        border-radius: 16px;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
       }
-      button:focus-visible {
-        outline: 4px solid rgba(61, 143, 209, 0.25);
-        outline-offset: 2px;
+
+      button:focus-visible,
+      a:focus-visible {
+        outline: 3px solid var(--blue-light);
+        outline-offset: 4px;
       }
+
       .same {
-        background: #e9f7ef;
-        color: #226746;
-        border: 1px solid #bfe2cd;
+        border-color: #54a2ff;
+        background: #54a2ff;
+        color: #070914;
       }
+
+      .same:hover:not(:disabled) {
+        border-color: var(--blue-light);
+        background: var(--blue-light);
+      }
+
       .diff {
-        background: #fff0ef;
-        color: #91413e;
-        border: 1px solid #f0c9c5;
+        border-color: #54a2ff60;
+        background: #54a2ff15;
+        color: var(--blue-light);
       }
-      button:hover {
-        filter: brightness(0.98);
+
+      .diff:hover:not(:disabled) {
+        border-color: var(--blue);
+        background: #54a2ff26;
       }
+
+      button:disabled {
+        opacity: 0.55;
+        cursor: default;
+      }
+
       .feedback {
         min-height: 30px;
+        margin-top: 18px;
         text-align: center;
-        margin-top: 15px;
-        font-weight: 850;
+        font-weight: 750;
+        line-height: 1.6;
       }
+
       .good {
         color: var(--good);
       }
       .bad {
         color: var(--bad);
       }
+
       .diffmark {
-        font-weight: 950;
-        color: var(--bad);
-        background: #fff0ef;
-        border-radius: 5px;
         padding: 0 2px;
+        border-radius: 5px;
+        background: #44262d;
+        color: var(--bad);
+        font-weight: 950;
         text-decoration: underline;
         text-decoration-thickness: 2px;
         text-underline-offset: 3px;
       }
+
       .results {
-        text-align: center;
         display: none;
+        text-align: center;
       }
+
       .score {
-        font-size: clamp(2.2rem, 8vw, 4.3rem);
-        font-weight: 950;
         margin: 10px 0;
-        color: var(--blue);
+        color: var(--blue-light);
+        font-size: clamp(2.2rem, 8vw, 4.3rem);
+        font-weight: 900;
       }
+
       .stats {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 10px;
         margin: 18px 0;
       }
+
       .stat {
-        background: #f5f9fc;
+        padding: 14px;
         border: 1px solid var(--line);
         border-radius: 16px;
-        padding: 14px;
+        background: #0d1121;
       }
+
       .stat b {
-        font-size: 1.35rem;
         display: block;
+        margin-bottom: 5px;
+        color: var(--blue-light);
+        font-size: 1.35rem;
       }
+
       .stat span {
-        font-size: 0.82rem;
         color: var(--muted);
+        font-size: 0.82rem;
       }
+
       .note {
-        background: #fff8dd;
-        border: 1px solid #f0dfaa;
+        padding: 16px;
+        border: 1px solid #54a2ff40;
         border-radius: 16px;
-        padding: 14px;
-        line-height: 1.45;
+        background: #54a2ff10;
+        color: #dceaff;
+        line-height: 1.65;
       }
+
+      .review-list {
+        margin-top: 14px;
+        text-align: left;
+      }
+
+      .review-row {
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        overflow-wrap: anywhere;
+      }
+
       .restart {
-        background: var(--ink);
-        color: white;
         width: 100%;
         margin-top: 16px;
+        border-color: var(--blue);
+        background: var(--blue);
+        color: #070914;
       }
+
+      .restart:hover {
+        border-color: var(--blue-light);
+        background: var(--blue-light);
+      }
+
       .small {
-        font-size: 0.8rem;
-        color: var(--muted);
-        text-align: center;
         margin-top: 14px;
+        color: var(--muted);
+        font-size: 0.8rem;
+        line-height: 1.6;
+        text-align: center;
       }
+
       @media (max-width: 560px) {
         .wrap {
-          width: min(100% - 18px, 920px);
+          width: calc(100% - 32px);
         }
         .hero,
         .card {
-          border-radius: 20px;
-          padding: 18px;
+          padding: 20px;
         }
         .pair {
           gap: 8px;
         }
         .word {
-          min-height: 82px;
-          padding: 8px;
+          min-height: 88px;
+          padding: 10px 8px;
         }
         .stats {
           grid-template-columns: 1fr;
         }
         .top {
           align-items: flex-start;
+          flex-direction: column;
+        }
+        .meta {
+          font-size: 0.8rem;
+        }
+        .kicker {
+          line-height: 1.7;
+        }
+        .actions button {
+          padding: 12px 8px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        button,
+        .progress > div {
+          transition: none;
         }
       }
     </style>
   </head>
+
   <body>
     <main class="wrap">
       <div class="top">
@@ -290,18 +400,28 @@
           Ici, la priorité est de répondre juste. Ton temps sert seulement à
           mesurer tes progrès.
         </p>
-        <div class="progress" aria-label="Progression">
+
+        <div
+          class="progress"
+          id="progress"
+          role="progressbar"
+          aria-label="Progression"
+          aria-valuemin="0"
+          aria-valuemax="5"
+          aria-valuenow="0"
+        >
           <div id="bar"></div>
         </div>
+
         <div class="meta">
-          <span id="step">Question 1 / 5</span
-          ><span id="correct">0 bonne réponse</span>
+          <span id="step">Question 1 / 5</span>
+          <span id="correct">0 bonne réponse</span>
         </div>
       </section>
 
       <section class="card" id="game">
         <div class="instructions">
-          <div class="icon">👀</div>
+          <div class="icon" aria-hidden="true">👀</div>
           <div>
             <strong>Regarde bien jusqu'au bout.</strong>
             <p>
@@ -312,33 +432,50 @@
         </div>
 
         <div class="pair" aria-live="polite">
-          <div class="word" id="w1"></div>
-          <div class="word" id="w2"></div>
+          <div class="word"><span class="word-text" id="w1"></span></div>
+          <div class="word"><span class="word-text" id="w2"></span></div>
         </div>
 
         <div class="actions">
-          <button class="same" id="same">✓ Même mot</button>
-          <button class="diff" id="diff">≠ Pas le même</button>
+          <button class="same" id="same" type="button">✓ Même mot</button>
+          <button class="diff" id="diff" type="button">≠ Pas le même</button>
         </div>
-        <div class="feedback" id="feedback" aria-live="polite"></div>
+
+        <div
+          class="feedback"
+          id="feedback"
+          role="status"
+          aria-live="polite"
+        ></div>
       </section>
 
       <section class="card results" id="results">
         <div class="kicker">Parcours terminé</div>
         <h2>Ton résultat</h2>
         <div class="score" id="score"></div>
+
         <div class="stats">
           <div class="stat">
-            <b id="rCorrect"></b><span>bonnes réponses</span>
+            <b id="rCorrect"></b>
+            <span>bonnes réponses</span>
           </div>
-          <div class="stat"><b id="rTime"></b><span>temps total</span></div>
-          <div class="stat"><b id="rPoints"></b><span>points</span></div>
+          <div class="stat">
+            <b id="rTime"></b>
+            <span>temps total</span>
+          </div>
+          <div class="stat">
+            <b id="rPoints"></b>
+            <span>points</span>
+          </div>
         </div>
+
         <div class="note" id="message"></div>
-        <button class="restart" id="restart">
+
+        <button class="restart" id="restart" type="button">
           Recommencer et battre mon score
         </button>
-        <div class="small">
+
+        <div class="small" id="bestNote">
           Ton meilleur résultat est enregistré sur cet appareil.
         </div>
       </section>
@@ -357,7 +494,7 @@
         ["prochainement", "prochainement"],
         ["remerciement", "remerciement"],
         ["comprendre", "comprendre"],
-        ["merveilleusement", "merveilleusemant"],
+        ["merveilleusement", "merveilleusement"],
         ["déséquilibre", "déséquilibre"],
         ["caillou", "caillou"],
         ["irremplaçable", "irremplaçable"],
@@ -392,7 +529,7 @@
         ["caillou", "cailou"],
         ["irremplaçable", "irremplacable"],
         ["ceperdant", "cependant"],
-        [("particulièrement", "particuliérement")],
+        ["particulièrement", "particuliérement"],
         ["accompagnement", "acompagnement"],
         ["chaleureusement", "chaleureusemant"],
         ["attention", "atention"],
@@ -408,42 +545,65 @@
         ["tempèrature", "température"],
       ];
 
-      let deck = [],
-        index = 0,
-        good = 0,
-        started = 0,
-        locked = false,
-        mistakes = [],
-        reviewMode = false;
       const $ = (id) => document.getElementById(id);
 
-      function shuffle(a) {
-        const b = [...a];
-        for (let i = b.length - 1; i > 0; i--) {
+      let deck = [];
+      let index = 0;
+      let good = 0;
+      let started = 0;
+      let locked = false;
+      let mistakes = [];
+      let reviewMode = false;
+      let nextTimeout = null;
+      let responseMs = 0;
+      let questionStarted = 0;
+
+      function shuffle(items) {
+        const result = [...items];
+
+        for (let i = result.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
-          [b[i], b[j]] = [b[j], b[i]];
+          [result[i], result[j]] = [result[j], result[i]];
         }
-        return b;
+
+        return result;
       }
 
       function buildDeck() {
-        // Une session = 5 cartes tirées au hasard dans toute la banque.
-        // Les cartes "même mot" et "pas le même" sont donc renouvelées à chaque partie.
-        const bank = [
-          ...SAME_ITEMS.map((x) => [x[0], x[1], 1]),
-          ...DIFF_ITEMS.map((x) => [x[0], x[1], 0]),
+        const bank = [...SAME_ITEMS, ...DIFF_ITEMS];
+        const unique = [
+          ...new Map(
+            bank.map(([a, b]) => [
+              JSON.stringify([a, b]),
+              [a, b, a === b ? 1 : 0],
+            ]),
+          ).values(),
         ];
-        return shuffle(bank).slice(0, 5);
+
+        return shuffle(unique).slice(0, 5);
+      }
+
+      function updateProgress(completed) {
+        $("bar").style.width = `${(completed / deck.length) * 100}%`;
+        $("progress").setAttribute("aria-valuemax", String(deck.length));
+        $("progress").setAttribute("aria-valuenow", String(completed));
+      }
+
+      function updateCorrect() {
+        $("correct").textContent =
+          `${good} bonne${good > 1 ? "s" : ""} réponse${good > 1 ? "s" : ""}`;
       }
 
       function newGame() {
+        clearTimeout(nextTimeout);
         deck = buildDeck();
         index = 0;
         good = 0;
         mistakes = [];
         reviewMode = false;
+        responseMs = 0;
         started = performance.now();
-        locked = false;
+
         $("results").style.display = "none";
         $("game").style.display = "block";
         render();
@@ -451,6 +611,7 @@
 
       function render() {
         const [a, b] = deck[index];
+
         $("w1").textContent = a;
         $("w2").textContent = b;
         $("feedback").textContent = "";
@@ -458,20 +619,23 @@
         $("step").textContent = reviewMode
           ? `Révision ${index + 1} / ${deck.length}`
           : `Question ${index + 1} / ${deck.length}`;
-        $("correct").textContent =
-          `${good} bonne${good > 1 ? "s" : ""} réponse${good > 1 ? "s" : ""}`;
-        $("bar").style.width = `${(index / deck.length) * 100}%`;
+
+        updateCorrect();
+        updateProgress(index);
+
+        $("same").disabled = false;
+        $("diff").disabled = false;
         locked = false;
+        questionStarted = performance.now();
       }
 
       function highlightDifferences(a, b) {
-        // Longest common subsequence: highlights only the characters that differ,
-        // even when a letter has been inserted or omitted.
-        const A = [...a],
-          B = [...b],
-          m = A.length,
-          n = B.length;
+        const A = [...a];
+        const B = [...b];
+        const m = A.length;
+        const n = B.length;
         const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+
         for (let i = m - 1; i >= 0; i--) {
           for (let j = n - 1; j >= 0; j--) {
             dp[i][j] =
@@ -480,42 +644,62 @@
                 : Math.max(dp[i + 1][j], dp[i][j + 1]);
           }
         }
-        const sameA = Array(m).fill(false),
-          sameB = Array(n).fill(false);
-        let i = 0,
-          j = 0;
+
+        const sameA = Array(m).fill(false);
+        const sameB = Array(n).fill(false);
+        let i = 0;
+        let j = 0;
+
         while (i < m && j < n) {
           if (A[i] === B[j]) {
             sameA[i] = true;
             sameB[j] = true;
             i++;
             j++;
-          } else if (dp[i + 1][j] >= dp[i][j + 1]) i++;
-          else j++;
+          } else if (dp[i + 1][j] >= dp[i][j + 1]) {
+            i++;
+          } else {
+            j++;
+          }
         }
-        const esc = (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c] || c;
-        const mark = (arr, same) =>
-          arr
-            .map((c, k) =>
-              same[k] ? esc(c) : `<span class="diffmark">${esc(c)}</span>`,
-            )
-            .join("");
-        $("w1").innerHTML = mark(A, sameA);
-        $("w2").innerHTML = mark(B, sameB);
+
+        function mark(element, characters, matching) {
+          element.replaceChildren();
+
+          characters.forEach((character, position) => {
+            if (matching[position]) {
+              element.append(character);
+            } else {
+              const span = document.createElement("span");
+              span.className = "diffmark";
+              span.textContent = character;
+              element.append(span);
+            }
+          });
+        }
+
+        mark($("w1"), A, sameA);
+        mark($("w2"), B, sameB);
       }
 
       function answer(same) {
         if (locked) return;
-        locked = true;
-        const item = deck[index];
-        const ok = (same ? 1 : 0) === item[2];
 
-        if (ok) {
+        locked = true;
+        responseMs += performance.now() - questionStarted;
+        $("same").disabled = true;
+        $("diff").disabled = true;
+
+        const item = deck[index];
+        const correct = (same ? 1 : 0) === item[2];
+
+        if (correct) {
           good++;
           $("feedback").textContent = "Bien vu ! ✓";
           $("feedback").className = "feedback good";
         } else {
           if (!reviewMode) mistakes.push(item);
+
           if (item[2]) {
             $("feedback").textContent =
               "Ils étaient exactement identiques. Regarde-les encore une fois.";
@@ -524,18 +708,26 @@
             $("feedback").innerHTML =
               "Pas tout à fait. <strong>La différence est mise en évidence</strong> : prends le temps de la repérer.";
           }
+
           $("feedback").className = "feedback bad";
         }
 
-        // Une bonne réponse s'enchaîne assez vite ; après une erreur, on laisse
-        // nettement plus de temps pour observer et comprendre la différence.
-        setTimeout(
+        updateCorrect();
+        updateProgress(index + 1);
+
+        nextTimeout = setTimeout(
           () => {
             index++;
-            if (index < deck.length) render();
-            else reviewMode ? finishReview() : finish();
+
+            if (index < deck.length) {
+              render();
+            } else if (reviewMode) {
+              finishReview();
+            } else {
+              finish();
+            }
           },
-          ok ? 800 : 2800,
+          correct ? 800 : 2800,
         );
       }
 
@@ -548,48 +740,90 @@
         const accuracy = Math.round((good / deck.length) * 100);
         const timeBonus = Math.max(0, 300 - seconds);
         const points = good * 100 + timeBonus;
-        const best = Number(localStorage.getItem("fluence_n1_best") || 0);
-        if (points > best) localStorage.setItem("fluence_n1_best", points);
+
+        try {
+          const stored = Number(localStorage.getItem("fluence_n1_best") || 0);
+          const best = Number.isFinite(stored) ? stored : 0;
+          const record = Math.max(best, points);
+
+          if (points > best) {
+            localStorage.setItem("fluence_n1_best", String(points));
+          }
+
+          $("bestNote").textContent =
+            `Ton meilleur résultat sur cet appareil : ${record} points.`;
+        } catch (error) {
+          $("bestNote").textContent =
+            "Le meilleur résultat ne peut pas être enregistré dans ce navigateur.";
+        }
 
         $("game").style.display = "none";
         $("results").style.display = "block";
-        $("bar").style.width = "100%";
-        $("step").textContent = "5 / 5 terminé";
+        updateProgress(deck.length);
+        $("step").textContent = `${deck.length} / ${deck.length} terminé`;
         $("correct").textContent = `${good} / ${deck.length} justes`;
         $("score").textContent = `${accuracy} %`;
         $("rCorrect").textContent = `${good} / ${deck.length}`;
         $("rTime").textContent = formatTime(seconds);
         $("rPoints").textContent = points;
 
-        let msg =
+        let message =
           accuracy === 100
             ? "Excellent : tu as privilégié l’exactitude. Tu peux recommencer en gardant <strong>zéro erreur</strong>."
-            : accuracy >= 85
+            : accuracy >= 80
               ? "Très bon travail. Revois maintenant tes erreurs : <strong>lire juste passe avant lire vite</strong>."
               : "Continue sans te presser. Observe le mot jusqu’à sa dernière lettre avant de répondre.";
 
-        if (mistakes.length) {
-          const rows = mistakes
-            .map(
-              ([a, b, expected]) =>
-                `<div style="padding:8px 0;border-bottom:1px solid #e5edf3"><strong>${a}</strong> / <strong>${b}</strong> — ${expected ? "même mot" : "différents"}</div>`,
-            )
-            .join("");
-          msg += `<div style="margin-top:14px;text-align:left"><strong>Mes erreurs à revoir :</strong>${rows}</div>
-    <button id="review" class="restart" style="margin-top:14px">Revoir uniquement mes erreurs</button>`;
-        }
+        $("message").innerHTML = message;
 
-        $("message").innerHTML = msg;
-        const reviewBtn = $("review");
-        if (reviewBtn) reviewBtn.addEventListener("click", startReview);
+        if (mistakes.length) {
+          const list = document.createElement("div");
+          list.className = "review-list";
+
+          const heading = document.createElement("strong");
+          heading.textContent = "Mes erreurs à revoir :";
+          list.append(heading);
+
+          mistakes.forEach(([a, b, expected]) => {
+            const row = document.createElement("div");
+            row.className = "review-row";
+
+            const first = document.createElement("strong");
+            first.textContent = a;
+            const second = document.createElement("strong");
+            second.textContent = b;
+
+            row.append(
+              first,
+              " / ",
+              second,
+              ` — ${expected ? "même mot" : "différents"}`,
+            );
+
+            list.append(row);
+          });
+
+          $("message").append(list);
+
+          const reviewButton = document.createElement("button");
+          reviewButton.type = "button";
+          reviewButton.className = "restart";
+          reviewButton.textContent = "Revoir uniquement mes erreurs";
+          reviewButton.addEventListener("click", startReview);
+          $("message").append(reviewButton);
+        }
       }
 
       function startReview() {
+        if (!mistakes.length) return;
+
+        clearTimeout(nextTimeout);
         deck = shuffle(mistakes);
         index = 0;
         good = 0;
+        responseMs = 0;
         reviewMode = true;
-        started = performance.now();
+
         $("results").style.display = "none";
         $("game").style.display = "block";
         render();
@@ -598,19 +832,23 @@
       function finishReview() {
         $("game").style.display = "none";
         $("results").style.display = "block";
-        $("bar").style.width = "100%";
+        updateProgress(deck.length);
+
         $("step").textContent = "Révision terminée";
         $("correct").textContent = `${good} / ${deck.length} justes`;
-        $("score").textContent = "Bravo !";
+        $("score").textContent =
+          good === deck.length ? "Bravo !" : "Continue !";
         $("rCorrect").textContent = `${good} / ${deck.length}`;
         $("rTime").textContent = "—";
         $("rPoints").textContent = "—";
-        $("message").innerHTML =
+        $("message").textContent =
           "Tu viens de retravailler les mots qui t’avaient posé problème. Recommence le parcours complet pour vérifier tes progrès.";
       }
+
       $("same").addEventListener("click", () => answer(true));
       $("diff").addEventListener("click", () => answer(false));
       $("restart").addEventListener("click", newGame);
+
       newGame();
     </script>
   </body>
