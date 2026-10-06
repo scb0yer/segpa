@@ -1,0 +1,8 @@
+.tabs{flex-wrap:wrap;overflow:visible}.tabs button{white-space:normal;text-align:left}
+.pair{padding:12px;border-radius:12px;background:#eef3f8}.history{padding:14px 14px 14px 38px;border:1px solid #c8d5e3;border-radius:12px;background:#f8fafc}.history li{padding:4px 0;font-size:1.15rem}
+.operation{display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 0;flex-wrap:wrap;font-size:1.4rem;font-weight:800}
+.operation input,.final input{width:78px;min-height:46px;text-align:center;font:inherit;color:#102033;border:2px solid #8499b2;border-radius:10px;background:#fff;padding:8px}
+.operation input:focus-visible,.final input:focus-visible{outline:3px solid #a87700;outline-offset:2px}
+.result{min-width:52px;text-align:center;background:#edf3f8;border-radius:10px;padding:8px}.final{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:16px 0;font-size:1.25rem;font-weight:800}
+.conclusion{background:#dcfce7;color:#14532d;border-radius:12px;padding:14px}
+@media(max-width:400px){.operation{gap:6px;font-size:1.2rem}.operation input{width:64px}.result{min-width:32px;padding:6px}}

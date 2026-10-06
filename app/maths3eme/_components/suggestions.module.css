@@ -1,0 +1,10 @@
+.panel{margin:20px 0 24px;padding:20px;border:1px solid #31516d;border-radius:20px;background:#10263b;color:#eef4fb}
+.panel h3{margin:0 0 10px;font-size:1.2rem}.panel>p{margin:8px 0 16px;line-height:1.5;color:#c0cfde}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{display:flex;flex-direction:column;align-items:flex-start;padding:18px;background:#0b1d2e;border:1px solid #31516d;border-radius:16px;min-width:0}
+.badge{padding:4px 10px;border-radius:100px;background:#ffd83d;color:#10263b;font-size:.8rem;font-weight:700}
+.card h4{font-size:1.05rem;margin:14px 0 8px;overflow-wrap:anywhere}.card p{line-height:1.5;margin:0 0 8px;color:#c0cfde}.card small{color:#c0cfde;margin-bottom:10px}
+.start{margin-top:auto;padding:10px 16px;border:0;border-radius:12px;background:#ffd83d;color:#10263b;font:inherit;font-weight:700;cursor:pointer}
+.start:focus-visible{outline:3px solid white;outline-offset:3px}.start:disabled{opacity:.6;cursor:wait}
+.panel .note{margin:14px 0 0;font-size:.85rem}.panel .empty{margin-bottom:0}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.panel{padding:16px}}

@@ -1,0 +1,16 @@
+.numbers{display:grid;grid-template-columns:repeat(auto-fit,minmax(44px,1fr));gap:8px;margin:18px 0}
+.number{position:relative;min-height:48px;padding:10px 4px;border:2px solid #c8d5e3;border-radius:10px;background:#f8fafc;color:#102033;font:inherit;font-weight:800}
+.number.selected{background:#fff1ae;border-color:#a87600;box-shadow:inset 0 0 0 1px #a87600}
+.number.found{background:#dcfce7;border-color:#16803e;color:#14532d}
+.number.extra{background:#fee2e2;border-color:#c73333;color:#7f1d1d}
+.number.missing{background:#fff2cc;border:2px dashed #986400;color:#714200}
+.numbers .number:disabled{opacity:1}.number:focus-visible{outline:3px solid #102033;outline-offset:2px}
+.marker{position:absolute;right:2px;top:-3px;font-size:12px;font-weight:900}
+.note{font-size:.9rem;color:#41566d;line-height:1.5}.selection{font-size:.95rem;margin:8px 0;min-height:1.5em}
+.feedback p{margin:7px 0}.feedback p:first-child{margin-top:0}.feedback p:last-child{margin-bottom:0}
+.criteria{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+.criteria li{border:1px solid #35516e;border-radius:10px;padding:10px;background:#10263e}
+.criteria .current{border-color:var(--yellow);background:#293025}.criteria strong{color:var(--yellow)}
+.questionHeading{font-size:clamp(22px,4vw,28px);line-height:1.35;margin:18px 0}
+.tabs{flex-wrap:wrap;overflow:visible}.tabs button{white-space:normal;text-align:left}
+@media(max-width:400px){.numbers{gap:6px}.number{min-height:44px}}

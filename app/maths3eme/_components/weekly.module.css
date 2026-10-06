@@ -1,0 +1,118 @@
+.panel {
+  margin: 20px 0;
+  padding: 18px;
+  border: 1px solid #49637c;
+  border-radius: 16px;
+  background: #10263e;
+  color: #f8fafc;
+}
+.panel h3 {
+  margin: 0 0 18px;
+  font-size: 20px;
+}
+.gauge {
+  margin: 18px 0;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.track {
+  margin-top: 10px;
+  height: 18px;
+  border-radius: 99px;
+  background: #314963;
+  overflow: hidden;
+}
+.fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd43b, #86efac);
+  transition: width 1.1s ease;
+  border-radius: inherit;
+}
+.gauge p {
+  font-size: 14px;
+  margin: 8px 0;
+}
+.panel details {
+  margin-top: 16px;
+}
+.panel summary {
+  cursor: pointer;
+  font-weight: 700;
+  padding: 8px 0;
+}
+.scroll {
+  overflow: auto;
+  max-height: 320px;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.table th,
+.table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #49637c;
+  white-space: nowrap;
+}
+.chart {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  margin: 20px 0;
+  overflow-x: auto;
+  padding: 6px;
+}
+.column {
+  flex: 1;
+  min-width: 48px;
+  text-align: center;
+  font-size: 11px;
+}
+.column > span {
+  display: block;
+  margin-bottom: 5px;
+}
+.chartTrack {
+  height: 85px;
+  background: #314963;
+  border-radius: 6px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.chartTrack > div {
+  width: 100%;
+  background: #ffd43b;
+  border-radius: 4px 4px 0 0;
+}
+.column small {
+  display: block;
+  margin-top: 5px;
+}
+.light {
+  background: #f1f5f9;
+  color: #102033;
+  border-color: #cbd5e1;
+}
+.light .track {
+  background: #dbe4ef;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transition: none;
+  }
+}
+@media (max-width: 480px) {
+  .panel {
+    padding: 12px;
+  }
+  .row {
+    font-size: 14px;
+  }
+}
