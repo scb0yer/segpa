@@ -1,0 +1,115 @@
+.operation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 30px;
+  margin: 26px 0;
+}
+.fraction {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: center;
+  min-width: 55px;
+  vertical-align: middle;
+}
+.fraction > span {
+  padding: 7px 10px;
+}
+.fraction > span:first-child {
+  border-bottom: 3px solid currentColor;
+}
+.fraction input,
+.common input {
+  width: 95px;
+  max-width: 100%;
+  padding: 10px;
+  border: 2px solid #8a9bb5;
+  border-radius: 9px;
+  color: #152039;
+  background: white;
+  font-size: 22px;
+  text-align: center;
+}
+.common {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-weight: 700;
+  margin-top: 20px;
+}
+.help {
+  background: #ffe07814;
+  border-left: 3px solid #ffe078;
+  border-radius: 8px;
+  padding: 14px;
+  line-height: 1.6;
+}
+.good,
+.warning {
+  padding: 14px;
+  border-radius: 10px;
+  line-height: 1.6;
+}
+.good {
+  color: #b9f4d0;
+  background: #143c31;
+}
+.warning {
+  color: #ffdda7;
+  background: #493721;
+}
+@media (max-width: 500px) {
+  .operation {
+    font-size: 24px;
+    gap: 14px;
+  }
+  .fraction input {
+    width: 75px;
+  }
+}
+
+.product {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.product input {
+  width: 65px;
+}
+.worked {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin: 20px 0;
+  color: #ffe078;
+  font-size: 21px;
+}
+.worked > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+@media (max-width: 500px) {
+  .product {
+    gap: 4px;
+    font-size: 20px;
+  }
+  .product input {
+    width: 47px;
+    padding: 8px 4px;
+  }
+  .worked {
+    font-size: 17px;
+    gap: 8px;
+  }
+  .worked .fraction > span {
+    padding: 5px;
+  }
+}

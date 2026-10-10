@@ -38,6 +38,15 @@ const FractionOperationsExercice = dynamic(
     loading: () => <p role="status">Chargement des calculs de fractions…</p>,
   },
 );
+const FractionMultiplicationsExercice = dynamic(
+  () => import("../_exercises/FractionMultiplicationsExercice"),
+  {
+    ssr: false,
+    loading: () => (
+      <p role="status">Chargement des multiplications de fractions…</p>
+    ),
+  },
+);
 const activities = {
   division: {
     Component: DivisionExercise,
@@ -80,6 +89,15 @@ const activities = {
     description: "Additionner et soustraire des fractions",
     teaser:
       "Même dénominateur, double ou triple, puis produit des dénominateurs",
+  },
+  fractionMultiplications: {
+    Component: FractionMultiplicationsExercice,
+    title: "Multiplications de fractions",
+    initialMode: "integer",
+    number: "06",
+    description:
+      "Multiplier une fraction par un entier ou par une autre fraction",
+    teaser: "Préparer les produits puis calculer le résultat",
   },
 };
 class ExerciseBoundary extends Component {
