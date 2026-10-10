@@ -4,6 +4,7 @@ import { Component, useEffect, useRef, useState } from "react";
 import s from "../maths.module.css";
 import { useStudent } from "./StudentProvider";
 import { exercises } from "../_lib/config";
+import Calculator from "./Calculator";
 
 const DivisionExercise = dynamic(() => import("../_exercises/DivisionExercise"), {
   ssr: false, loading: () => <p role="status">Chargement de Mission Division…</p>,
@@ -16,6 +17,9 @@ const PGCDExercice = dynamic(() => import("../_exercises/PGCDExercice"), {
 });
 const FractionsExercice = dynamic(() => import("../_exercises/FractionsExercice"), {
   ssr: false, loading: () => <p role="status">Chargement de Mission Fractions…</p>,
+});
+const FractionOperationsExercice = dynamic(() => import("../_exercises/FractionOperationsExercice"), {
+  ssr: false, loading: () => <p role="status">Chargement des calculs de fractions…</p>,
 });
 const activities = {
   division: {
@@ -37,6 +41,11 @@ const activities = {
     Component: FractionsExercice, title: "Fractions", initialMode: "factors", number: "04",
     description: "Réduire une fraction à sa forme irréductible",
     teaser: "Simplifier les facteurs communs puis utiliser le PGCD",
+  },
+  fractionOperations: {
+    Component: FractionOperationsExercice, title: "Calculs de fractions", initialMode: "same", number: "05",
+    description: "Additionner et soustraire des fractions",
+    teaser: "Même dénominateur, double ou triple, puis produit des dénominateurs",
   },
 };
 class ExerciseBoundary extends Component {
@@ -95,6 +104,7 @@ export default function ActivityHub() {
     const Exercise = activity.Component;
     return <section>
       <button type="button" className={s.secondary} onClick={leave} disabled={saving}>← Toutes les activités</button>
+      <Calculator />
       <div className={s.exerciseHeading}>
         <span className={s.grade}>3e</span>
         <div>
