@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
         source: "/api/segpa/:path*",
         destination: "https://site--perso--dzk9mdcz57cb.code.run/segpa/:path*",
       },
+      {
+        source: "/api/segpa/:path*",
+        destination: "https://site--perso--dzk9mdcz57cb.code.run/segpa/:path*",
+      },
     ];
   },
   /* config options here */

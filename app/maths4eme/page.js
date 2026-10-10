@@ -23,6 +23,11 @@ const Maths4eme = () => {
       titre: "Multiplications de nombres relatifs",
       href: "/maths4eme/4-multiplications_de_nombres_relatifs.html",
     },
+    {
+      numero: "05",
+      titre: "Statistiques",
+      href: "/maths4eme/5-statistiques.html",
+    },
   ];
 
   return (

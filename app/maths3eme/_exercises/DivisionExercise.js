@@ -138,8 +138,8 @@ export default function DivisionExercise({
               : "Ta série est enregistrée. ";
           confirmation +=
             reward.remainingTenths === 0
-              ? "Tu as gagné ton point du jour sur cet exercice ! Tu peux continuer à t'entraîner ou essayer une autre activité."
-              : `Il te reste ${format(reward.remainingTenths)} point à gagner sur cet exercice aujourd'hui.`;
+              ? "Tu as gagné ton point du jour sur ce thème ! Tu peux continuer à t'entraîner ou essayer un autre thème."
+              : `Il te reste ${format(reward.remainingTenths)} point à gagner sur ce thème aujourd'hui.`;
           confirmation += ` Total personnel : ${format(reward.totalTenths)} points.`;
         }
       }

@@ -47,9 +47,9 @@ export default function SuggestedActivities({ disabled = false }) {
         </article>)}
       </div>
       <p className={s.note}>Après chaque série enregistrée, tes suggestions s'actualisent.
-        {suggestions.items.length === 1 ? " Il reste une activité à explorer aujourd'hui." : ""}</p>
+        {suggestions.items.length === 1 ? " Il reste un thème à explorer aujourd'hui." : ""}</p>
     </> : <p className={s.empty}>{suggestions.totalActivities > 0
-      ? "Tu as exploré toutes les activités aujourd'hui ! Tu peux continuer à t'entraîner librement et gagner des points dans la limite quotidienne."
+      ? "Tu as déjà pratiqué tous les thèmes disponibles aujourd'hui ! Tu peux continuer à t'entraîner librement et gagner des points dans la limite quotidienne."
       : "Aucune activité conseillée n'est disponible pour le moment."}</p>}
   </section>;
 }

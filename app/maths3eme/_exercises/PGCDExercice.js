@@ -152,8 +152,8 @@ export default function PGCDExercice({ onDirtyChange = noop, onSavingChange = no
             ? `+${points(reward.creditedTenths)} point${reward.creditedTenths > 10 ? "s" : ""} ! Ta série est enregistrée. `
             : "Ta série est enregistrée. ";
           confirmation += reward.remainingTenths === 0
-            ? "Tu as gagné ton point du jour sur cet exercice ! Tu peux continuer à t'entraîner ou essayer une autre activité."
-            : `Il te reste ${points(reward.remainingTenths)} point à gagner sur cet exercice aujourd'hui.`;
+            ? "Tu as gagné ton point du jour sur ce thème ! Tu peux continuer à t'entraîner ou essayer un autre thème."
+            : `Il te reste ${points(reward.remainingTenths)} point à gagner sur ce thème aujourd'hui.`;
           confirmation += ` Total personnel : ${points(reward.totalTenths)} points.`;
         }
       }
@@ -261,7 +261,7 @@ export default function PGCDExercice({ onDirtyChange = noop, onSavingChange = no
         <p>Le <b>PGCD</b> est le plus grand diviseur commun aux deux nombres.</p>
         <ol><li>Soustrais le plus petit du plus grand.</li><li>Garde le résultat et le plus petit nombre.</li><li>Recommence avec ces deux nombres.</li><li>Quand ils sont égaux, tu as trouvé le PGCD.</li></ol>
         <p>On s'arrête à deux nombres <b>égaux</b> : inutile de soustraire jusqu'à zéro.</p>
-        {mode === "write" ? <p>Prends ton temps : tu peux corriger. Termine les trois recherches pour gagner ton point, dans la limite d'un point par jour pour ce niveau.</p>
+        {mode === "write" ? <p>Prends ton temps : tu peux corriger. Termine les trois recherches pour gagner ton point, dans la limite d'un point par jour pour ce thème.</p>
           : <p>Une recherche compte comme une bonne réponse si tous tes choix sont justes. Tu peux continuer après une erreur en suivant la correction.</p>}
       </div></details></aside>
     </div>}

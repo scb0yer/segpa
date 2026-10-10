@@ -123,8 +123,8 @@ export default function DiviseursExercice({
             ? `+${points(reward.creditedTenths)} point${reward.creditedTenths > 10 ? "s" : ""} ! Ta série est enregistrée. `
             : "Ta série est enregistrée. ";
           confirmation += reward.remainingTenths === 0
-            ? "Tu as gagné ton point du jour sur cet exercice ! Tu peux continuer à t'entraîner ou essayer une autre activité."
-            : `Il te reste ${points(reward.remainingTenths)} point à gagner sur cet exercice aujourd'hui.`;
+            ? "Tu as gagné ton point du jour sur ce thème ! Tu peux continuer à t'entraîner ou essayer un autre thème."
+            : `Il te reste ${points(reward.remainingTenths)} point à gagner sur ce thème aujourd'hui.`;
           confirmation += ` Total personnel : ${points(reward.totalTenths)} points.`;
         }
       }

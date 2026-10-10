@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Statistiques 4e — Entraînement</title>
+<style>
+:root{font-family:Arial,sans-serif;color:#eaf2ff;background:#071327}*{box-sizing:border-box}body{margin:0;padding:22px 12px}main{max-width:1020px;margin:auto}h1{font-size:clamp(1.5rem,4vw,2.3rem);margin:8px 0}p{line-height:1.5}.muted{color:#b7c4d9}.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.tabs button,.action{border:1px solid #fb923c;background:#1c263b;color:#fff;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}.tabs button.active,.action.primary{background:#fb923c;color:#192132}.layout{display:block;max-width:790px;margin:auto}.panel{background:#111d32;border:1px solid #334c70;border-radius:18px;padding:20px}.series{font-size:1.25rem;font-weight:700;line-height:1.9;letter-spacing:.4px;color:#fdba74}.help{background:#1d304c;padding:12px;border-radius:10px;margin:12px 0}.answer{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.answer input{min-width:130px;max-width:200px;flex:1;padding:13px;font-size:1.2rem;border-radius:10px;border:2px solid #b4c5de;background:white;color:#142036}.feedback{min-height:45px;margin-top:14px;font-weight:700}.calc{background:#9bc9bb;color:#1b3836;border:3px solid #79a99d;border-radius:30px;padding:17px 14px 20px;box-shadow:inset 0 3px #d0e9df,0 12px 30px #0005}.brand{font-size:19px;font-weight:900;margin:2px 12px 8px}.brand small{display:block;font-size:11px;font-weight:400}.screen{background:#c9d7c8;border:5px solid #698e82;border-radius:8px;min-height:112px;padding:10px;overflow-wrap:anywhere;box-shadow:inset 0 3px 8px #0003;font-family:monospace}.screen .expr{font-size:17px;min-height:30px}.screen .res{text-align:right;font-size:25px;font-weight:bold;min-height:30px}.screen .hint{font-size:10px;color:#41594b}.pad{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:18px}.key{min-height:44px;border-radius:50%;border:1px solid #849f98;background:#f9fbfb;color:#223634;font-weight:800;font-size:19px;box-shadow:0 3px 0 #6d9288;cursor:pointer;touch-action:manipulation}.key:active{transform:translateY(2px);box-shadow:none}.key.special{background:#d6e6e2;font-size:13px}.key.blue{background:#078ec0;color:white}.key.exe{background:#fff;font-size:14px}.key.wide{grid-column:span 2;border-radius:22px}.history{max-height:190px;overflow:auto;font-size:13px;margin-top:12px}.history div{padding:5px;border-bottom:1px solid #b1d2c7}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}button:disabled{opacity:.45;cursor:not-allowed}@media(max-width:720px){.layout{grid-template-columns:1fr}.calc{max-width:370px;margin:auto}.panel{padding:15px}} 
+.exercise-stack{display:flex;flex-direction:column;align-items:center;gap:14px;margin:20px auto 0}.exercise-stack .calc{width:min(100%,355px)}.exercise-stack>h3{align-self:center;margin:6px 0 0}.exercise-stack>.answer{justify-content:center;width:100%}.exercise-stack>.feedback{width:100%;text-align:center}.exercise-stack>.actions{justify-content:center}.exercise-stack>p{max-width:540px;text-align:center}.panel>#question,.panel>#series,.panel>#title,.panel>#progress{text-align:center}.panel>#helpBtn{display:block;margin:12px auto}.answer input{max-width:200px}.key:focus-visible{outline:3px solid #075985;outline-offset:2px} .history{color:#203d39}</style></head><body><main>
+<header><div class="muted">MATHÉMATIQUES · 4e</div><h1>Statistiques <span style="color:#fb923c">— entraînement</span></h1><p class="muted">Choisis un exercice. Utilise la calculatrice autant de fois que nécessaire, puis écris ta réponse.</p></header>
+<nav class="tabs" aria-label="Choisir un exercice"><button data-mode="freq" class="active">01 · Fréquence</button><button data-mode="mean">02 · Moyenne</button><button data-mode="median">03 · Médiane</button></nav>
+<div class="layout"><section class="panel"><div id="progress" class="muted"></div><h2 id="title"></h2><p id="question"></p><div id="series" class="series"></div><div id="help" class="help" hidden></div><button id="helpBtn" class="action">Afficher une aide</button><div class="exercise-stack"><section class="calc" aria-label="Calculatrice virtuelle"><div class="brand">CASIO <small>fx-92+ · calculatrice d'entraînement</small></div><div class="screen"><div class="hint">Calcul</div><div id="expression" class="expr">0</div><div id="result" class="res"></div><div class="hint">EXE pour calculer · ANS pour réutiliser</div></div><div class="pad" id="pad"></div><div class="history"><strong>Historique</strong><div id="history"></div></div></section><h3>Ma réponse</h3><div class="answer"><input id="answer" type="text" inputmode="decimal" autocomplete="off" placeholder="Résultat"><span id="unit"></span><button id="validate" class="action primary">Valider</button></div><div id="feedback" class="feedback" role="status"></div><div class="actions"><button id="next" class="action" disabled>Calcul suivant →</button><button id="reset" class="action">Recommencer la série</button></div><p class="muted" style="font-size:13px">Tu peux calculer en plusieurs étapes. Après EXE, une opération repart du résultat affiché. ANS permet aussi de rappeler ce résultat. La calculatrice ne donne pas automatiquement la bonne opération.</p></div></section></div></main>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id), modes={freq:'Calculer une fréquence',mean:'Calculer une moyenne',median:'Déterminer une médiane'};
+let mode='freq',index=0,score=0,questions=[],expr='',last=null,history=[],answered=false,justExecuted=false;
+const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+function shuffle(a){return a.sort(()=>Math.random()-.5)}
+function makeQuestion(type){
+ if(type==='freq'){let n=[8,10,12,20][rand(0,3)],count=rand(1,Math.min(6,n-2)),target=rand(2,9),values=shuffle([...Array(count).fill(target),...Array.from({length:n-count},()=>{let x;do{x=rand(1,12)}while(x===target);return x})]);return {values,target,expected:count/n*100,unit:'%',help:`Compte combien de fois ${target} apparaît, puis calcule : nombre d'apparitions ÷ ${n} × 100.`}}
+ if(type==='mean'){let n=rand(4,7),mean=rand(5,15),offsets=Array.from({length:n-1},()=>rand(-4,4)),lastOffset=-offsets.reduce((a,b)=>a+b,0);if(Math.abs(lastOffset)>7)return makeQuestion(type);let values=shuffle([...offsets,lastOffset].map(x=>mean+x));if(values.some(x=>x<0||x>20))return makeQuestion(type);return{values,expected:mean,unit:'',help:`Additionne les ${n} valeurs, puis divise la somme par ${n}. Tu peux effectuer ces deux opérations séparément.`}}
+ let n=rand(5,9);let values=Array.from({length:n},()=>rand(1,19)).sort((a,b)=>a-b);let mid=Math.floor(n/2),expected=n%2?values[mid]:(values[mid-1]+values[mid])/2;return{values,expected,unit:'',help:n%2?`Il y a ${n} valeurs. Elles sont déjà rangées : trouve celle du milieu.`:`Il y a ${n} valeurs. Elles sont rangées : calcule la moyenne des deux valeurs du milieu.`}
+}
+function render(){let q=questions[index];$('title').textContent=modes[mode];$('progress').textContent=`Question ${index+1} / 10 · ${score} bonne(s) réponse(s)`;$('question').textContent=mode==='freq'?`Quelle est la fréquence de la valeur ${q.target} ? Réponds en pourcentage.`:mode==='mean'?'Quelle est la moyenne de cette série ?':'Quelle est la médiane de cette série ?';$('series').textContent=q.values.join(' ; ');$('unit').textContent=q.unit;$('help').textContent=q.help;$('help').hidden=true;$('helpBtn').textContent='Afficher une aide';$('answer').value='';$('feedback').textContent='';$('next').disabled=true;$('validate').disabled=false;answered=false}
+function newSet(){questions=Array.from({length:10},()=>makeQuestion(mode));index=0;score=0;expr='';last=null;history=[];justExecuted=false;drawCalc();render()}
+function drawCalc(){$('expression').textContent=expr||'0';$('history').innerHTML='';for(let i=history.length-1;i>=0;i--){let d=document.createElement('div');d.textContent=history[i];$('history').appendChild(d)}}
+function parse(input){let s=input.replace(/,/g,'.').replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/\s/g,'');if(!/^[0-9.+\-*/()]+$/.test(s)||s.length>140)throw Error('Calcul invalide');let t=s.match(/\d+(?:\.\d+)?|\.\d+|[()+*/-]/g)||[];if(t.join('')!==s)throw Error('Calcul invalide');let i=0;function atom(){let x=t[i++];if(x==='+')return atom();if(x==='-')return -atom();if(x==='('){let v=sum();if(t[i++]!==')')throw Error('Parenthèses incorrectes');return v}if(x===undefined||!/^(\d+(\.\d+)?|\.\d+)$/.test(x))throw Error('Calcul invalide');return Number(x)}function product(){let v=atom();while(t[i]==='*'||t[i]==='/'){let op=t[i++],b=atom();if(op==='/'&&b===0)throw Error('Division par zéro');v=op==='*'?v*b:v/b}return v}function sum(){let v=product();while(t[i]==='+'||t[i]==='-'){let op=t[i++],b=product();v=op==='+'?v+b:v-b}return v}let v=sum();if(i!==t.length||!Number.isFinite(v))throw Error('Calcul invalide');return Number(v.toPrecision(12))}
+function calcKey(k){
+ if(k==='AC'){expr='';justExecuted=false;$('result').textContent='';drawCalc();return}
+ if(k==='DEL'){if(justExecuted){expr='';justExecuted=false}else{expr=expr.slice(0,-1)}$('result').textContent='';drawCalc();return}
+ if(k==='ANS'){if(last!==null){if(justExecuted){expr='';justExecuted=false}expr+=last<0?'('+last+')':String(last);$('result').textContent='';drawCalc()}return}
+ if(k==='EXE'){
+   if(!expr.trim())return;
+   try{let v=parse(expr);let previous=expr;last=v;let shown=String(v).replace('.',',');
+     $('result').textContent=shown;history.push(`${previous} = ${shown}`);
+     // L'écran garde le résultat, prêt pour un calcul suivant.
+     expr=shown;justExecuted=true;drawCalc();
+   }catch(e){$('result').textContent=e.message}
+   return
+ }
+ const operators=['+','−','×','÷'];
+ if(justExecuted){
+   if(operators.includes(k)){
+     // Le calcul suivant commence avec le résultat précédent.
+     expr=(last<0?'('+last+')':String(last))+k;
+   }else if(k===')'){
+     return;
+   }else{
+     // Un chiffre ou une parenthèse ouvre un nouveau calcul.
+     expr=k;
+   }
+   justExecuted=false;
+ }else{
+   if(expr.length>=140)return;
+   expr+=k;
+ }
+ $('result').textContent='';drawCalc()
+}
+const keys=[['AC','special'],['DEL','special'],['ANS','blue'],['(','special'],[')','special'],['7',''],['8',''],['9',''],['÷',''],['×',''],['4',''],['5',''],['6',''],['+',''],['−',''],['1',''],['2',''],['3',''],[',',''],['EXE','exe'],['0','wide'],['.','special']];
+for(const [k,cls] of keys){let b=document.createElement('button');b.type='button';b.className='key '+cls;b.textContent=k;b.setAttribute('aria-label',k);b.onclick=()=>calcKey(k);$('pad').appendChild(b)}
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('active',x===b));newSet()});
+$('helpBtn').onclick=()=>{$('help').hidden=!$('help').hidden;$('helpBtn').textContent=$('help').hidden?'Afficher une aide':'Masquer l’aide'};
+$('validate').onclick=()=>{if(answered)return;let raw=$('answer').value.trim().replace(',','.').replace('%','').trim();if(!/^[+-]?\d+(?:\.\d+)?$/.test(raw)){$('feedback').textContent='Écris un nombre dans la case réponse.';return}let v=Number(raw),expected=questions[index].expected;answered=true;$('validate').disabled=true;if(Math.abs(v-expected)<1e-8){score++;$('feedback').textContent='✓ Bonne réponse !'}else{$('feedback').textContent=`Pas encore : la bonne réponse était ${String(expected).replace('.',',')}${questions[index].unit}. Consulte l’aide pour comprendre.`}$('progress').textContent=`Question ${index+1} / 10 · ${score} bonne(s) réponse(s)`;$('next').disabled=false;$('next').textContent=index===9?'Terminer la série →':'Calcul suivant →'};
+$('next').onclick=()=>{if(!answered)return;if(index===9){$('feedback').textContent=`Série terminée : ${score} / 10. Tu peux recommencer ou choisir un autre exercice.`;$('next').disabled=true;return}index++;render()};
+$('reset').onclick=newSet;$('answer').addEventListener('keydown',e=>{if(e.key==='Enter')$('validate').click()});newSet();
+})();
+</script></body></html>

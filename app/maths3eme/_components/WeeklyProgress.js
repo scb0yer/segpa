@@ -159,7 +159,7 @@ export function ClassContribution({ contribution }) {
       <p role="status">
         {contribution.creditedTenths > 0
           ? `Tu as fait gagner ${number(contribution.creditedTenths / 10)} point${contribution.creditedTenths > 10 ? "s" : ""} à la classe !`
-          : "Tu as déjà gagné ton point du jour sur cet exercice. Essaie une autre activité pour faire avancer la classe."}
+          : "Tu as déjà gagné ton point du jour sur ce thème. Essaie un autre thème pour faire avancer la classe."}
       </p>
       <Gauge
         title="La classe avance"
