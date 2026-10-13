@@ -31,14 +31,14 @@ export const exercises = {
   fractionOperations: {
     total: 5,
     exerciceIds: {
-      same: "9c01ecaf747690d29abdf5d0",
-      multiple: "0caedec589d6c90a444125bf",
-      product: "c80e6511cbc2133a8d8d5d72",
+      same: "6aca6cf3898086337989c2fa",
+      multiple: "6aca6d36898086337989c2fb",
+      product: "6aca6d41898086337989c2fc",
     },
   },
-  factionMultiplications: {
+  fractionMultiplications: {
     total: 5,
-    exercicesIds: {
+    exerciceIds: {
       integer: "6aca9113898086337989c2fd",
       fractions: "6aca913b898086337989c2fe",
     },
