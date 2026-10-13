@@ -47,6 +47,13 @@ const FractionMultiplicationsExercice = dynamic(
     ),
   },
 );
+const StatistiquesExercice = dynamic(
+  () => import("../_exercises/StatistiquesExercice"),
+  {
+    ssr: false,
+    loading: () => <p role="status">Chargement des statistiques…</p>,
+  },
+);
 const activities = {
   division: {
     Component: DivisionExercise,
@@ -98,6 +105,14 @@ const activities = {
     description:
       "Multiplier une fraction par un entier ou par une autre fraction",
     teaser: "Préparer les produits puis calculer le résultat",
+  },
+  statistics: {
+    Component: StatistiquesExercice,
+    title: "Statistiques",
+    initialMode: "frequency",
+    number: "07",
+    description: "Fréquence, moyenne, médiane et étendue",
+    teaser: "Lire une série de données et calculer ses indicateurs",
   },
 };
 class ExerciseBoundary extends Component {

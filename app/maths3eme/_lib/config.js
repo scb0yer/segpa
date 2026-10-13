@@ -43,4 +43,13 @@ export const exercises = {
       fractions: "6aca913b898086337989c2fe",
     },
   },
+  statistics: {
+    total: 5,
+    exerciceIds: {
+      frequency: "005179b209ab31451746b8cb",
+      mean: "574ca34cf870bce2a88a42fd",
+      median: "de0f315fbada56fbc4feae1d",
+      range: "6f00c0ec5425b5ed8870553a",
+    },
+  },
 };
