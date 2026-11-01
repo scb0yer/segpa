@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 
 const sections = [
   {
@@ -70,7 +71,18 @@ const sections = [
   },
 ];
 
+const digipad = [
+  { eleve: "Sohan", lien: "https://digipad.app/p/1933622/e1c0915898e51" },
+  { eleve: "Luca", lien: "https://digipad.app/p/1953738/bdd8218c8559f" },
+  { eleve: "Maël", lien: "https://digipad.app/p/1953768/bf2bab00a6074" },
+  { eleve: "Youssef", lien: "https://digipad.app/p/1953777/a04fab91107988" },
+  { eleve: "Lounis", lien: "https://digipad.app/p/1953783/210fd08c2db4b" },
+  { eleve: "Giordano", lien: "https://digipad.app/p/1953788/30f575d169d17" },
+  { eleve: "Christopher", lien: "https://digipad.app/p/1953792/cdce42d31db07" },
+];
+
 const Francais5eme = () => {
+  const [digipadVisible, setDigipadVisible] = useState(false);
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#070914] text-[#f5f5fa]">
       {/* Halos bleus */}
@@ -131,6 +143,55 @@ const Francais5eme = () => {
         </header>
 
         <div className="space-y-10">
+          <section>
+            {!digipadVisible && (
+              <h2
+                className="mb-4 cursor-pointer text-lg font-bold tracking-tight text-[#90c5ff] sm:text-xl"
+                onClick={() => setDigipadVisible(true)}
+              >
+                Digipads ▽
+              </h2>
+            )}
+            {digipadVisible && (
+              <h2
+                className="mb-4 cursor-pointer text-lg font-bold tracking-tight text-[#90c5ff] sm:text-xl"
+                onClick={() => setDigipadVisible(false)}
+              >
+                Digipads △
+              </h2>
+            )}
+
+            {digipadVisible && (
+              <div className="grid gap-4">
+                {digipad.map((eleve) => (
+                  <a
+                    key={eleve.lien}
+                    href={eleve.lien}
+                    className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.025] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#54a2ff]/50 hover:bg-[#54a2ff]/[0.06] hover:shadow-2xl hover:shadow-[#162456]/30 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#90c5ff] motion-reduce:transform-none motion-reduce:transition-none sm:p-8"
+                  >
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute -right-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-[#54a2ff]/0 blur-3xl transition-colors duration-500 group-hover:bg-[#54a2ff]/15 motion-reduce:transition-none"
+                    />
+
+                    <div className="relative flex items-center gap-4 sm:gap-8">
+                      <h3 className="min-w-0 flex-1 text-lg font-bold tracking-tight sm:text-2xl">
+                        {eleve.eleve}
+                      </h3>
+
+                      <span
+                        aria-hidden="true"
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#54a2ff]/30 bg-[#54a2ff]/10 text-xl text-[#90c5ff] transition-all duration-300 group-hover:translate-x-1 group-hover:border-[#54a2ff] group-hover:bg-[#54a2ff] group-hover:text-[#070914] motion-reduce:transform-none motion-reduce:transition-none sm:h-12 sm:w-12"
+                      >
+                        →
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            )}
+          </section>
+
           {sections.map((section, index) => (
             <section key={section.titre} aria-labelledby={`section-${index}`}>
               <h2

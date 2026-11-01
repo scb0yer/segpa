@@ -263,6 +263,26 @@ export default function ActivityHub() {
           </button>
         ))}
       </section>
+      <div className={s.externLinks}>
+        <h1 className={s.eyebrow}>Liens exernes</h1>
+        <br />
+        <a
+          className={s.activity}
+          href="https://www.monclasseurdemaths.fr/tutoriels-tableur/activit%C3%A9-1-d%C3%A9couvrir-le-tableur/"
+        >
+          <span className={s.number}>🔗</span>
+          <span>
+            <strong>Découvrir les tableurs</strong>
+            <small>
+              Découvrir l'environnement d'un tableau, apprendre à calculer avec
+              et à utiliser des formules
+            </small>
+          </span>
+          <span aria-hidden="true" className={s.arrow}>
+            →
+          </span>
+        </a>
+      </div>
     </>
   );
 }
