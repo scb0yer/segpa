@@ -17,6 +17,13 @@ const Anglais3eme = () => {
         "Tu dois choisir un restaurant auquel aller manger avec ton nouveau collègue de travail.",
       href: "https://mizou.com/login-thread?ID=xvWpF28KdLFOPamdBU4Gziy4HLf3rttlLoBGUsnjOcM-148622",
     },
+    {
+      numero: "03",
+      titre: "Recruiting a waiter",
+      description:
+        "Tu es responsable de salle dans un restaurant et dois recruter un nouveau serveur. Tu interroges Tom pour t'assurer qu'il convienne au poste.",
+      href: "https://mizou.com/login-thread?ID=AePJdhgUFGEtLRGF9NruDAZhSHBYI_bgZNbhEVoR7UI-155619",
+    },
   ];
 
   return (

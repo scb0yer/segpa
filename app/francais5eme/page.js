@@ -79,6 +79,7 @@ const digipad = [
   { eleve: "Lounis", lien: "https://digipad.app/p/1953783/210fd08c2db4b" },
   { eleve: "Giordano", lien: "https://digipad.app/p/1953788/30f575d169d17" },
   { eleve: "Christopher", lien: "https://digipad.app/p/1953792/cdce42d31db07" },
+  { eleve: "Manel", lien: "https://digipad.app/p/1975841/4504b600575198" },
 ];
 
 const Francais5eme = () => {
