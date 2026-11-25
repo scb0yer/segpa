@@ -24,6 +24,20 @@ const Anglais3eme = () => {
         "Tu es responsable de salle dans un restaurant et dois recruter un nouveau serveur. Tu interroges Tom pour t'assurer qu'il convienne au poste.",
       href: "https://mizou.com/login-thread?ID=AePJdhgUFGEtLRGF9NruDAZhSHBYI_bgZNbhEVoR7UI-155619",
     },
+    {
+      numero: "04-A",
+      titre: "Groupe A : Apply for a job (1)",
+      description:
+        "Tu passes un entretien pour être serveur dans un restaurant anglais. Réponds aux questions que te pose Alex.",
+      href: "https://mizou.com/login-thread?ID=khJeIZrfR7J2Bx_Y1alH8w87zA4eK3mp17pSyiM-7FM-158370",
+    },
+    {
+      numero: "04-B",
+      titre: "Groupe B : Apply for a job (1)",
+      description:
+        "Tu passes un entretien pour être serveur dans un restaurant anglais. Réponds aux questions que te pose Alex.",
+      href: "https://mizou.com/login-thread?ID=whgDLU2M47-i4SzgO4aAsfXegqCJwYHiDGtk6RAnJFs-158371",
+    },
   ];
 
   return (
